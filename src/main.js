@@ -56,6 +56,7 @@ const routes = [
 // 3. Create the router instance and pass the `routes` option
 const router = new VueRouter({
   mode: 'history',
+  base: '/ps212/',
   routes, // short for `routes: routes`
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {

@@ -36,3 +36,9 @@ npm run lint
 ```
 npm run deploy
 ```
+
+or use the script:
+
+```
+bash deploy.sh
+```
