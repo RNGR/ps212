@@ -11,6 +11,14 @@
 *And add this to package.json scripts to push dist to gh-pages:*
 `"deploy": "npm run build; push-dir --dir=dist --branch=gh-pages --cleanup"`
 
+Don't forget to update the `/src/main.js` vue-router `base` for gh-pages subfolder (repo name):
+
+```
+const router = new VueRouter({
+  mode: 'history',
+  base: '/ps212/', <-------
+```
+
 ## Project setup
 ```
 npm install
