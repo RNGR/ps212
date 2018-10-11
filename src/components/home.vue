@@ -1,9 +1,9 @@
 <template>
-  <div class="home-page">
+  <div v-if="about" class="home-page">
 
     <section class="container hero">
       <div class="centered">
-        <h2 class="accent">What&rsquo;s in a name?</h2>
+        <h2 class="accent">{{about.home_heading_one}}</h2>
         <h2 id="credentials">
           <vue-typer
             :text='credentials'
@@ -15,7 +15,7 @@
             erase-style='backspace'>
           </vue-typer>
         </h2>
-        <p class="description gray">We specialize in bringing sit amet, consectetur adipiscing elit. Mauris pharetra at massa sed lacinia.</p>
+        <p class="description gray">{{about.home_heading_description}}</p>
         <v-more msg="View Services" link="/about" color="accent"/>
       </div>
       <a href="#scroll-top" v-smooth-scroll="{ duration: 1000, offset: -80 }">
@@ -28,7 +28,7 @@
     <section id="scroll-top" class="white dark-gray-bg what-we-do">
       <div class="container">
         <h5 class="accent">What we do</h5>
-        <h3 class="gray">“We are lorem <strong>1,234,567 ipsum</strong> dolor sit amet, consectetur adipiscing elit. Mauris pharetra at massa sed lacinia.”</h3>
+        <h3 v-html="what_we_do" class="gray"></h3>
         <v-more msg="Read More" link="/about" color="white"/>
       </div>
     </section>
@@ -38,35 +38,39 @@
         <h3>You’re in good company…</h3>
 
         <div class="logos">
-          <img src="http://via.placeholder.com/100x100/eceff1/b0bec5?text=100x100">
-          <img src="http://via.placeholder.com/100x100/eceff1/b0bec5?text=100x100">
-          <img src="http://via.placeholder.com/100x100/eceff1/b0bec5?text=100x100">
-          <img src="http://via.placeholder.com/100x100/eceff1/b0bec5?text=100x100">
-          <img src="http://via.placeholder.com/100x100/eceff1/b0bec5?text=100x100">
+          <div><img v-if="about.logo_1" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_1.filename"></div>
+          <div><img v-if="about.logo_2" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_2.filename"></div>
+          <div><img v-if="about.logo_3" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_3.filename"></div>
+          <div><img v-if="about.logo_4" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_4.filename"></div>
+          <div><img v-if="about.logo_5" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_5.filename"></div>
+          <div><img v-if="about.logo_6" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_6.filename"></div>
         </div>
 
         <div class="names h6">
           <ul v-for="(n, index) in 4" :key="index">
-            <li>Seconday Client</li>
-            <li>Seconday Client</li>
-            <li>Seconday Client</li>
-            <li>Seconday Client</li>
-            <li>Seconday Client</li>
-            <li>Seconday Client</li>
+            <li v-for="(client, index2) in chunked[index]" :key="index2">{{client.client}}</li>
           </ul>
         </div>
 
       </div>
     </section>
 
-    <v-case-study-intro id="123" :title="caseStudies[0].title" statement="A quick project statement here" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pharetra at massa sed lacinia."/>
+    <v-case-study-intro v-if="caseStudies[0]" id="123" :title="caseStudies[0].client" :statement="caseStudies[0].statement" :description="caseStudies[0].quote"/>
 
-    <v-article-intro v-for="(article, index) in articles" :key="index" link="/news/123" :category="article.category" title="Article Title Lorem Ipsum Dolor Sit Amet" by="David Gaglione" date="July 14th, 2018" text="There are few things more difficult to change than your name. Whether you are Ron Artest who legally changed his name to Metta World Peace or Elizabeth Woolridge Grant known to us as Lana Del Rey, legally changing one’s name requires multiple trips, phone calls and forms to get everything squared away. But people still go through the trouble of formally"/>
+    <v-article-intro v-for="(article, index) in articles" :key="index" link="/news/123" :category="article.category" :title="article.title" :by="article.author.first_name + ' ' + article.author.last_name" :date="article.publish_on | formatDate" :text="article.summary" />
 
     <section class="light-gray-bg newsletter">
       <div class="container">
         <h3>Join our newsletter</h3>
-        <input type="email" name="email" class="h3" placeholder="Enter your email address…" spellcheck="false">
+        <form @submit.prevent="subscribe" novalidate="true">
+          <input v-model="email" type="email" name="email" novalidate="true" class="h3" placeholder="Enter your email address…" spellcheck="false">
+          <button v-on:click="subscribe">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+              <polygon fill="#FFFFFF" points="133 1 131.942 2.058 136.127 6.25 127 6.25 127 7.75 136.127 7.75 131.942 11.943 133 13 139 7" transform="translate(-127 -1)"/>
+            </svg>
+          </button>
+          <span class="error">{{error}}</span>
+        </form>
       </div>
     </section>
 
@@ -76,49 +80,183 @@
 <script>
 // eslint-disable-next-line
 import { VueTyper } from 'vue-typer'
+import moment from 'moment'
 
-// Directus API
-import SDK from "@directus/sdk-js/remote"
-const client = new SDK({
-  url: 'https://demo-api.directus.app',
-  token: 'demo'
-});
+function split(arr, n) {
+  var rest = arr.length % n, // how much to divide
+    restUsed = rest, // to keep track of the division over the elements
+    partLength = Math.floor(arr.length / n),
+    result = [];
+
+  for(var i = 0; i < arr.length; i += partLength) {
+    var end = partLength + i,
+      add = false;
+
+    if(rest !== 0 && restUsed) { // should add one element for the division
+      end++;
+      restUsed--; // we've used one division element now
+      add = true;
+    }
+
+    result.push(arr.slice(i, end)); // part of the array
+
+    if(add) {
+      i++; // also increment i in the case we added an extra element for division
+    }
+  }
+
+  return result;
+}
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+function isScrolledIntoView(el) {
+    let rect = el.getBoundingClientRect();
+    let elemTop = rect.top;
+    let elemBottom = rect.bottom;
+
+    // Only completely visible elements return true:
+    // let isVisible = (elemTop >= 0) && (elemBottom <= window.innerHeight);
+    let isVisible = (elemTop >= 200) && (elemBottom <= (window.innerHeight - 200));
+    // Partially visible elements return true:
+    //isVisible = elemTop < window.innerHeight && elemBottom >= 0;
+    // return isVisible;
+    if(isVisible){
+      el.classList.add("highlight");
+    } else {
+      el.classList.remove("highlight");
+    }
+}
+
+window.onscroll = function() {
+  let strongs = document.querySelector("h3 strong");
+  if(strongs){
+    isScrolledIntoView(strongs);
+  }
+};
 
 export default {
   name: 'v-home',
   data () {
     return {
-      credentials: [
-        'Tapestry',
-        'Windows Hello',
-        'Etsy Studio',
-        'TrueCourse',
-        'Microsoft Rewards',
-        'Brillion',
-        'Morsel'
-      ],
-      caseStudies: [
-        { title: 'Client Name One' }
-      ],
-      articles: [
-        { category: 'Category 1' },
-        { category: 'Category 2' }
-      ]
+      email: '',
+      error: '',
+      about: [],
+      work: [],
+      credentials: ['Tapestry'],
+      caseStudies: [],
+      articles: []
+    }
+  },
+  methods: {
+    subscribe: function (event) {
+      // `event` is the native DOM event
+      if (event.type != 'submit') {
+        return true;
+      }
+      if (!this.email) {
+        this.error = "Email Required";
+        return true;
+      }
+      if (!this.validEmail(this.email)) {
+        this.error = "Email Invalid";
+        return true;
+      }
+      this.$api.getItems('contacts', {
+        "filter[email][eq]": this.email,
+      }).then(res => {
+        if (res.data.length > 0) {
+          this.error = "Email Exists";
+        } else {
+          this.$api.createItem('contacts', {
+            "added_on": moment().toISOString(),
+            "email": this.email
+          }).then(res => {
+            this.error = "Email Added";
+          }).catch(err => {
+            this.error = "Try Again Later";
+          });
+        }
+      }).catch(err => {
+        return false;
+      });
+
+    },
+    validEmail: function (email) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    }
+  },
+  computed: {
+    what_we_do: function () {
+      return !this.about.what_we_do ? '' : '“' + this.about.what_we_do.replace(/(<p[^>]+?>|<p>|<\/p>)/img, "").trim() + '”'
+    },
+    chunked: function () {
+      return split(this.work, 4);
     }
   },
   created: function () {
+    this.$api.getItem('about', 1, {
+      "fields": "*.*"
+    }).then(res => {
+      this.about = res.data;
+      this.credentials = shuffle(res.data.credentials.split(','));
+      // eslint-disable-next-line
+    }).catch(err => console.log('Error fetching "About"', err));
 
-    client.getItems('movies')
+    this.$api.getItems('work', {
+      "limit": "24",
+      "filter[status][eq]": "published",
+      // "sort": "?"
+    }).then(res => {
+      this.work = res.data;
       // eslint-disable-next-line
-      .then(res => console.log(res))
+    }).catch(err => console.log('Error fetching "Work"', err));
+
+    this.$api.getItems('case_studies', {
+      "limit": "1",
+      "filter[status][eq]": "published"
+    }).then(res => {
+      this.caseStudies = res.data;
       // eslint-disable-next-line
-      .catch(err => console.log(err));
+    }).catch(err => console.log('Error fetching "Case Studies"', err));
+
+    this.$api.getItems('news', {
+      "fields": "*,author.*",
+      "limit": "2",
+      "filter[status][eq]": "published",
+      "filter[publish_on][leq]": moment().format("YYYY-MM-DD HH:mm:ss")
+    }).then(res => {
+      this.articles = res.data;
+      // eslint-disable-next-line
+    }).catch(err => console.log('Error fetching "News"', err));
+
   },
   components: {
     VueTyper
   }
 }
 </script>
+
+<style lang="scss">
+h3 {
+  strong {
+    color: var(--white);
+    font-weight: inherit;
+  }
+}
+</style>
 
 <style lang="scss" scoped>
 #credentials {
@@ -160,21 +298,51 @@ export default {
   .logos {
     display: flex;
     justify-content: space-between;
-    padding: var(--component-padding-y) var(--component-padding-x) var(--component-padding-y) var(--component-padding-x);
-    img {
-      border-radius: 100%;
+    flex-wrap: wrap;
+    padding: var(--component-padding-y) var(--component-padding-x) 0 var(--component-padding-x);
+    div {
+      text-align: center;
+      img {
+        max-width: 100px;
+        max-height: 100px;
+        border-radius: 100%;
+        margin-bottom: var(--component-padding-y);
+      }
+    }
+    @media only screen and (max-width: 800px) {
+      div {
+        flex: 1 0 33%;
+      }
+    }
+    @media only screen and (max-width: 500px) {
+      div {
+        flex: 1 0 50%;
+      }
     }
   }
   .names {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     padding: 0 var(--component-padding-x) var(--component-padding-y) var(--component-padding-x);
     ul {
       list-style: none;
       margin: 0;
       padding: 0;
+      width: calc(25% - 20px);
       li {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         margin-bottom: 10px;
+      }
+    }
+    @media only screen and (max-width: 800px) {
+      ul {
+        flex: 1 0 50%;
+        li {
+          text-align: center;
+        }
       }
     }
   }
@@ -184,17 +352,48 @@ export default {
   text-align: center;
   padding-top: var(--component-padding-y);
   padding-bottom: var(--component-padding-y);
-  input {
-    border: none;
-    outline: none;
-    color: var(--accent);
-    background-color: var(--white);
-    padding: 10px 40px;
-    margin-top: 70px;
+  h3 {
+    margin-bottom: 70px;
+  }
+  form {
+    display: inline-block;
+    position: relative;
     width: 100%;
     max-width: 800px;
-    &::placeholder {
-      color: var(--light-gray);
+    input {
+      border: none;
+      outline: none;
+      color: var(--accent);
+      background-color: var(--white);
+      padding: 10px 40px;
+      width: 100%;
+      &::placeholder {
+        color: var(--light-gray);
+      }
+    }
+    button {
+      transition: all var(--fast) var(--transition);
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      font-size: 62px;
+      background-color: var(--accent);
+      svg {
+        width: 18px;
+        height: 18px;
+        top: -6px;
+        position: relative;
+      }
+      &:hover {
+        background-color: var(--dark-gray);
+      }
+    }
+    .error {
+      display: block;
+      color: var(--accent);
+      margin-top: 20px;
     }
   }
 }

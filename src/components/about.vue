@@ -4,9 +4,9 @@
     <section>
       <div class="container hero">
         <div class="centered">
-          <h2 class="accent">Who are we?</h2>
-          <h2>Short. Company. Purpose.</h2>
-          <p class="description gray">We specialize in bringing sit amet, consectetur adipiscing elit. Mauris pharetra at massa sed lacinia.</p>
+          <h2 class="accent">{{about.about_heading_one}}</h2>
+          <h2>{{about.about_heading_two}}</h2>
+          <p class="description gray">{{about.about_heading_description}}</p>
         </div>
         <a href="#scroll-top" v-smooth-scroll="{ duration: 1000, offset: -80 }">
           <svg class="hero-advance" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
@@ -19,71 +19,40 @@
     <section id="scroll-top" class="white dark-gray-bg our-story">
       <div class="container">
         <h5 class="accent">Our Story</h5>
-        <h3 class="gray">PS212 was <strong>founded in 2011</strong> out of a need for lorem ipsum dolor sit mauris pharetra at massa sed lacinia omnibus. Mauris pharetra at sit.</h3>
+        <h3 class="gray" v-html="our_story"></h3>
       </div>
     </section>
 
     <section class="services">
       <div class="container">
         <h3 class="center">Services &amp; Offerings</h3>
-
         <div class="service gray">
-          <div>
-            <h5 class="accent">Naming</h5>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pharetra at massa sed lacinia. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pharetra at massa sed lacinia.</p>
-          </div>
-
-          <div>
-            <h5 class="accent">Consulting</h5>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pharetra at massa sed lacinia. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pharetra at massa sed lacinia.</p>
+          <div v-for="(service, index) in services" :key="index">
+            <h5 class="accent">{{service.name}}</h5>
+            <p>{{service.description}}</p>
           </div>
         </div>
-
       </div>
     </section>
 
     <section class="staff">
       <div class="container">
         <h3 class="center">Leadership &amp; Team</h3>
-
         <div class="leadership">
-          <div>
-            <img src="http://via.placeholder.com/380x380/eceff1/b0bec5?text=380x380">
-            <div class="subtext">David Gaglione</div>
-            <h6>Founding Partner</h6>
-            <p class="gray">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pharetra at massa sed lacinia.</p>
-            <!-- <v-more msg="Read More" link="/staff/123" color="accent"/> -->
-          </div>
-
-          <div>
-            <img src="http://via.placeholder.com/380x380/eceff1/b0bec5?text=380x380">
-            <div class="subtext">David Gaglione</div>
-            <h6>Founding Partner</h6>
-            <p class="gray">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pharetra at massa sed lacinia.</p>
+          <div v-for="(leader, index) in leadership" :key="index">
+            <img v-if="leader.image" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + leader.image.filename">
+            <div class="subtext">{{leader.name}}</div>
+            <h6>{{leader.title}}</h6>
+            <p class="gray">{{leader.bio}}</p>
             <!-- <v-more msg="Read More" link="/staff/123" color="accent"/> -->
           </div>
         </div>
 
         <div class="team">
-          <div>
-            <img src="http://via.placeholder.com/170x170/eceff1/b0bec5?text=170x170">
-            <div class="subtext">David Gaglione</div>
-            <h6>Founding Partner</h6>
-          </div>
-          <div>
-            <img src="http://via.placeholder.com/170x170/eceff1/b0bec5?text=170x170">
-            <div class="subtext">David Gaglione</div>
-            <h6>Founding Partner</h6>
-          </div>
-          <div>
-            <img src="http://via.placeholder.com/170x170/eceff1/b0bec5?text=170x170">
-            <div class="subtext">David Gaglione</div>
-            <h6>Founding Partner</h6>
-          </div>
-          <div>
-            <img src="http://via.placeholder.com/170x170/eceff1/b0bec5?text=170x170">
-            <div class="subtext">David Gaglione</div>
-            <h6>Founding Partner</h6>
+          <div v-for="(member, index) in staff" :key="index">
+            <img v-if="member.image" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + member.image.filename">
+            <div class="subtext">{{member.name}}</div>
+            <h6>{{member.title}}</h6>
           </div>
         </div>
 
@@ -93,16 +62,10 @@
     <section class="locations">
       <div class="container">
         <h3 class="center">Locations</h3>
-
-        <div class="office">
-          <img src="http://via.placeholder.com/800x380/eceff1/b0bec5?text=800x380">
-          <div class="subtext">New York</div>
-          <h6>66 West Broadway, Suite 600<br>New York NY 10007</h6>
-        </div>
-        <div class="office">
-          <img src="http://via.placeholder.com/800x380/eceff1/b0bec5?text=800x380">
-          <div class="subtext">Seattle</div>
-          <h6>10400 NE 4 Street, Suite 7145<br>Bellevue, WA 98004</h6>
+        <div class="office" v-for="(office, index) in offices" :key="index">
+          <img v-if="office.image" :src="$path + '/thumbnail/' + $project + '/800/400/crop/best/' + office.image.filename">
+          <div class="subtext">{{office.name}}</div>
+          <h6 v-html="$options.filters.nl2br(office.address)"></h6>
         </div>
       </div>
     </section>
@@ -110,13 +73,14 @@
     <section class="cta">
       <div class="container">
         <h3 class="center">Ready to get started?</h3>
-        <button>Contact Us</button>
+        <a href="mailto:contact@ps212.com"><button>Contact Us</button></a>
         <div class="logos">
-          <img src="http://via.placeholder.com/100x100/eceff1/b0bec5?text=100x100">
-          <img src="http://via.placeholder.com/100x100/eceff1/b0bec5?text=100x100">
-          <img src="http://via.placeholder.com/100x100/eceff1/b0bec5?text=100x100">
-          <img src="http://via.placeholder.com/100x100/eceff1/b0bec5?text=100x100">
-          <img src="http://via.placeholder.com/100x100/eceff1/b0bec5?text=100x100">
+          <div><img v-if="about.logo_1" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_1.filename"></div>
+          <div><img v-if="about.logo_2" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_2.filename"></div>
+          <div><img v-if="about.logo_3" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_3.filename"></div>
+          <div><img v-if="about.logo_4" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_4.filename"></div>
+          <div><img v-if="about.logo_5" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_5.filename"></div>
+          <div><img v-if="about.logo_6" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_6.filename"></div>
         </div>
       </div>
     </section>
@@ -128,10 +92,58 @@
 export default {
   name: 'v-about',
   data () {
-      return {
-        foo: 'bar'
-      }
-   }
+    return {
+      about: {},
+      services: [],
+      leadership: [],
+      staff: [],
+      offices: []
+    }
+  },
+  computed: {
+    our_story: function () {
+      return !this.about.our_story ? '' : '“' + this.about.our_story.replace(/(<p[^>]+?>|<p>|<\/p>)/img, "").trim() + '”'
+    }
+  },
+  created: function () {
+    this.$api.getItem('about', 1, {
+      "fields": "*.*"
+    }).then(res => {
+      this.about = res.data;
+      // eslint-disable-next-line
+    }).catch(err => console.log('Error fetching "About"', err));
+
+    this.$api.getItems('services').then(res => {
+      this.services = res.data;
+      // eslint-disable-next-line
+    }).catch(err => console.log('Error fetching "Services"', err));
+
+    this.$api.getItems('team', {
+      "filter[leadership][eq]": "1",
+      "fields": "*,image.*",
+      "filter[status][eq]": "published"
+    }).then(res => {
+      this.leadership = res.data;
+      // eslint-disable-next-line
+    }).catch(err => console.log('Error fetching "Leadership"', err));
+
+    this.$api.getItems('team', {
+      "filter[leadership][eq]": "0",
+      "fields": "*,image.*",
+      "filter[status][eq]": "published"
+    }).then(res => {
+      this.staff = res.data;
+      // eslint-disable-next-line
+    }).catch(err => console.log('Error fetching "Staff"', err));
+
+    this.$api.getItems('offices', {
+      "fields": "*,image.*",
+      "filter[status][eq]": "published"
+    }).then(res => {
+      this.offices = res.data;
+      // eslint-disable-next-line
+    }).catch(err => console.log('Error fetching "Offices"', err));
+  }
 }
 </script>
 
@@ -170,12 +182,20 @@ h3.center {
   }
   .service {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     padding: var(--component-padding-y) var(--component-padding-x) var(--component-padding-y) var(--component-padding-x);
     div {
       width: calc((100% - 40px) / 2);
       h5 {
         margin-bottom: 20px;
+      }
+      @media only screen and (max-width: 800px) {
+        width: 100%;
+        margin: 0 0 var(--component-padding-y) 0;
+        &:nth-of-type(2n) {
+          margin-bottom: 0;
+        }
       }
     }
   }
@@ -184,8 +204,12 @@ h3.center {
   .container {
     border-bottom: 2px solid var(--light-gray);
   }
+  img {
+    max-width: 100%;
+  }
   .leadership {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     padding: var(--component-padding-y) var(--component-padding-x) 0 var(--component-padding-x);
     &> div {
@@ -193,16 +217,38 @@ h3.center {
       h6 {
         margin-bottom: 20px;
       }
+      @media only screen and (max-width: 800px) {
+        width: 100%;
+        margin: 0 0 var(--component-padding-y) 0;
+        &:nth-of-type(2n) {
+          margin-bottom: 0;
+        }
+      }
     }
   }
   .team {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     padding: var(--component-padding-y) var(--component-padding-x) var(--component-padding-y) var(--component-padding-x);
     &> div {
       width: calc((100% - 120px) / 4);
       h6 {
         margin-bottom: 20px;
+      }
+      @media only screen and (max-width: 800px) {
+        width: calc((100% - 40px) / 2);
+        margin: 0 0 var(--component-padding-y) 0;
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+      }
+      @media only screen and (max-width: 500px) {
+        width: 100%;
+        margin: 0 0 var(--component-padding-y) 0;
+        &:last-of-type {
+          margin-bottom: 0;
+        }
       }
     }
   }
@@ -214,6 +260,9 @@ h3.center {
   }
   .office {
     margin-top: 60px;
+    img {
+      max-width: 100%;
+    }
   }
 }
 .cta {
@@ -233,9 +282,26 @@ h3.center {
   .logos {
     display: flex;
     justify-content: space-between;
-    padding: var(--component-padding-y) var(--component-padding-x) var(--component-padding-y) var(--component-padding-x);
-    img {
-      border-radius: 100%;
+    flex-wrap: wrap;
+    padding: var(--component-padding-y) var(--component-padding-x) 0 var(--component-padding-x);
+    div {
+      text-align: center;
+      img {
+        max-width: 100px;
+        max-height: 100px;
+        border-radius: 100%;
+        margin-bottom: var(--component-padding-y);
+      }
+    }
+    @media only screen and (max-width: 800px) {
+      div {
+        flex: 1 0 33%;
+      }
+    }
+    @media only screen and (max-width: 500px) {
+      div {
+        flex: 1 0 50%;
+      }
     }
   }
 }

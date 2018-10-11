@@ -16,17 +16,12 @@
         <v-more msg="Back to Work" link="/work" color="accent" direction="left"/>
 
         <p>
-          <img src="http://via.placeholder.com/800x400/eceff1/b0bec5?text=800x400">
+          <img v-if="image" :src="$path + '/uploads/' + $project + '/originals/' + image">
         </p>
 
-        <blockquote>Even worse, it missed the chance to create a brand name with purpose behind it — one that could have propelled <strong>The Weinstein Company</strong> into its next chapter without ignoring the reality of its past.</blockquote>
+        <blockquote v-html="quote"></blockquote>
 
-        <p>
-          Additionally, Alphabet is the perfect complement to Google (a “googol” is a number equal to one followed by 100 zeros). Not to mention that “alpha” means an excess return or abnormally high rate of return on an investment. In the context of investing, Alphabet is an alpha ... bet. A perfect story for the name of a publicly held company.
-        </p>
-        <p>
-          So, what name should the Weinstein Company have gone with? Earlier this year, several company names were being considered when Maria Contreras-Sweet, former Small Business Administrator for President Barack Obama, was considering purchasing the company. All three of the leaked names, Wonder Hill, Assembly Hall and Creative Trade, tell a much richer, more relevant and more positive story than Lantern Entertainment.
-        </p>
+        <div v-html="body"></div>
 
         <div class="tags">
           <span class="h6" v-for="(tag, index) in tags" :key="index">{{tag}}</span>
@@ -52,17 +47,43 @@
 export default {
   name: 'v-news',
   data () {
-      return {
-        title: "Client Name One",
-        statement: "A quick project statement here",
-        tags: ['naming', 'strategy'],
-        caseStudies: [
-          { title: 'Client Name One' }
-        ]
-      }
-   }
+    return {
+      title: "",
+      statement: "",
+      image: "",
+      quote: "",
+      body: "",
+      tags: [],
+      caseStudies: [
+        { title: 'Client Name One' }
+      ]
+    }
+  },
+  created: function () {
+    this.$api.getItem('case_studies', this.$route.params.id, {
+      "fields": "*,image.*",
+      "filter[status][eq]": "published"
+    }).then(function(res){
+      this.title = res.data.client;
+      this.statement = res.data.statement;
+      this.image = res.data.image.filename;
+      this.quote = res.data.statement;
+      this.body = res.data.body;
+      this.tags = res.data.tags.split(',');
+    }.bind(this)).catch(function(){
+      this.$router.push('/not-found');
+    }.bind(this));
+  }
 }
 </script>
+
+<style lang="scss">
+.body {
+  p {
+    margin: 40px 0;
+  }
+}
+</style>
 
 <style lang="scss" scoped>
 .header {
@@ -77,7 +98,6 @@ export default {
     margin-top: 20px;
   }
 }
-body { quotes: '“' '\201d'; }
 .body {
   position: relative;
   &::before {
@@ -120,6 +140,7 @@ body { quotes: '“' '\201d'; }
       margin: 20px 0;
     }
     blockquote {
+      quotes: '“' '”';
       text-indent: -0.4em; // For hanging quote
       margin: 80px 40px;
       font-family: "Quarto", mono;
@@ -134,6 +155,11 @@ body { quotes: '“' '\201d'; }
       }
       &:after {
           content: close-quote;
+      }
+      @media only screen and (max-width: 800px) {
+        margin: var(--component-padding-y) 10px;
+        font-size: 28px;
+        line-height: 36px;
       }
     }
   }

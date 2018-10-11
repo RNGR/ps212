@@ -1,5 +1,5 @@
 <template>
-  <section :class="[color, 'pad-top']">
+  <section :class="[color, spacing, 'pad-top']">
     <div class="container">
       <h2 class="title white">{{title}}</h2>
       <h2 class="statement">{{statement}}</h2>
@@ -20,6 +20,10 @@ export default {
     color: {
       type: String,
       default: 'accent-bg'
+    },
+    spacing: {
+      type: String,
+      default: ''
     }
   },
   computed: {
@@ -46,6 +50,10 @@ section {
   }
   .description {
     max-width: 600px;
+  }
+  &.spacing {
+    margin-top: 20px;
+    margin-bottom: 60px;
   }
   &.light-gray-bg {
     .title {

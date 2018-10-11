@@ -18,28 +18,34 @@
     </section>
 
     <div id="scroll-top">
-      <v-article-intro v-for="(article, index) in articles" :key="index" link="/news/123" :category="article.category" title="Article Title Lorem Ipsum Dolor Sit Amet" by="David Gaglione" date="July 14th, 2018" text="There are few things more difficult to change than your name. Whether you are Ron Artest who legally changed his name to Metta World Peace or Elizabeth Woolridge Grant known to us as Lana Del Rey, legally changing one’s name requires multiple trips, phone calls and forms to get everything squared away. But people still go through the trouble of formally"/>
+      <v-article-intro v-for="(article, index) in articles" :key="index" :link="'/news/' + article.id" :category="article.category" :title="article.title" :by="article.author.first_name + ' ' + article.author.last_name" :date="article.publish_on | formatDate" :text="article.summary"/>
     </div>
 
-    <h4 class="load-more accent">Load More</h4>
+    <!-- <h4 class="load-more accent">Load More</h4> -->
 
   </div>
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   name: 'v-news',
   data () {
-      return {
-        articles: [
-          { category: 'Category 1' },
-          { category: 'Category 2' },
-          { category: 'Category 3' },
-          { category: 'Category 4' },
-          { category: 'Category 5' }
-        ]
-      }
-   }
+    return {
+      articles: []
+    }
+  },
+  created: function () {
+    this.$api.getItems('news', {
+      "fields": "*,author.*",
+      "filter[status][eq]": "published",
+      "filter[publish_on][leq]": moment().format("YYYY-MM-DD HH:mm:ss")
+    }).then(function(res){
+      this.articles = res.data;
+      // eslint-disable-next-line
+    }.bind(this)).catch(err => console.log('Error fetching "News"', err));
+  }
 }
 </script>
 

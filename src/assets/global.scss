@@ -72,6 +72,7 @@
 }
 
 * {
+  quotes: '“' '”';
   font-size: inherit;
   font-family: inherit;
   line-height: inherit;
@@ -198,6 +199,16 @@ h6,.h6 {
   background-color: var(--light-gray);
 }
 
+h3 strong {
+  background-image: linear-gradient(to right, var(--dark-gray) 50%, var(--accent) 50%);
+  background-position: 0;
+  background-size: 200%;
+  transition: all 800ms;
+  &.highlight {
+    background-position: -100%;
+  }
+}
+
 @keyframes FloatY {
   0%, 100% {
     bottom: 43px;
@@ -285,12 +296,12 @@ section {
     --component-padding-x: 30px;
   }
   h2,.h2 {
-    font-size: 54px;
-    line-height: 64px;
+    font-size: 44px;
+    line-height: 50px;
   }
   h3,.h3 {
     font-size: 36px;
-    line-height: 55px;
+    line-height: 45px;
   }
   h4,.h4 {
     font-size: 26px;
@@ -311,5 +322,11 @@ section {
   .subtext {
     font-size: 16px;
     line-height: 20px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  :root {
+    --component-padding-x: 20px;
   }
 }

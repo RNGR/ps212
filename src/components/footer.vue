@@ -31,20 +31,9 @@
         </div>
       </div>
 
-      <div class="column">
-        <h4>New York</h4>
-        <p class="h6">
-          66 West Broadway, #600<br>
-          New York NY 10007
-        </p>
-      </div>
-
-      <div class="column">
-        <h4>Seattle</h4>
-        <p class="h6">
-          10400 NE 4 Street, #7145<br>
-          Bellevue, WA 98004
-        </p>
+      <div v-for="(office, index) in offices" :key="index" class="column">
+        <h4>{{ office.name }} </h4>
+        <p class="h6" v-html="$options.filters.nl2br(office.address)"></p>
       </div>
 
     </div>
@@ -56,6 +45,19 @@ export default {
   name: 'v-footer',
   props: {
     msg: String
+  },
+  data () {
+    return {
+      offices: []
+    }
+  },
+  created: function () {
+    this.$api.getItems('offices', {
+      "fields": "*,image.*"
+    }).then(res => {
+      this.offices = res.data;
+      // eslint-disable-next-line
+    }).catch(err => console.log('Error fetching "Offices"', err));
   }
 }
 </script>
