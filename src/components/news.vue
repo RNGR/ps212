@@ -4,10 +4,10 @@
     <section class="dark-gray-bg">
       <div class="container hero">
         <div class="centered">
-          <h2 class="white">Our Thinking</h2>
-          <h2 class="accent">What we&rsquo;re talking about</h2>
-          <p class="description white">We specialize in bringing sit amet, consectetur adipiscing elit. Mauris pharetra at massa sed lacinia.</p>
-          <v-more msg="Read More" link="/news/123" color="white"/>
+          <h2 class="white">{{about.news_heading_one}}</h2>
+          <h2 class="accent">{{about.news_heading_two}}</h2>
+          <p class="description white">{{about.news_heading_description}}</p>
+          <!-- <v-more msg="Read More" link="/news/123" color="white"/> -->
         </div>
         <a href="#scroll-top" v-smooth-scroll="{ duration: 1000, offset: -80 }">
           <svg class="hero-advance" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
@@ -33,10 +33,18 @@ export default {
   name: 'v-news',
   data () {
     return {
+      about: [],
       articles: []
     }
   },
   created: function () {
+    this.$api.getItem('about', 1, {
+      "fields": "*"
+    }).then(res => {
+      this.about = res.data;
+      // eslint-disable-next-line
+    }).catch(err => console.log('Error fetching "About"', err));
+
     this.$api.getItems('news', {
       "fields": "*,author.*",
       "filter[status][eq]": "published",

@@ -1,7 +1,7 @@
 <template>
   <div class="about-page">
 
-    <section>
+    <section class="background">
       <div class="container hero">
         <div class="centered">
           <h2 class="accent">{{about.about_heading_one}}</h2>
@@ -39,22 +39,31 @@
       <div class="container">
         <h3 class="center">Leadership &amp; Team</h3>
         <div class="leadership">
-          <div v-for="(leader, index) in leadership" :key="index">
-            <img v-if="leader.image" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + leader.image.filename">
+          <div v-for="(leader, index) in leadership" :key="index" v-on:click="showUserDetail = leader.id">
+            <img v-if="leader.image" :src="$path + '/thumbnail/' + $project + '/600/600/crop/best/' + leader.image.filename">
             <div class="subtext">{{leader.name}}</div>
             <h6>{{leader.title}}</h6>
-            <p class="gray">{{leader.bio}}</p>
-            <!-- <v-more msg="Read More" link="/staff/123" color="accent"/> -->
+            <p class="gray">{{leader.short_bio}}</p>
+            <h6 class="load-user accent" v-on:click="showUserDetail = leader.id">Show More</h6>
           </div>
         </div>
 
         <div class="team">
-          <div v-for="(member, index) in staff" :key="index">
+          <div v-for="(member, index) in staff" :key="index" v-on:click="showUserDetail = member.id">
             <img v-if="member.image" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + member.image.filename">
             <div class="subtext">{{member.name}}</div>
             <h6>{{member.title}}</h6>
           </div>
         </div>
+
+      </div>
+    </section>
+
+    <section class="careers" v-if="careers.length > 0">
+      <div class="container">
+        <h3 class="center">Career Opportunities</h3>
+
+        <v-career v-for="(career, index) in careers" :key="index" link="mailto:careers@ps212.com" :category="career.category" :title="career.title" :location="career.office.name" :text="career.description"/>
 
       </div>
     </section>
@@ -73,7 +82,7 @@
     <section class="cta">
       <div class="container">
         <h3 class="center">Ready to get started?</h3>
-        <a href="mailto:contact@ps212.com"><button>Contact Us</button></a>
+        <a href="mailto:contact@ps212.com" target="_blank"><button>Contact Us</button></a>
         <div class="logos">
           <div><img v-if="about.logo_1" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_1.filename"></div>
           <div><img v-if="about.logo_2" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_2.filename"></div>
@@ -84,6 +93,35 @@
         </div>
       </div>
     </section>
+
+    <div class="user-detail" v-if="showUserDetail">
+
+      <div class="smoke" v-on:click="showUserDetail = false"></div>
+
+      <div class="modal" v-for="(leader, index) in leadership" :key="index" v-show="showUserDetail === leader.id">
+        <h3>{{leader.name}}</h3>
+        <h6>{{leader.title}}</h6>
+        <p class="gray">{{leader.bio}}</p>
+
+        <div class="close" v-on:click="showUserDetail = false">
+          <svg width="20px" height="20px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <g stroke-width="1" fill="none" fill-rule="evenodd"><polygon fill="#FFFFFF" points="14 1.41 12.59 0 7 5.59 1.41 0 0 1.41 5.59 7 0 12.59 1.41 14 7 8.41 12.59 14 14 12.59 8.41 7"></polygon></g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="modal" v-for="(member, index) in staff" :key="index" v-show="showUserDetail === member.id">
+        <h3>{{member.name}}</h3>
+        <h6>{{member.title}}</h6>
+        <p class="gray">{{member.bio}}</p>
+
+        <div class="close" v-on:click="showUserDetail = false">
+          <svg width="20px" height="20px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <g stroke-width="1" fill="none" fill-rule="evenodd"><polygon fill="#FFFFFF" points="14 1.41 12.59 0 7 5.59 1.41 0 0 1.41 5.59 7 0 12.59 1.41 14 7 8.41 12.59 14 14 12.59 8.41 7"></polygon></g>
+          </svg>
+        </div>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -97,7 +135,9 @@ export default {
       services: [],
       leadership: [],
       staff: [],
-      offices: []
+      careers: [],
+      offices: [],
+      showUserDetail: false
     }
   },
   computed: {
@@ -136,6 +176,14 @@ export default {
       // eslint-disable-next-line
     }).catch(err => console.log('Error fetching "Staff"', err));
 
+    this.$api.getItems('careers', {
+      "fields": "*,office.*",
+      "filter[status][eq]": "published"
+    }).then(res => {
+      this.careers = res.data;
+      // eslint-disable-next-line
+    }).catch(err => console.log('Error fetching "Careers"', err));
+
     this.$api.getItems('offices', {
       "fields": "*,image.*",
       "filter[status][eq]": "published"
@@ -148,6 +196,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.about-page {
+  .background {
+    background-image: url('/images/vintage-office.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center bottom;
+  }
+}
 .our-story {
   padding-top: var(--component-padding-y);
   padding-bottom: var(--component-padding-y);
@@ -207,6 +263,14 @@ h3.center {
   img {
     max-width: 100%;
   }
+  .leadership > div,
+  .team > div {
+    transition: all var(--fast) var(--transition);
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
   .leadership {
     display: flex;
     flex-wrap: wrap;
@@ -251,6 +315,12 @@ h3.center {
         }
       }
     }
+  }
+}
+.careers {
+  .container {
+    padding: 0 var(--component-padding-x) var(--component-padding-y) var(--component-padding-x);
+    border-bottom: 2px solid var(--light-gray);
   }
 }
 .locations {
@@ -303,6 +373,63 @@ h3.center {
         flex: 1 0 50%;
       }
     }
+  }
+}
+.user-detail {
+  transition: var(--fast) var(--transition) opacity;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 11;
+  .smoke {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--dark-gray);
+    opacity: 0.9;
+    z-index: 12;
+  }
+  .modal {
+    background-color: var(--white);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform:translate(-50%,-50%);
+    padding: 40px 40px 60px 40px;
+    max-width: 600px;
+    z-index: 13;
+    h3 {
+      margin-bottom: 0;
+    }
+    h6 {
+      margin-bottom: 40px;
+    }
+  }
+  .close {
+    polygon {
+      fill: var(--accent);
+    }
+    display: block;
+    position: absolute;
+    right: 40px;
+    top: 40px;
+    transition: var(--fast) var(--transition) all;
+    cursor: pointer;
+    &:hover {
+      color: var(--light-gray);
+    }
+  }
+}
+.load-user {
+  margin-top: 20px;
+  cursor: pointer;
+  &:hover {
+    color: var(--dark-accent);
   }
 }
 </style>

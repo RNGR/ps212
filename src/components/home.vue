@@ -35,7 +35,7 @@
 
     <section class="clients">
       <div class="container">
-        <h3>You’re in good company…</h3>
+        <h3>{{about.home_logo_introduction}}</h3>
 
         <div class="logos">
           <div><img v-if="about.logo_1" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_1.filename"></div>
@@ -55,9 +55,9 @@
       </div>
     </section>
 
-    <v-case-study-intro v-if="caseStudies[0]" id="123" :title="caseStudies[0].client" :statement="caseStudies[0].statement" :description="caseStudies[0].quote"/>
+    <v-case-study-intro v-if="caseStudies[0]" :id="caseStudies[0].id" :title="caseStudies[0].client" :statement="caseStudies[0].statement" :description="caseStudies[0].quote"/>
 
-    <v-article-intro v-for="(article, index) in articles" :key="index" link="/news/123" :category="article.category" :title="article.title" :by="article.author.first_name + ' ' + article.author.last_name" :date="article.publish_on | formatDate" :text="article.summary" />
+    <v-article-intro v-for="(article, index) in articles" :key="index" :link="'/news/' + article.id" :category="article.category" :title="article.title" :by="article.author.first_name + ' ' + article.author.last_name" :date="article.publish_on | formatDate" :text="article.summary" />
 
     <section class="light-gray-bg newsletter">
       <div class="container">
@@ -182,18 +182,19 @@ export default {
           this.$api.createItem('contacts', {
             "added_on": moment().toISOString(),
             "email": this.email
-          }).then(res => {
+          }).then(function(){
             this.error = "Email Added";
-          }).catch(err => {
+          }).catch(function(){
             this.error = "Try Again Later";
           });
         }
-      }).catch(err => {
+      }).catch(function(){
         return false;
       });
 
     },
     validEmail: function (email) {
+      // eslint-disable-next-line
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(email);
     }

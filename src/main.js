@@ -59,10 +59,12 @@ Vue.use(vueSmoothScroll)
 import VMore from "./components/more.vue";
 import VArticleIntro from './components/article-intro.vue'
 import VCaseStudyIntro from './components/case-study-intro.vue'
+import VCareer from './components/career.vue'
 
 Vue.component("v-more", VMore);
 Vue.component("v-article-intro", VArticleIntro);
 Vue.component("v-case-study-intro", VCaseStudyIntro);
+Vue.component("v-career", VCareer);
 
 // Global styles
 import "./assets/global.scss"

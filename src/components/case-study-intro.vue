@@ -13,7 +13,7 @@
 export default {
   name: 'v-case-study-intro',
   props: {
-    id: String,
+    id: [String, Number],
     title: String,
     statement: String,
     description: String,

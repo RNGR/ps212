@@ -24,7 +24,9 @@
         <div v-html="body"></div>
 
         <div class="tags">
-          <span class="h6" v-for="(tag, index) in tags" :key="index">{{tag}}</span>
+          <span class="h6"
+            v-for="(tag, index) in tags"
+            :key="index">{{tag}}</span>
         </div>
 
       </div>
@@ -38,7 +40,12 @@
       </div>
     </section>
 
-    <v-case-study-intro id="123" color="light-gray-bg" :title="caseStudies[0].title" statement="A quick project statement here" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pharetra at massa sed lacinia."/>
+    <v-case-study-intro
+      :id="caseStudies.id"
+      color="light-gray-bg"
+      :title="caseStudies.client"
+      :statement="caseStudies.statement"
+      :description="caseStudies.quote"/>
 
   </div>
 </template>
@@ -54,14 +61,12 @@ export default {
       quote: "",
       body: "",
       tags: [],
-      caseStudies: [
-        { title: 'Client Name One' }
-      ]
+      caseStudies: {}
     }
   },
   created: function () {
     this.$api.getItem('case_studies', this.$route.params.id, {
-      "fields": "*,image.*",
+      "fields": "*,image.*,related_case_study.*",
       "filter[status][eq]": "published"
     }).then(function(res){
       this.title = res.data.client;
@@ -70,6 +75,7 @@ export default {
       this.quote = res.data.statement;
       this.body = res.data.body;
       this.tags = res.data.tags.split(',');
+      this.caseStudies = res.data.related_case_study;
     }.bind(this)).catch(function(){
       this.$router.push('/not-found');
     }.bind(this));
