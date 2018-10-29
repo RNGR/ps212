@@ -43,6 +43,9 @@ npm run lint
 ### Deploys to GitHub Pages
 ```
 npm run deploy
+
+# On server:
+git reset --hard origin/gh-pages
 ```
 
 or use the script:
