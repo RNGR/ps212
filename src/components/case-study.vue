@@ -71,10 +71,14 @@ export default {
     }).then(function(res){
       this.title = res.data.client;
       this.statement = res.data.statement;
-      this.image = res.data.image.filename;
+      if (res.data.image) {
+        this.image = res.data.image.filename;
+      }
+      if (res.data.tags) {
+        this.tags = res.data.tags.split(',');
+      }
       this.quote = res.data.statement;
       this.body = res.data.body;
-      this.tags = res.data.tags.split(',');
       this.caseStudies = res.data.related_case_study;
     }.bind(this)).catch(function(){
       this.$router.push('/not-found');

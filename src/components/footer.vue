@@ -8,10 +8,10 @@
           </svg>
         </router-link>
         <p class="h6 gray">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pharetra at massa sed lacinia.
+          {{about.home_heading_description}}
         </p>
         <div class="copyright gray h6">
-          © 2018 PS212, ALL RIGHTS RESERVED
+          © {{year}} PS212, ALL RIGHTS RESERVED
         </div>
       </div>
 
@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   name: 'v-footer',
   props: {
@@ -48,10 +50,19 @@ export default {
   },
   data () {
     return {
-      offices: []
+      offices: [],
+      about: [],
+      year: moment().format("YYYY")
     }
   },
   created: function () {
+    this.$api.getItem('about', 1, {
+      "fields": "*"
+    }).then(res => {
+      this.about = res.data;
+      // eslint-disable-next-line
+    }).catch(err => console.log('Error fetching "About"', err));
+
     this.$api.getItems('offices', {
       "fields": "*,image.*"
     }).then(res => {

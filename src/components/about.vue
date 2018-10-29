@@ -29,7 +29,7 @@
         <div class="service gray">
           <div v-for="(service, index) in services" :key="index">
             <h5 class="accent">{{service.name}}</h5>
-            <p>{{service.description}}</p>
+            <p v-html="service.description"></p>
           </div>
         </div>
       </div>
@@ -61,7 +61,7 @@
 
     <section class="careers" v-if="careers.length > 0">
       <div class="container">
-        <h3 class="center">Career Opportunities</h3>
+        <h3 class="center">We&rsquo;re Hiring</h3>
 
         <v-career v-for="(career, index) in careers" :key="index" link="mailto:careers@ps212.com" :category="career.category" :title="career.title" :location="career.office.name" :text="career.description"/>
 
@@ -84,12 +84,12 @@
         <h3 class="center">Ready to get started?</h3>
         <a href="mailto:contact@ps212.com" target="_blank"><button>Contact Us</button></a>
         <div class="logos">
-          <div><img v-if="about.logo_1" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_1.filename"></div>
-          <div><img v-if="about.logo_2" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_2.filename"></div>
-          <div><img v-if="about.logo_3" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_3.filename"></div>
-          <div><img v-if="about.logo_4" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_4.filename"></div>
-          <div><img v-if="about.logo_5" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_5.filename"></div>
-          <div><img v-if="about.logo_6" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_6.filename"></div>
+          <div><img v-if="about.logo_1" :src="$path + '/uploads/_/originals/' + about.logo_1.filename"></div>
+          <div><img v-if="about.logo_2" :src="$path + '/uploads/_/originals/' + about.logo_2.filename"></div>
+          <div><img v-if="about.logo_3" :src="$path + '/uploads/_/originals/' + about.logo_3.filename"></div>
+          <div><img v-if="about.logo_4" :src="$path + '/uploads/_/originals/' + about.logo_4.filename"></div>
+          <div><img v-if="about.logo_5" :src="$path + '/uploads/_/originals/' + about.logo_5.filename"></div>
+          <div><img v-if="about.logo_6" :src="$path + '/uploads/_/originals/' + about.logo_6.filename"></div>
         </div>
       </div>
     </section>
@@ -359,7 +359,6 @@ h3.center {
       img {
         max-width: 100px;
         max-height: 100px;
-        border-radius: 100%;
         margin-bottom: var(--component-padding-y);
       }
     }

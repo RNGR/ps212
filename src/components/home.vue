@@ -38,12 +38,12 @@
         <h3>{{about.home_logo_introduction}}</h3>
 
         <div class="logos">
-          <div><img v-if="about.logo_1" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_1.filename"></div>
-          <div><img v-if="about.logo_2" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_2.filename"></div>
-          <div><img v-if="about.logo_3" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_3.filename"></div>
-          <div><img v-if="about.logo_4" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_4.filename"></div>
-          <div><img v-if="about.logo_5" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_5.filename"></div>
-          <div><img v-if="about.logo_6" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + about.logo_6.filename"></div>
+          <div><img v-if="about.logo_1" :src="$path + '/uploads/_/originals/' + about.logo_1.filename"></div>
+          <div><img v-if="about.logo_2" :src="$path + '/uploads/_/originals/' + about.logo_2.filename"></div>
+          <div><img v-if="about.logo_3" :src="$path + '/uploads/_/originals/' + about.logo_3.filename"></div>
+          <div><img v-if="about.logo_4" :src="$path + '/uploads/_/originals/' + about.logo_4.filename"></div>
+          <div><img v-if="about.logo_5" :src="$path + '/uploads/_/originals/' + about.logo_5.filename"></div>
+          <div><img v-if="about.logo_6" :src="$path + '/uploads/_/originals/' + about.logo_6.filename"></div>
         </div>
 
         <div class="names h6">
@@ -306,7 +306,6 @@ h3 {
       img {
         max-width: 100px;
         max-height: 100px;
-        border-radius: 100%;
         margin-bottom: var(--component-padding-y);
       }
     }
