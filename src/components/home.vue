@@ -1,28 +1,30 @@
 <template>
   <div v-if="about" class="home-page">
 
-    <section class="container hero">
-      <div class="centered">
-        <h2 class="accent">{{about.home_heading_one}}</h2>
-        <h2 id="credentials">
-          <vue-typer
-            :text='credentials'
-            :shuffle='true'
-            :pre-type-delay=1000
-            :type-delay=140
-            :pre-erase-delay=2000
-            :erase-delay=70
-            erase-style='backspace'>
-          </vue-typer>
-        </h2>
-        <p class="description gray">{{about.home_heading_description}}</p>
-        <v-more msg="View Services" link="/about" color="accent"/>
+    <section>
+      <div class="container hero">
+        <div class="centered">
+          <h2 class="accent">{{about.home_heading_one}}</h2>
+          <h2 id="credentials">
+            <vue-typer
+              :text='credentials'
+              :shuffle='true'
+              :pre-type-delay=1000
+              :type-delay=140
+              :pre-erase-delay=2000
+              :erase-delay=70
+              erase-style='backspace'>
+            </vue-typer>
+          </h2>
+          <p class="description gray">{{about.home_heading_description}}</p>
+          <v-more msg="View Services" link="/about" color="accent"/>
+        </div>
+        <a href="#scroll-top" v-smooth-scroll="{ duration: 1000, offset: -80 }">
+          <svg class="hero-advance" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+            <polygon fill="#E53935" points="608 952 600 960 592 952 593.41 950.59 599 956.17 599 944 601 944 601 956.17 606.59 950.59" transform="translate(-592 -944)"/>
+          </svg>
+        </a>
       </div>
-      <a href="#scroll-top" v-smooth-scroll="{ duration: 1000, offset: -80 }">
-        <svg class="hero-advance" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-          <polygon fill="#E53935" points="608 952 600 960 592 952 593.41 950.59 599 956.17 599 944 601 944 601 956.17 606.59 950.59" transform="translate(-592 -944)"/>
-        </svg>
-      </a>
     </section>
 
     <section id="scroll-top" class="white dark-gray-bg what-we-do">
@@ -140,7 +142,7 @@ function isScrolledIntoView(el) {
 }
 
 window.onscroll = function() {
-  let strongs = document.querySelector("h3 strong");
+  let strongs = document.querySelector("h3 b");
   if(strongs){
     isScrolledIntoView(strongs);
   }
@@ -251,8 +253,13 @@ export default {
 </script>
 
 <style lang="scss">
+.accent {
+  max-width: 960px;
+  margin-bottom: 10px;
+}
 h3 {
-  strong {
+  strong,
+  b {
     color: var(--white);
     font-weight: inherit;
   }

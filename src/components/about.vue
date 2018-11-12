@@ -6,7 +6,7 @@
         <div class="centered">
           <h2 class="accent">{{about.about_heading_one}}</h2>
           <h2>{{about.about_heading_two}}</h2>
-          <p class="description gray">{{about.about_heading_description}}</p>
+          <p class="description">{{about.about_heading_description}}</p>
         </div>
         <a href="#scroll-top" v-smooth-scroll="{ duration: 1000, offset: -80 }">
           <svg class="hero-advance" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
@@ -37,7 +37,7 @@
 
     <section class="staff">
       <div class="container">
-        <h3 class="center">Leadership &amp; Team</h3>
+        <h3 class="center">Our Team</h3>
         <div class="leadership">
           <div v-for="(leader, index) in leadership" :key="index" v-on:click="showUserDetail = leader.id">
             <img v-if="leader.image" :src="$path + '/thumbnail/' + $project + '/600/600/crop/best/' + leader.image.filename">
@@ -53,6 +53,7 @@
             <img v-if="member.image" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + member.image.filename">
             <div class="subtext">{{member.name}}</div>
             <h6>{{member.title}}</h6>
+            <h6 class="load-user accent" v-on:click="showUserDetail = member.id">Show More</h6>
           </div>
         </div>
 
@@ -61,9 +62,9 @@
 
     <section class="careers" v-if="careers.length > 0">
       <div class="container">
-        <h3 class="center">We&rsquo;re Hiring</h3>
+        <h3 class="center">We&rsquo;re Hiring!</h3>
 
-        <v-career v-for="(career, index) in careers" :key="index" link="mailto:careers@ps212.com" :category="career.category" :title="career.title" :location="career.office.name" :text="career.description"/>
+        <v-career v-for="(career, index) in careers" :key="index" :link="career.link" :category="career.category" :title="career.title" :location="career.office.name" :text="career.description"/>
 
       </div>
     </section>
@@ -81,8 +82,8 @@
 
     <section class="cta">
       <div class="container">
-        <h3 class="center">Ready to get started?</h3>
-        <a href="mailto:contact@ps212.com" target="_blank"><button>Contact Us</button></a>
+        <h3 class="center">Interested?</h3>
+        <a href="mailto:contact@ps212.com" target="_blank"><button>Say Hello</button></a>
         <div class="logos">
           <div><img v-if="about.logo_1" :src="$path + '/uploads/_/originals/' + about.logo_1.filename"></div>
           <div><img v-if="about.logo_2" :src="$path + '/uploads/_/originals/' + about.logo_2.filename"></div>
@@ -101,7 +102,7 @@
       <div class="modal" v-for="(leader, index) in leadership" :key="index" v-show="showUserDetail === leader.id">
         <h3>{{leader.name}}</h3>
         <h6>{{leader.title}}</h6>
-        <p class="gray">{{leader.bio}}</p>
+        <p class="gray" v-html="leader.bio"></p>
 
         <div class="close" v-on:click="showUserDetail = false">
           <svg width="20px" height="20px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -113,7 +114,7 @@
       <div class="modal" v-for="(member, index) in staff" :key="index" v-show="showUserDetail === member.id">
         <h3>{{member.name}}</h3>
         <h6>{{member.title}}</h6>
-        <p class="gray">{{member.bio}}</p>
+        <p class="gray" v-html="member.bio"></p>
 
         <div class="close" v-on:click="showUserDetail = false">
           <svg width="20px" height="20px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -211,6 +212,7 @@ export default {
     margin-top: 40px;
     max-width: 800px;
     // text-indent: -0.4em; // For hanging quote
+    b,
     strong {
       color: var(--white);
       font-weight: inherit;

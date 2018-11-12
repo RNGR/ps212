@@ -1,10 +1,10 @@
 <template>
   <section :class="[color, 'career', 'pad-top']">
     <div class="container">
-      <h4>{{title}}</h4>
+      <h4><a :href="link" target="_blank" class="accent">{{title}}</a></h4>
       <div class="description gray">{{location}}</div>
-      <p class="body" v-html="text"></p>
-      <a :href="'mailto:careers@ps212.com?subject=PS212 Careers: ' + subject + '&body=At a minimum please be sure to include your name and resume...'" target="_blank" class="accent h6">Reach Out</a>
+      <div class="body" v-html="text"></div>
+      <a :href="link" target="_blank" class="accent h6 button">Reach Out</a>
     </div>
   </section>
 </template>
@@ -37,37 +37,37 @@ export default {
     max-width: 800px;
     margin: 20px 0 10px;
   }
-  p.body {
+  div.body {
     max-width: 700px;
-    margin-top: 20px;
+    margin-top: 0px;
   }
-  a.accent {
-    display: block;
-    margin-top: 20px;
-    color: var(--accent);
+  a.button {
+    background-color: var(--accent);
+    display: inline-block;
+    padding: 13px 22px;
+    margin-top: 30px;
+    color: var(--white);
   }
 }
 </style>
 
 <style lang="scss">
+.career {
+  div.body {
+    p {
+      margin: 20px 0;
+    }
+  }
+}
 .career ul {
-  margin: 20px 0 0 0;
+  margin: 0 0 10px 0;
   padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  align-content: flex-start;
+  list-style-type: disc;
   li {
-    flex-grow: 1;
-    display: inline-block;
-    width: calc(50% - 20px);
-    margin-top: 20px;
-    margin-right: 20px;
+    margin-top: 10px;
     font-family: "Gotham HTF", mono;
     font-size: 16px;
     line-height: 24px;
-    font-weight: 700;
-    text-transform: uppercase;
     color: var(--gray);
   }
 }

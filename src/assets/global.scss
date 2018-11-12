@@ -202,7 +202,8 @@ h6,.h6 {
   background-color: var(--light-gray);
 }
 
-h3 strong {
+h3 strong,
+h3 b {
   background-image: linear-gradient(to right, var(--dark-gray) 50%, var(--accent) 50%);
   background-position: 0;
   background-size: 200%;
