@@ -141,6 +141,7 @@ header {
   }
 
   // Alt colors
+  &.home,
   &.about {
     background-color: transparent;
     &.shadow {
