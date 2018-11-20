@@ -82,7 +82,7 @@
 
     <section class="cta">
       <div class="container">
-        <h3 class="center">Interested?</h3>
+        <h3 class="center">Ready to get started?</h3>
         <a href="mailto:contact@ps212.com" target="_blank"><button>Say Hello</button></a>
         <div class="logos">
           <div><img v-if="about.logo_1" :src="$path + '/uploads/_/originals/' + about.logo_1.filename"></div>
@@ -199,10 +199,27 @@ export default {
 <style lang="scss" scoped>
 .about-page {
   .background {
-    background-image: url('/images/vintage-office.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center bottom;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url('/images/about-hero.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center center;
+
+      opacity: 0.2;
+      -webkit-filter: grayscale(1);
+      -webkit-filter: grayscale(100%);
+      filter: gray;
+      filter: grayscale(100%);
+    }
   }
 }
 .our-story {
