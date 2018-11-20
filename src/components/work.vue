@@ -23,10 +23,11 @@
         <section>
           <div class="container case-studies">
 
-            <div v-if="workPages(page).length" v-for="(caseStudy, index) in workPages(page)" :key="index" class="case-study">
-              <img src="http://via.placeholder.com/880x880/eceff1/b0bec5?text=880x880">
-              <div class="subtext">{{caseStudy.title}}</div>
-              <h6 class="gray">{{caseStudy.client}}</h6>
+            <div v-if="workPages(page).length" v-for="(work, index) in workPages(page)" :key="index" class="case-study">
+              <img v-if="work.image" :src="$path + '/uploads/_/originals/' + work.image.filename">
+              <div v-else class="blank"></div>
+              <div class="subtext">{{work.title}}</div>
+              <h6 class="gray">{{work.client}}</h6>
             </div>
 
           </div>
@@ -63,7 +64,8 @@ export default {
     }.bind(this)).catch(err => console.log('Error fetching "Case Studies"', err));
 
     this.$api.getItems('work', {
-      "filter[status][eq]": "published"
+      "filter[status][eq]": "published",
+      "fields": "*.*"
     }).then(function(res){
       this.work = res.data;
       // eslint-disable-next-line
@@ -90,6 +92,13 @@ export default {
       display: block;
       margin-bottom: 10px;
       max-width: 100%;
+    }
+    .blank {
+      background-color: var(--dark-gray);
+      display: block;
+      margin-bottom: 10px;
+      max-width: 100%;
+      padding-bottom: 100%;
     }
     .subtext {
 
