@@ -165,7 +165,10 @@ header {
     }
   }
   &.news {
-    background-color: var(--dark-gray);
+    background-color: transparent;
+    &.shadow {
+      background-color: var(--dark-gray);
+    }
     #logo {
       path {
         fill: var(--white);
@@ -185,7 +188,7 @@ header {
     nav {
       a {
         color: var(--white);
-        border-bottom: 2px solid var(--dark-gray);
+        border-bottom: 2px solid transparent;
         &:hover,
         &.router-link-active {
           border-bottom: 2px solid var(--white);
@@ -224,7 +227,7 @@ header {
     nav {
       a {
         color: var(--white);
-        border-bottom: 2px solid var(--accent);
+        border-bottom: 2px solid transparent;
         &:hover,
         &.router-link-active {
           border-bottom: 2px solid var(--white);

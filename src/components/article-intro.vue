@@ -1,7 +1,7 @@
 <template>
   <section :class="[color, 'article', 'pad-top']">
     <div class="container">
-      <!-- <h5 class="accent">{{category}}</h5> -->
+      <h5 class="accent">{{category}}</h5>
       <h2>{{title}}</h2>
       <div class="description gray">By {{by}}</div>
       <div class="description">{{date}}</div>
