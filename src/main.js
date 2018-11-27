@@ -24,14 +24,14 @@ const client = new SDK({
   // url: 'http://local.api.com',
   // env: 'ps212',
   // token: 'demo'
-  url: 'http://api.ps212.rngr.org/',
+  url: 'https://api.ps212.rngr.org/',
   env: '_',
   token: 'demo'
 });
 
 Object.defineProperties(Vue.prototype, {
   $api: { value: client },
-  $path: { value: 'http://api.ps212.rngr.org' }, // /uploads/_/originals/mountains.jpg
+  $path: { value: 'https://api.ps212.rngr.org' }, // /uploads/_/originals/mountains.jpg
   $project: { value: '_' }
 });
 
