@@ -67,6 +67,16 @@
   --body: var(--blue-grey-500);
 }
 
+@font-face {
+  font-family: 'Quarto';
+  src: url('/fonts/Quarto-Regular.woff2') format('woff2'),
+    url('/fonts/Quarto-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+
 ::selection {
   background: var(--red-50);
 }
