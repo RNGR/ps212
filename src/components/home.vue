@@ -253,6 +253,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../assets/_variables.scss";
 .accent {
   max-width: 960px;
   margin-bottom: 10px;
@@ -260,13 +261,14 @@ export default {
 h3 {
   strong,
   b {
-    color: var(--white);
+    color: $white;
     font-weight: inherit;
   }
 }
 </style>
 
 <style lang="scss" scoped>
+@import "../assets/_variables.scss";
 .background {
   width: 100%;
   height: 100%;
@@ -303,7 +305,7 @@ h3 {
     max-width: 800px;
     text-indent: -0.4em; // For hanging quote
     strong {
-      color: var(--white);
+      color: $white;
       font-weight: inherit;
     }
   }
@@ -312,7 +314,7 @@ h3 {
   position: relative;
   &::before {
     content: "";
-    background-color: var(--dark-gray);
+    background-color: $dark-gray;
     position: absolute;
     top: 0;
     left: 0;
@@ -320,7 +322,7 @@ h3 {
     height: 200px;
   }
   .container {
-    background-color: var(--white);
+    background-color: $white;
   }
   h3 {
     padding-top: var(--component-padding-y);
@@ -393,23 +395,23 @@ h3 {
     input {
       border: none;
       outline: none;
-      color: var(--accent);
-      background-color: var(--white);
+      color: $accent;
+      background-color: $white;
       padding: 10px 40px;
       width: 100%;
       &::placeholder {
-        color: var(--light-gray);
+        color: $light-gray;
       }
     }
     button {
-      transition: all var(--fast) var(--transition);
+      transition: all $fast $transition;
       position: absolute;
       top: 20px;
       right: 20px;
       width: 50px;
       height: 50px;
       font-size: 62px;
-      background-color: var(--accent);
+      background-color: $accent;
       svg {
         width: 18px;
         height: 18px;
@@ -417,12 +419,12 @@ h3 {
         position: relative;
       }
       &:hover {
-        background-color: var(--dark-gray);
+        background-color: $dark-gray;
       }
     }
     .error {
       display: block;
-      color: var(--accent);
+      color: $accent;
       margin-top: 20px;
     }
   }

@@ -1,0 +1,61 @@
+$border-radius: 3px;
+$box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+$box-shadow-accent: 0 10px 20px 2px rgba(0, 0, 0, 0.1);
+
+$transition-custom: cubic-bezier(0, 0.4, 0.4, 1);
+$transition: cubic-bezier(0.4, 0, 0.2, 1);
+$transition-in: cubic-bezier(0, 0, 0.2, 1);
+$transition-out: cubic-bezier(0.4, 0, 1, 1);
+
+$fast: 125ms;
+$medium: 200ms;
+$slow: 300ms;
+
+$input-border-width: 2px;
+$input-height: 3.077rem;
+
+$nav-sidebar-width: 200px;
+$header-height: 60px;
+$info-sidebar-width: 360px;
+
+$width-small: 140px;
+$width-normal: 300px;
+$width-large: 460px;
+$width-x-large: 620px;
+
+/* Material Design palette */
+$black: #000;
+$white: #fff;
+
+$red: #f44336;
+$red-50: #ffebee;
+$red-100: #ffcdd2;
+$red-200: #ef9a9a;
+$red-300: #e57373;
+$red-400: #ef5350;
+$red-500: #f44336;
+$red-600: #e53935;
+$red-700: #d32f2f;
+$red-800: #c62828;
+$red-900: #b71c1c;
+
+
+$blue-grey: #607d8b;
+$blue-grey-50: #eceff1;
+$blue-grey-100: #cfd8dc;
+$blue-grey-200: #b0bec5;
+$blue-grey-300: #90a4ae;
+$blue-grey-400: #78909c;
+$blue-grey-500: #607d8b;
+$blue-grey-600: #546e7a;
+$blue-grey-700: #455a64;
+$blue-grey-800: #37474f;
+$blue-grey-900: #263238;
+
+/* Project Colors */
+$dark-gray: $blue-grey-900;
+$gray: $blue-grey-200;
+$light-gray: $blue-grey-50;
+$accent: $red-600;
+$dark-accent: $red-800;
+$body: $blue-grey-500;

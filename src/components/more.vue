@@ -28,12 +28,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/_variables.scss";
 button {
   margin-top: 40px;
   vertical-align: middle;
   padding: 0;
   svg {
-    transition: all var(--fast) var(--transition);
+    transition: all $fast $transition;
     vertical-align: middle;
     margin-top: -4px;
   }
@@ -46,15 +47,15 @@ button {
     }
   }
   &.accent {
-    color: var(--accent);
+    color: $accent;
     svg polygon {
-      fill: var(--accent);
+      fill: $accent;
     }
   }
   &.white {
-    color: var(--white);
+    color: $white;
     svg polygon {
-      fill: var(--white);
+      fill: $white;
     }
   }
   &.left {

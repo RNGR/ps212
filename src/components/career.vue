@@ -28,10 +28,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/_variables.scss";
 .career {
   .container {
     // padding-bottom: 80px;
-    // border-bottom: 1px solid var(--light-gray);
+    // border-bottom: 1px solid $light-gray;
   }
   h2 {
     max-width: 800px;
@@ -42,16 +43,17 @@ export default {
     margin-top: 0px;
   }
   a.button {
-    background-color: var(--accent);
+    background-color: $accent;
     display: inline-block;
     padding: 13px 22px;
     margin-top: 30px;
-    color: var(--white);
+    color: $white;
   }
 }
 </style>
 
 <style lang="scss">
+@import "../assets/_variables.scss";
 .career {
   div.body {
     p {
@@ -68,7 +70,7 @@ export default {
     font-family: "Gotham HTF", mono;
     font-size: 16px;
     line-height: 24px;
-    color: var(--gray);
+    color: $gray;
   }
 }
 </style>

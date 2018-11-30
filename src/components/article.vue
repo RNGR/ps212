@@ -79,6 +79,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../assets/_variables.scss";
 .news-detail {
   .header {
     margin-top: 120px;
@@ -97,7 +98,7 @@ export default {
   .paper {
     &::before {
       content: "";
-      background-color: var(--dark-gray);
+      background-color: $dark-gray;
       position: absolute;
       top: 0;
       left: 0;
@@ -108,11 +109,11 @@ export default {
   .body {
     position: relative;
     .container {
-      background-color: var(--white);
+      background-color: $white;
       padding: 20px var(--component-padding-x) var(--component-padding-y);
       &::after {
         content: "";
-        background-color: var(--light-gray);
+        background-color: $light-gray;
         position: absolute;
         bottom: 0;
         left: 30%;
@@ -126,11 +127,11 @@ export default {
         margin: 40px 0;
       }
       a {
-        transition: color var(--fast) var(--transition);
-        color: var(--dark-gray);
+        transition: color $fast $transition;
+        color: $dark-gray;
         text-decoration: underline;
         &:hover {
-          color: var(--accent);
+          color: $accent;
         }
       }
       img, iframe {
@@ -143,7 +144,7 @@ export default {
         font-family: "Quarto", mono;
         font-size: 36px;
         line-height: 46px;
-        color: var(--dark-gray);
+        color: $dark-gray;
         &:before {
             content: open-quote;
         }

@@ -27,10 +27,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/_variables.scss";
 .article {
   .container {
     padding-bottom: var(--component-padding-y);
-    border-bottom: 1px solid var(--light-gray);
+    border-bottom: 1px solid $light-gray;
   }
   h2 {
     max-width: 800px;

@@ -88,6 +88,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../assets/_variables.scss";
 .body {
   p {
     margin: 40px 0;
@@ -96,6 +97,7 @@ export default {
 </style>
 
 <style lang="scss" scoped>
+@import "../assets/_variables.scss";
 .header {
   margin-top: 120px;
   padding-top: var(--component-padding-y);
@@ -112,7 +114,7 @@ export default {
   position: relative;
   &::before {
     content: "";
-    background-color: var(--accent);
+    background-color: $accent;
     position: absolute;
     top: 0;
     left: 0;
@@ -120,11 +122,11 @@ export default {
     height: 200px;
   }
   .container {
-    background-color: var(--white);
+    background-color: $white;
     padding: 20px var(--component-padding-x) var(--component-padding-y);
     &::after {
       content: "";
-      background-color: var(--light-gray);
+      background-color: $light-gray;
       position: absolute;
       bottom: 0;
       left: 30%;
@@ -138,11 +140,11 @@ export default {
       margin: 40px 0;
     }
     a {
-      transition: color var(--fast) var(--transition);
-      color: var(--dark-gray);
+      transition: color $fast $transition;
+      color: $dark-gray;
       text-decoration: underline;
       &:hover {
-        color: var(--accent);
+        color: $accent;
       }
     }
     img, iframe {
@@ -156,9 +158,9 @@ export default {
       font-family: "Quarto", mono;
       font-size: 36px;
       line-height: 46px;
-      color: var(--gray);
+      color: $gray;
       strong {
-        color: var(--accent);
+        color: $accent;
       }
       &:before {
           content: open-quote;
@@ -177,9 +179,9 @@ export default {
 .tags {
   margin-top: 80px;
   span {
-    background-color: var(--accent);
+    background-color: $accent;
     padding: 14px 28px;
-    color: var(--white);
+    color: $white;
     margin-right: 20px;
   }
 }

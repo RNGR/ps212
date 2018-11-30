@@ -79,20 +79,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/_variables.scss";
 footer {
   margin-top: 200px;
   margin-left: var(--page-padding);
   margin-right: var(--page-padding);
   .container {
-    border-top: 2px solid var(--accent);
-    background-color: var(--white);
+    border-top: 2px solid $accent;
+    background-color: $white;
     display: flex;
     flex-wrap: wrap;
     .column {
       width: calc((100% - 80px)/3);
       padding-top: 100px;
       padding-bottom: 100px;
-      border-bottom: 2px solid var(--light-gray);
+      border-bottom: 2px solid $light-gray;
       margin-bottom: 100px;
       margin-right: 40px;
       &:last-of-type {
@@ -103,15 +104,15 @@ footer {
       margin-bottom: 30px;
     }
     a:hover {
-      color: var(--accent);
+      color: $accent;
     }
     #logo {
       margin-bottom: 36px;
       &:hover path {
-        fill: var(--dark-accent);
+        fill: $dark-accent;
       }
       path {
-        transition: fill var(--fast) var(--transition);
+        transition: fill $fast $transition;
       }
     }
     .linkedin,
@@ -120,10 +121,10 @@ footer {
       margin-right: 10px;
       margin-top: 20px;
       &:hover path {
-        fill: var(--accent);
+        fill: $accent;
       }
       path {
-        transition: fill var(--fast) var(--transition);
+        transition: fill $fast $transition;
       }
     }
     .copyright {

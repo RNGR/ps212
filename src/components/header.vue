@@ -64,15 +64,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+@import "../assets/_variables.scss";
 header {
-  transition: all var(--slow) var(--transition);
+  transition: all $slow $transition;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: 120px;
   z-index: 10;
-  background-color: var(--white);
+  background-color: $white;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.0);
   &.shadow {
     height: 80px;
@@ -85,15 +86,15 @@ header {
     }
   }
   #logo {
-    transition: top var(--slow) var(--transition);
+    transition: top $slow $transition;
     position: absolute;
     left: 0;
     top: 47px;
     &:hover path {
-      fill: var(--dark-accent-x);
+      fill: $dark-accent;
     }
     path {
-      transition: fill var(--fast) var(--transition);
+      transition: fill $fast $transition;
     }
   }
   #hamburger {
@@ -103,37 +104,37 @@ header {
     display: none;
     cursor: pointer;
     path {
-      fill: var(--dark-gray);
-      transition: all var(--fast) var(--transition);
+      fill: $dark-gray;
+      transition: all $fast $transition;
     }
     &:hover path {
-      fill: var(--accent);
+      fill: $accent;
     }
   }
   nav {
-    transition: top var(--slow) var(--transition);
+    transition: top $slow $transition;
     position: absolute;
     right: 0;
     top: 40px;
     a {
-      transition: all var(--fast) var(--transition);
+      transition: all $fast $transition;
       margin-left: 60px;
-      color: var(--dark-gray);
+      color: $dark-gray;
       line-height: 40px;
       padding-bottom: 2px;
-      border-bottom: 2px solid var(--white);
+      border-bottom: 2px solid $white;
       &:hover,
       &.router-link-active {
-        border-bottom: 2px solid var(--dark-gray);
+        border-bottom: 2px solid $dark-gray;
       }
       &.button {
-        background-color: var(--accent);
+        background-color: $accent;
         padding: 13px 22px;
-        color: var(--white);
+        color: $white;
         border: none;
         &:hover,
         &.active {
-          background-color: var(--dark-accent);
+          background-color: $dark-accent;
           border: none;
         }
       }
@@ -145,14 +146,14 @@ header {
   &.about {
     background-color: transparent;
     &.shadow {
-      background-color: var(--white);
+      background-color: $white;
     }
     nav {
       a {
         border-bottom: 2px solid transparent;
         &:hover,
         &.router-link-active {
-          border-bottom: 2px solid var(--dark-gray);
+          border-bottom: 2px solid $dark-gray;
         }
         &.button {
           border: none;
@@ -167,39 +168,39 @@ header {
   &.news {
     background-color: transparent;
     &.shadow {
-      background-color: var(--dark-gray);
+      background-color: $dark-gray;
     }
     #logo {
       path {
-        fill: var(--white);
+        fill: $white;
       }
       &:hover path {
-        fill: var(--light-gray);
+        fill: $light-gray;
       }
     }
     #hamburger {
       path {
-        fill: var(--white);
+        fill: $white;
       }
       &:hover path {
-        fill: var(--accent);
+        fill: $accent;
       }
     }
     nav {
       a {
-        color: var(--white);
+        color: $white;
         border-bottom: 2px solid transparent;
         &:hover,
         &.router-link-active {
-          border-bottom: 2px solid var(--white);
+          border-bottom: 2px solid $white;
         }
         &.button {
-          background-color: var(--white);
-          color: var(--dark-gray);
+          background-color: $white;
+          color: $dark-gray;
           border: none;
           &:hover,
           &.active {
-            background-color: var(--light-gray);
+            background-color: $light-gray;
             border: none;
           }
         }
@@ -207,38 +208,38 @@ header {
     }
   }
   &.work {
-    background-color: var(--accent);
+    background-color: $accent;
     #logo {
       path {
-        fill: var(--white);
+        fill: $white;
       }
       &:hover path {
-        fill: var(--light-gray);
+        fill: $light-gray;
       }
     }
     #hamburger {
       path {
-        fill: var(--white);
+        fill: $white;
       }
       &:hover path {
-        fill: var(--dark-gray);
+        fill: $dark-gray;
       }
     }
     nav {
       a {
-        color: var(--white);
+        color: $white;
         border-bottom: 2px solid transparent;
         &:hover,
         &.router-link-active {
-          border-bottom: 2px solid var(--white);
+          border-bottom: 2px solid $white;
         }
         &.button {
-          background-color: var(--white);
-          color: var(--dark-gray);
+          background-color: $white;
+          color: $dark-gray;
           border: none;
           &:hover,
           &.active {
-            background-color: var(--light-gray);
+            background-color: $light-gray;
             border: none;
           }
         }
@@ -269,7 +270,7 @@ header {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--white);
+    background-color: $white;
     text-align: center;
     display: none;
     .center {
@@ -300,14 +301,14 @@ header {
   }
 }
 #menu {
-  transition: var(--fast) var(--transition) opacity;
+  transition: $fast $transition opacity;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--white);
-  color: var(--dark-gray);
+  background-color: $white;
+  color: $dark-gray;
   text-align: center;
   z-index: 11;
   padding: 40px;
@@ -322,7 +323,7 @@ header {
   }
   .logo {
     path {
-      fill: var(--accent);
+      fill: $accent;
     }
     display: block;
     position: absolute;
@@ -331,12 +332,12 @@ header {
     margin-bottom: var(--component-padding-y);
   }
   a:not(.icon) {
-    transition: var(--fast) var(--transition) all;
+    transition: $fast $transition all;
     display: inline-block;
     text-decoration: none;
     margin-top: 80px;
     &:hover {
-      color: var(--accent);
+      color: $accent;
     }
   }
   a.button {
@@ -344,26 +345,26 @@ header {
     bottom: var(--page-padding);
     left: var(--page-padding);
     right: var(--page-padding);
-    background-color: var(--accent);
+    background-color: $accent;
     padding: 23px 20px 20px;
-    color: var(--white);
+    color: $white;
     &:hover {
-      background-color: var(--dark-accent);
-      color: var(--white);
+      background-color: $dark-accent;
+      color: $white;
     }
   }
   .close {
     polygon {
-      fill: var(--dark-gray);
+      fill: $dark-gray;
     }
     display: block;
     position: absolute;
     right: var(--page-padding);
     top: 27px;
-    transition: var(--fast) var(--transition) all;
+    transition: $fast $transition all;
     cursor: pointer;
     &:hover {
-      color: var(--light-gray);
+      color: $light-gray;
     }
   }
 }

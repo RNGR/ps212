@@ -75,6 +75,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/_variables.scss";
 #scroll-top {
   margin-top: 60px;
 }
@@ -94,7 +95,7 @@ export default {
       max-width: 100%;
     }
     .blank {
-      background-color: var(--dark-gray);
+      background-color: $dark-gray;
       display: block;
       margin-bottom: 10px;
       max-width: 100%;

@@ -38,6 +38,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/_variables.scss";
 section {
   .container {
     padding-bottom: var(--component-padding-y);
@@ -57,10 +58,10 @@ section {
   }
   &.light-gray-bg {
     .title {
-      color: var(--accent);
+      color: $accent;
     }
     .description {
-      color: var(--dark-gray);
+      color: $dark-gray;
     }
   }
 }

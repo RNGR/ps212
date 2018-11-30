@@ -197,6 +197,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/_variables.scss";
 .about-page {
   .background {
     width: 100%;
@@ -231,7 +232,7 @@ export default {
     // text-indent: -0.4em; // For hanging quote
     b,
     strong {
-      color: var(--white);
+      color: $white;
       font-weight: inherit;
     }
   }
@@ -244,7 +245,7 @@ h3.center {
   position: relative;
   &::before {
     content: "";
-    background-color: var(--dark-gray);
+    background-color: $dark-gray;
     position: absolute;
     top: 0;
     left: 0;
@@ -252,8 +253,8 @@ h3.center {
     height: 200px;
   }
   .container {
-    background-color: var(--white);
-    border-bottom: 2px solid var(--light-gray);
+    background-color: $white;
+    border-bottom: 2px solid $light-gray;
   }
   .service {
     display: flex;
@@ -277,14 +278,14 @@ h3.center {
 }
 .staff {
   .container {
-    border-bottom: 2px solid var(--light-gray);
+    border-bottom: 2px solid $light-gray;
   }
   img {
     max-width: 100%;
   }
   .leadership > div,
   .team > div {
-    transition: all var(--fast) var(--transition);
+    transition: all $fast $transition;
     cursor: pointer;
     &:hover {
       opacity: 0.8;
@@ -339,13 +340,13 @@ h3.center {
 .careers {
   .container {
     padding: 0 var(--component-padding-x) var(--component-padding-y) var(--component-padding-x);
-    border-bottom: 2px solid var(--light-gray);
+    border-bottom: 2px solid $light-gray;
   }
 }
 .locations {
   .container {
     padding: 0 var(--component-padding-x) var(--component-padding-y) var(--component-padding-x);
-    border-bottom: 2px solid var(--light-gray);
+    border-bottom: 2px solid $light-gray;
   }
   .office {
     margin-top: 60px;
@@ -356,16 +357,16 @@ h3.center {
 }
 .cta {
   button {
-    transition: all var(--slow) var(--transition);
+    transition: all $slow $transition;
     display: block;
-    color: var(--white);
-    background-color: var(--accent);
+    color: $white;
+    background-color: $accent;
     padding: 10px 40px;
     margin: 70px auto;
     width: 100%;
     max-width: 400px;
     &:hover {
-      background-color: var(--dark-accent);
+      background-color: $dark-accent;
     }
   }
   .logos {
@@ -394,7 +395,7 @@ h3.center {
   }
 }
 .user-detail {
-  transition: var(--fast) var(--transition) opacity;
+  transition: $fast $transition opacity;
   position: fixed;
   top: 0;
   left: 0;
@@ -408,12 +409,12 @@ h3.center {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--dark-gray);
+    background-color: $dark-gray;
     opacity: 0.9;
     z-index: 12;
   }
   .modal {
-    background-color: var(--white);
+    background-color: $white;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -430,16 +431,16 @@ h3.center {
   }
   .close {
     polygon {
-      fill: var(--accent);
+      fill: $accent;
     }
     display: block;
     position: absolute;
     right: 40px;
     top: 40px;
-    transition: var(--fast) var(--transition) all;
+    transition: $fast $transition all;
     cursor: pointer;
     &:hover {
-      color: var(--light-gray);
+      color: $light-gray;
     }
   }
 }
@@ -447,7 +448,7 @@ h3.center {
   margin-top: 20px;
   cursor: pointer;
   &:hover {
-    color: var(--dark-accent);
+    color: $dark-accent;
   }
 }
 </style>

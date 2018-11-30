@@ -58,6 +58,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/_variables.scss";
 .background {
   width: 100%;
   height: 100%;
@@ -85,13 +86,13 @@ export default {
   position: relative;
 }
 .load-more {
-  transition: all var(--slow) var(--transition);
+  transition: all $slow $transition;
   margin: var(--component-padding-y) auto;
   max-width: 200px;
   text-align: center;
   cursor: pointer;
   &:hover {
-    color: var(--dark-gray);
+    color: $dark-gray;
   }
 }
 </style>
