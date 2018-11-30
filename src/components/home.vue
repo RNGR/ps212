@@ -1,27 +1,37 @@
 <template>
   <div v-if="about" class="home-page">
-
     <section class="background">
       <div class="container hero">
         <div class="centered">
-          <h2 class="accent">{{about.home_heading_one}}</h2>
+          <h2 class="accent">{{ about.home_heading_one }}</h2>
           <h2 id="credentials">
             <vue-typer
-              :text='credentials'
-              :shuffle='true'
-              :pre-type-delay=1000
-              :type-delay=140
-              :pre-erase-delay=2000
-              :erase-delay=70
-              erase-style='backspace'>
+              :text="credentials"
+              :shuffle="true"
+              :pre-type-delay="1000"
+              :type-delay="140"
+              :pre-erase-delay="2000"
+              :erase-delay="70"
+              erase-style="backspace"
+            >
             </vue-typer>
           </h2>
-          <p class="description">{{about.home_heading_description}}</p>
-          <v-more msg="View Services" link="/about" color="accent"/>
+          <p class="description">{{ about.home_heading_description }}</p>
+          <v-more msg="View Services" link="/about" color="accent" />
         </div>
         <a href="#scroll-top" v-smooth-scroll="{ duration: 1000, offset: -80 }">
-          <svg class="hero-advance" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-            <polygon fill="#E53935" points="608 952 600 960 592 952 593.41 950.59 599 956.17 599 944 601 944 601 956.17 606.59 950.59" transform="translate(-592 -944)"/>
+          <svg
+            class="hero-advance"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+          >
+            <polygon
+              fill="#E53935"
+              points="608 952 600 960 592 952 593.41 950.59 599 956.17 599 944 601 944 601 956.17 606.59 950.59"
+              transform="translate(-592 -944)"
+            />
           </svg>
         </a>
       </div>
@@ -31,58 +41,120 @@
       <div class="container">
         <h5 class="accent">What we do</h5>
         <h3 v-html="what_we_do" class="gray"></h3>
-        <v-more msg="Read More" link="/about" color="white"/>
+        <v-more msg="Read More" link="/about" color="white" />
       </div>
     </section>
 
     <section class="clients">
       <div class="container">
-        <h3>{{about.home_logo_introduction}}</h3>
+        <h3>{{ about.home_logo_introduction }}</h3>
 
         <div class="logos">
-          <div><img v-if="about.logo_1" :src="$path + '/uploads/_/originals/' + about.logo_1.filename"></div>
-          <div><img v-if="about.logo_2" :src="$path + '/uploads/_/originals/' + about.logo_2.filename"></div>
-          <div><img v-if="about.logo_3" :src="$path + '/uploads/_/originals/' + about.logo_3.filename"></div>
-          <div><img v-if="about.logo_4" :src="$path + '/uploads/_/originals/' + about.logo_4.filename"></div>
-          <div><img v-if="about.logo_5" :src="$path + '/uploads/_/originals/' + about.logo_5.filename"></div>
-          <div><img v-if="about.logo_6" :src="$path + '/uploads/_/originals/' + about.logo_6.filename"></div>
+          <div>
+            <img
+              v-if="about.logo_1"
+              :src="$path + '/uploads/_/originals/' + about.logo_1.filename"
+            />
+          </div>
+          <div>
+            <img
+              v-if="about.logo_2"
+              :src="$path + '/uploads/_/originals/' + about.logo_2.filename"
+            />
+          </div>
+          <div>
+            <img
+              v-if="about.logo_3"
+              :src="$path + '/uploads/_/originals/' + about.logo_3.filename"
+            />
+          </div>
+          <div>
+            <img
+              v-if="about.logo_4"
+              :src="$path + '/uploads/_/originals/' + about.logo_4.filename"
+            />
+          </div>
+          <div>
+            <img
+              v-if="about.logo_5"
+              :src="$path + '/uploads/_/originals/' + about.logo_5.filename"
+            />
+          </div>
+          <div>
+            <img
+              v-if="about.logo_6"
+              :src="$path + '/uploads/_/originals/' + about.logo_6.filename"
+            />
+          </div>
         </div>
 
         <div class="names h6">
           <ul v-for="(n, index) in 4" :key="index">
-            <li v-for="(client, index2) in chunked[index]" :key="index2">{{client.client}}</li>
+            <li v-for="(client, index2) in chunked[index]" :key="index2">
+              {{ client.client }}
+            </li>
           </ul>
         </div>
-
       </div>
     </section>
 
-    <v-case-study-intro v-if="caseStudies[0]" :id="caseStudies[0].id" :title="caseStudies[0].client" :statement="caseStudies[0].statement" :description="caseStudies[0].quote"/>
+    <v-case-study-intro
+      v-if="caseStudies[0]"
+      :id="caseStudies[0].id"
+      :title="caseStudies[0].client"
+      :statement="caseStudies[0].statement"
+      :description="caseStudies[0].quote"
+    />
 
-    <v-article-intro v-for="(article, index) in articles" :key="index" :link="'/news/' + article.id" :category="article.category" :title="article.title" :by="article.author.first_name + ' ' + article.author.last_name" :date="article.publish_on | formatDate" :text="article.summary" />
+    <v-article-intro
+      v-for="(article, index) in articles"
+      :key="index"
+      :link="'/news/' + article.id"
+      :category="article.category"
+      :title="article.title"
+      :by="article.author.first_name + ' ' + article.author.last_name"
+      :date="article.publish_on | formatDate"
+      :text="article.summary"
+    />
 
     <section class="light-gray-bg newsletter">
       <div class="container">
         <h3>Join our newsletter</h3>
         <form @submit.prevent="subscribe" novalidate="true">
-          <input v-model="email" type="email" name="email" novalidate="true" class="h3" placeholder="Enter your email address…" spellcheck="false">
+          <input
+            v-model="email"
+            type="email"
+            name="email"
+            novalidate="true"
+            class="h3"
+            placeholder="Enter your email address…"
+            spellcheck="false"
+          />
           <button v-on:click="subscribe">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
-              <polygon fill="#FFFFFF" points="133 1 131.942 2.058 136.127 6.25 127 6.25 127 7.75 136.127 7.75 131.942 11.943 133 13 139 7" transform="translate(-127 -1)"/>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+            >
+              <polygon
+                fill="#FFFFFF"
+                points="133 1 131.942 2.058 136.127 6.25 127 6.25 127 7.75 136.127 7.75 131.942 11.943 133 13 139 7"
+                transform="translate(-127 -1)"
+              />
             </svg>
           </button>
-          <span class="error">{{error}}</span>
+          <span class="error">{{ error }}</span>
         </form>
       </div>
     </section>
-
   </div>
 </template>
 
 <script>
 // eslint-disable-next-line
-import { VueTyper } from 'vue-typer'
-import moment from 'moment'
+import { VueTyper } from "vue-typer";
+import moment from "moment";
 
 function split(arr, n) {
   var rest = arr.length % n, // how much to divide
@@ -90,11 +162,12 @@ function split(arr, n) {
     partLength = Math.floor(arr.length / n),
     result = [];
 
-  for(var i = 0; i < arr.length; i += partLength) {
+  for (var i = 0; i < arr.length; i += partLength) {
     var end = partLength + i,
       add = false;
 
-    if(rest !== 0 && restUsed) { // should add one element for the division
+    if (rest !== 0 && restUsed) {
+      // should add one element for the division
       end++;
       restUsed--; // we've used one division element now
       add = true;
@@ -102,7 +175,7 @@ function split(arr, n) {
 
     result.push(arr.slice(i, end)); // part of the array
 
-    if(add) {
+    if (add) {
       i++; // also increment i in the case we added an extra element for division
     }
   }
@@ -111,7 +184,9 @@ function split(arr, n) {
 }
 
 function shuffle(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex;
+  var currentIndex = array.length,
+    temporaryValue,
+    randomIndex;
   while (0 !== currentIndex) {
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
@@ -124,47 +199,47 @@ function shuffle(array) {
 }
 
 function isScrolledIntoView(el) {
-    let rect = el.getBoundingClientRect();
-    let elemTop = rect.top;
-    let elemBottom = rect.bottom;
+  let rect = el.getBoundingClientRect();
+  let elemTop = rect.top;
+  let elemBottom = rect.bottom;
 
-    // Only completely visible elements return true:
-    // let isVisible = (elemTop >= 0) && (elemBottom <= window.innerHeight);
-    let isVisible = (elemTop >= 200) && (elemBottom <= (window.innerHeight - 200));
-    // Partially visible elements return true:
-    //isVisible = elemTop < window.innerHeight && elemBottom >= 0;
-    // return isVisible;
-    if(isVisible){
-      el.classList.add("highlight");
-    } else {
-      el.classList.remove("highlight");
-    }
+  // Only completely visible elements return true:
+  // let isVisible = (elemTop >= 0) && (elemBottom <= window.innerHeight);
+  let isVisible = elemTop >= 200 && elemBottom <= window.innerHeight - 200;
+  // Partially visible elements return true:
+  //isVisible = elemTop < window.innerHeight && elemBottom >= 0;
+  // return isVisible;
+  if (isVisible) {
+    el.classList.add("highlight");
+  } else {
+    el.classList.remove("highlight");
+  }
 }
 
 window.onscroll = function() {
   let strongs = document.querySelector("h3 b");
-  if(strongs){
+  if (strongs) {
     isScrolledIntoView(strongs);
   }
 };
 
 export default {
-  name: 'v-home',
-  data () {
+  name: "v-home",
+  data() {
     return {
-      email: '',
-      error: '',
+      email: "",
+      error: "",
       about: [],
       work: [],
-      credentials: ['Tapestry'],
+      credentials: ["Tapestry"],
       caseStudies: [],
       articles: []
-    }
+    };
   },
   methods: {
-    subscribe: function (event) {
+    subscribe: function(event) {
       // `event` is the native DOM event
-      if (event.type != 'submit') {
+      if (event.type != "submit") {
         return true;
       }
       if (!this.email) {
@@ -175,81 +250,103 @@ export default {
         this.error = "Email Invalid";
         return true;
       }
-      this.$api.getItems('contacts', {
-        "filter[email][eq]": this.email,
-      }).then(res => {
-        if (res.data.length > 0) {
-          this.error = "Email Exists";
-        } else {
-          this.$api.createItem('contacts', {
-            "added_on": moment().toISOString(),
-            "email": this.email
-          }).then(function(){
-            this.error = "Email Added";
-          }).catch(function(){
-            this.error = "Try Again Later";
-          });
-        }
-      }).catch(function(){
-        return false;
-      });
-
+      this.$api
+        .getItems("contacts", {
+          "filter[email][eq]": this.email
+        })
+        .then(res => {
+          if (res.data.length > 0) {
+            this.error = "Email Exists";
+          } else {
+            this.$api
+              .createItem("contacts", {
+                added_on: moment().toISOString(),
+                email: this.email
+              })
+              .then(function() {
+                this.error = "Email Added";
+              })
+              .catch(function() {
+                this.error = "Try Again Later";
+              });
+          }
+        })
+        .catch(function() {
+          return false;
+        });
     },
-    validEmail: function (email) {
+    validEmail: function(email) {
       // eslint-disable-next-line
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(email);
     }
   },
   computed: {
-    what_we_do: function () {
-      return !this.about.what_we_do ? '' : '“' + this.about.what_we_do.replace(/(<p[^>]+?>|<p>|<\/p>)/img, "").trim() + '”'
+    what_we_do: function() {
+      return !this.about.what_we_do
+        ? ""
+        : "“" +
+            this.about.what_we_do
+              .replace(/(<p[^>]+?>|<p>|<\/p>)/gim, "")
+              .trim() +
+            "”";
     },
-    chunked: function () {
+    chunked: function() {
       return split(this.work, 4);
     }
   },
-  created: function () {
-    this.$api.getItem('about', 1, {
-      "fields": "*.*"
-    }).then(res => {
-      this.about = res.data;
-      this.credentials = shuffle(res.data.credentials.split(','));
-      // eslint-disable-next-line
-    }).catch(err => console.log('Error fetching "About"', err));
+  created: function() {
+    this.$api
+      .getItem("about", 1, {
+        fields: "*.*"
+      })
+      .then(res => {
+        this.about = res.data;
+        this.credentials = shuffle(res.data.credentials.split(","));
+        // eslint-disable-next-line
+      })
+      .catch(err => console.log('Error fetching "About"', err));
 
-    this.$api.getItems('work', {
-      "limit": "24",
-      "filter[status][eq]": "published",
-      // "sort": "?"
-    }).then(res => {
-      this.work = res.data;
-      // eslint-disable-next-line
-    }).catch(err => console.log('Error fetching "Work"', err));
+    this.$api
+      .getItems("work", {
+        limit: "24",
+        "filter[status][eq]": "published"
+        // "sort": "?"
+      })
+      .then(res => {
+        this.work = res.data;
+        // eslint-disable-next-line
+      })
+      .catch(err => console.log('Error fetching "Work"', err));
 
-    this.$api.getItems('case_studies', {
-      "limit": "1",
-      "filter[status][eq]": "published"
-    }).then(res => {
-      this.caseStudies = res.data;
-      // eslint-disable-next-line
-    }).catch(err => console.log('Error fetching "Case Studies"', err));
+    this.$api
+      .getItems("case_studies", {
+        limit: "1",
+        "filter[status][eq]": "published"
+      })
+      .then(res => {
+        this.caseStudies = res.data;
+        // eslint-disable-next-line
+      })
+      .catch(err => console.log('Error fetching "Case Studies"', err));
 
-    this.$api.getItems('news', {
-      "fields": "*,author.*",
-      "limit": "2",
-      "filter[status][eq]": "published",
-      "filter[publish_on][leq]": moment().format("YYYY-MM-DD HH:mm:ss")
-    }).then(res => {
-      this.articles = res.data;
-      // eslint-disable-next-line
-    }).catch(err => console.log('Error fetching "News"', err));
-
+    this.$api
+      .getItems("news", {
+        fields: "*,author.*",
+        limit: "2",
+        "filter[status][eq]": "published",
+        "filter[publish_on][leq]": moment().format("YYYY-MM-DD HH:mm:ss")
+      })
+      .then(res => {
+        this.articles = res.data;
+        // eslint-disable-next-line
+      })
+      .catch(err => console.log('Error fetching "News"', err));
   },
   components: {
     VueTyper
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -280,7 +377,7 @@ h3 {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url('/images/home-hero.jpg');
+    background-image: url("/images/home-hero.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -332,7 +429,8 @@ h3 {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    padding: var(--component-padding-y) var(--component-padding-x) 0 var(--component-padding-x);
+    padding: var(--component-padding-y) var(--component-padding-x) 0
+      var(--component-padding-x);
     div {
       text-align: center;
       img {
@@ -356,7 +454,8 @@ h3 {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: 0 var(--component-padding-x) var(--component-padding-y) var(--component-padding-x);
+    padding: 0 var(--component-padding-x) var(--component-padding-y)
+      var(--component-padding-x);
     ul {
       list-style: none;
       margin: 0;

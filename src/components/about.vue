@@ -1,16 +1,25 @@
 <template>
   <div class="about-page">
-
     <section class="background">
       <div class="container hero">
         <div class="centered">
-          <h2 class="accent">{{about.about_heading_one}}</h2>
-          <h2>{{about.about_heading_two}}</h2>
-          <p class="description">{{about.about_heading_description}}</p>
+          <h2 class="accent">{{ about.about_heading_one }}</h2>
+          <h2>{{ about.about_heading_two }}</h2>
+          <p class="description">{{ about.about_heading_description }}</p>
         </div>
         <a href="#scroll-top" v-smooth-scroll="{ duration: 1000, offset: -80 }">
-          <svg class="hero-advance" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-            <polygon fill="#E53935" points="608 952 600 960 592 952 593.41 950.59 599 956.17 599 944 601 944 601 956.17 606.59 950.59" transform="translate(-592 -944)"/>
+          <svg
+            class="hero-advance"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+          >
+            <polygon
+              fill="#E53935"
+              points="608 952 600 960 592 952 593.41 950.59 599 956.17 599 944 601 944 601 956.17 606.59 950.59"
+              transform="translate(-592 -944)"
+            />
           </svg>
         </a>
       </div>
@@ -28,7 +37,7 @@
         <h3 class="center">Services &amp; Offerings</h3>
         <div class="service gray">
           <div v-for="(service, index) in services" :key="index">
-            <h5 class="accent">{{service.name}}</h5>
+            <h5 class="accent">{{ service.name }}</h5>
             <p v-html="service.description"></p>
           </div>
         </div>
@@ -39,24 +48,59 @@
       <div class="container">
         <h3 class="center">Our Team</h3>
         <div class="leadership">
-          <div v-for="(leader, index) in leadership" :key="index" v-on:click="showUserDetail = leader.id">
-            <img v-if="leader.image" :src="$path + '/thumbnail/' + $project + '/600/600/crop/best/' + leader.image.filename">
-            <div class="subtext">{{leader.name}}</div>
-            <h6>{{leader.title}}</h6>
-            <p class="gray">{{leader.short_bio}}</p>
-            <h6 class="load-user accent" v-on:click="showUserDetail = leader.id">Show More</h6>
+          <div
+            v-for="(leader, index) in leadership"
+            :key="index"
+            v-on:click="showUserDetail = leader.id"
+          >
+            <img
+              v-if="leader.image"
+              :src="
+                $path +
+                  '/thumbnail/' +
+                  $project +
+                  '/600/600/crop/best/' +
+                  leader.image.filename
+              "
+            />
+            <div class="subtext">{{ leader.name }}</div>
+            <h6>{{ leader.title }}</h6>
+            <p class="gray">{{ leader.short_bio }}</p>
+            <h6
+              class="load-user accent"
+              v-on:click="showUserDetail = leader.id"
+            >
+              Show More
+            </h6>
           </div>
         </div>
 
         <div class="team">
-          <div v-for="(member, index) in staff" :key="index" v-on:click="showUserDetail = member.id">
-            <img v-if="member.image" :src="$path + '/thumbnail/' + $project + '/200/200/crop/best/' + member.image.filename">
-            <div class="subtext">{{member.name}}</div>
-            <h6>{{member.title}}</h6>
-            <h6 class="load-user accent" v-on:click="showUserDetail = member.id">Show More</h6>
+          <div
+            v-for="(member, index) in staff"
+            :key="index"
+            v-on:click="showUserDetail = member.id"
+          >
+            <img
+              v-if="member.image"
+              :src="
+                $path +
+                  '/thumbnail/' +
+                  $project +
+                  '/200/200/crop/best/' +
+                  member.image.filename
+              "
+            />
+            <div class="subtext">{{ member.name }}</div>
+            <h6>{{ member.title }}</h6>
+            <h6
+              class="load-user accent"
+              v-on:click="showUserDetail = member.id"
+            >
+              Show More
+            </h6>
           </div>
         </div>
-
       </div>
     </section>
 
@@ -64,8 +108,15 @@
       <div class="container">
         <h3 class="center">We&rsquo;re Hiring!</h3>
 
-        <v-career v-for="(career, index) in careers" :key="index" :link="career.link" :category="career.category" :title="career.title" :location="career.office.name" :text="career.description"/>
-
+        <v-career
+          v-for="(career, index) in careers"
+          :key="index"
+          :link="career.link"
+          :category="career.category"
+          :title="career.title"
+          :location="career.office.name"
+          :text="career.description"
+        />
       </div>
     </section>
 
@@ -73,8 +124,17 @@
       <div class="container">
         <h3 class="center">Locations</h3>
         <div class="office" v-for="(office, index) in offices" :key="index">
-          <img v-if="office.image" :src="$path + '/thumbnail/' + $project + '/800/400/crop/best/' + office.image.filename">
-          <div class="subtext">{{office.name}}</div>
+          <img
+            v-if="office.image"
+            :src="
+              $path +
+                '/thumbnail/' +
+                $project +
+                '/800/400/crop/best/' +
+                office.image.filename
+            "
+          />
+          <div class="subtext">{{ office.name }}</div>
           <h6 v-html="$options.filters.nl2br(office.address)"></h6>
         </div>
       </div>
@@ -83,54 +143,118 @@
     <section class="cta">
       <div class="container">
         <h3 class="center">Ready to get started?</h3>
-        <a href="mailto:contact@ps212.com" target="_blank"><button>Say Hello</button></a>
+        <a href="mailto:contact@ps212.com" target="_blank"
+          ><button>Say Hello</button></a
+        >
         <div class="logos">
-          <div><img v-if="about.logo_1" :src="$path + '/uploads/_/originals/' + about.logo_1.filename"></div>
-          <div><img v-if="about.logo_2" :src="$path + '/uploads/_/originals/' + about.logo_2.filename"></div>
-          <div><img v-if="about.logo_3" :src="$path + '/uploads/_/originals/' + about.logo_3.filename"></div>
-          <div><img v-if="about.logo_4" :src="$path + '/uploads/_/originals/' + about.logo_4.filename"></div>
-          <div><img v-if="about.logo_5" :src="$path + '/uploads/_/originals/' + about.logo_5.filename"></div>
-          <div><img v-if="about.logo_6" :src="$path + '/uploads/_/originals/' + about.logo_6.filename"></div>
+          <div>
+            <img
+              v-if="about.logo_1"
+              :src="$path + '/uploads/_/originals/' + about.logo_1.filename"
+            />
+          </div>
+          <div>
+            <img
+              v-if="about.logo_2"
+              :src="$path + '/uploads/_/originals/' + about.logo_2.filename"
+            />
+          </div>
+          <div>
+            <img
+              v-if="about.logo_3"
+              :src="$path + '/uploads/_/originals/' + about.logo_3.filename"
+            />
+          </div>
+          <div>
+            <img
+              v-if="about.logo_4"
+              :src="$path + '/uploads/_/originals/' + about.logo_4.filename"
+            />
+          </div>
+          <div>
+            <img
+              v-if="about.logo_5"
+              :src="$path + '/uploads/_/originals/' + about.logo_5.filename"
+            />
+          </div>
+          <div>
+            <img
+              v-if="about.logo_6"
+              :src="$path + '/uploads/_/originals/' + about.logo_6.filename"
+            />
+          </div>
         </div>
       </div>
     </section>
 
     <div class="user-detail" v-if="showUserDetail">
-
       <div class="smoke" v-on:click="showUserDetail = false"></div>
 
-      <div class="modal" v-for="(leader, index) in leadership" :key="index" v-show="showUserDetail === leader.id">
-        <h3>{{leader.name}}</h3>
-        <h6>{{leader.title}}</h6>
+      <div
+        class="modal"
+        v-for="(leader, index) in leadership"
+        :key="index"
+        v-show="showUserDetail === leader.id"
+      >
+        <h3>{{ leader.name }}</h3>
+        <h6>{{ leader.title }}</h6>
         <p class="gray" v-html="leader.bio"></p>
 
         <div class="close" v-on:click="showUserDetail = false">
-          <svg width="20px" height="20px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-            <g stroke-width="1" fill="none" fill-rule="evenodd"><polygon fill="#FFFFFF" points="14 1.41 12.59 0 7 5.59 1.41 0 0 1.41 5.59 7 0 12.59 1.41 14 7 8.41 12.59 14 14 12.59 8.41 7"></polygon></g>
+          <svg
+            width="20px"
+            height="20px"
+            viewBox="0 0 14 14"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          >
+            <g stroke-width="1" fill="none" fill-rule="evenodd">
+              <polygon
+                fill="#FFFFFF"
+                points="14 1.41 12.59 0 7 5.59 1.41 0 0 1.41 5.59 7 0 12.59 1.41 14 7 8.41 12.59 14 14 12.59 8.41 7"
+              ></polygon>
+            </g>
           </svg>
         </div>
       </div>
 
-      <div class="modal" v-for="(member, index) in staff" :key="index" v-show="showUserDetail === member.id">
-        <h3>{{member.name}}</h3>
-        <h6>{{member.title}}</h6>
+      <div
+        class="modal"
+        v-for="(member, index) in staff"
+        :key="index"
+        v-show="showUserDetail === member.id"
+      >
+        <h3>{{ member.name }}</h3>
+        <h6>{{ member.title }}</h6>
         <p class="gray" v-html="member.bio"></p>
 
         <div class="close" v-on:click="showUserDetail = false">
-          <svg width="20px" height="20px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-            <g stroke-width="1" fill="none" fill-rule="evenodd"><polygon fill="#FFFFFF" points="14 1.41 12.59 0 7 5.59 1.41 0 0 1.41 5.59 7 0 12.59 1.41 14 7 8.41 12.59 14 14 12.59 8.41 7"></polygon></g>
+          <svg
+            width="20px"
+            height="20px"
+            viewBox="0 0 14 14"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+          >
+            <g stroke-width="1" fill="none" fill-rule="evenodd">
+              <polygon
+                fill="#FFFFFF"
+                points="14 1.41 12.59 0 7 5.59 1.41 0 0 1.41 5.59 7 0 12.59 1.41 14 7 8.41 12.59 14 14 12.59 8.41 7"
+              ></polygon>
+            </g>
           </svg>
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
 export default {
-  name: 'v-about',
-  data () {
+  name: "v-about",
+  data() {
     return {
       about: {},
       services: [],
@@ -139,61 +263,85 @@ export default {
       careers: [],
       offices: [],
       showUserDetail: false
-    }
+    };
   },
   computed: {
-    our_story: function () {
-      return !this.about.our_story ? '' : '“' + this.about.our_story.replace(/(<p[^>]+?>|<p>|<\/p>)/img, "").trim() + '”'
+    our_story: function() {
+      return !this.about.our_story
+        ? ""
+        : "“" +
+            this.about.our_story
+              .replace(/(<p[^>]+?>|<p>|<\/p>)/gim, "")
+              .trim() +
+            "”";
     }
   },
-  created: function () {
-    this.$api.getItem('about', 1, {
-      "fields": "*.*"
-    }).then(res => {
-      this.about = res.data;
-      // eslint-disable-next-line
-    }).catch(err => console.log('Error fetching "About"', err));
+  created: function() {
+    this.$api
+      .getItem("about", 1, {
+        fields: "*.*"
+      })
+      .then(res => {
+        this.about = res.data;
+        // eslint-disable-next-line
+      })
+      .catch(err => console.log('Error fetching "About"', err));
 
-    this.$api.getItems('services').then(res => {
-      this.services = res.data;
-      // eslint-disable-next-line
-    }).catch(err => console.log('Error fetching "Services"', err));
+    this.$api
+      .getItems("services")
+      .then(res => {
+        this.services = res.data;
+        // eslint-disable-next-line
+      })
+      .catch(err => console.log('Error fetching "Services"', err));
 
-    this.$api.getItems('team', {
-      "filter[leadership][eq]": "1",
-      "fields": "*,image.*",
-      "filter[status][eq]": "published"
-    }).then(res => {
-      this.leadership = res.data;
-      // eslint-disable-next-line
-    }).catch(err => console.log('Error fetching "Leadership"', err));
+    this.$api
+      .getItems("team", {
+        "filter[leadership][eq]": "1",
+        fields: "*,image.*",
+        "filter[status][eq]": "published"
+      })
+      .then(res => {
+        this.leadership = res.data;
+        // eslint-disable-next-line
+      })
+      .catch(err => console.log('Error fetching "Leadership"', err));
 
-    this.$api.getItems('team', {
-      "filter[leadership][eq]": "0",
-      "fields": "*,image.*",
-      "filter[status][eq]": "published"
-    }).then(res => {
-      this.staff = res.data;
-      // eslint-disable-next-line
-    }).catch(err => console.log('Error fetching "Staff"', err));
+    this.$api
+      .getItems("team", {
+        "filter[leadership][eq]": "0",
+        fields: "*,image.*",
+        "filter[status][eq]": "published"
+      })
+      .then(res => {
+        this.staff = res.data;
+        // eslint-disable-next-line
+      })
+      .catch(err => console.log('Error fetching "Staff"', err));
 
-    this.$api.getItems('careers', {
-      "fields": "*,office.*",
-      "filter[status][eq]": "published"
-    }).then(res => {
-      this.careers = res.data;
-      // eslint-disable-next-line
-    }).catch(err => console.log('Error fetching "Careers"', err));
+    this.$api
+      .getItems("careers", {
+        fields: "*,office.*",
+        "filter[status][eq]": "published"
+      })
+      .then(res => {
+        this.careers = res.data;
+        // eslint-disable-next-line
+      })
+      .catch(err => console.log('Error fetching "Careers"', err));
 
-    this.$api.getItems('offices', {
-      "fields": "*,image.*",
-      "filter[status][eq]": "published"
-    }).then(res => {
-      this.offices = res.data;
-      // eslint-disable-next-line
-    }).catch(err => console.log('Error fetching "Offices"', err));
+    this.$api
+      .getItems("offices", {
+        fields: "*,image.*",
+        "filter[status][eq]": "published"
+      })
+      .then(res => {
+        this.offices = res.data;
+        // eslint-disable-next-line
+      })
+      .catch(err => console.log('Error fetching "Offices"', err));
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -210,7 +358,7 @@ export default {
       left: 0;
       right: 0;
       bottom: 0;
-      background-image: url('/images/about-hero.jpg');
+      background-image: url("/images/about-hero.jpg");
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center center;
@@ -224,7 +372,9 @@ export default {
   }
 }
 .our-story {
+  padding-top: 100px;
   padding-top: var(--component-padding-y);
+  padding-bottom: 100px;
   padding-bottom: var(--component-padding-y);
   h3 {
     margin-top: 40px;
@@ -238,6 +388,7 @@ export default {
   }
 }
 h3.center {
+  padding-top: 100px;
   padding-top: var(--component-padding-y);
   text-align: center;
 }
@@ -260,7 +411,8 @@ h3.center {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: var(--component-padding-y) var(--component-padding-x) var(--component-padding-y) var(--component-padding-x);
+    padding: 100px;
+    padding: var(--component-padding-y) var(--component-padding-x);
     div {
       width: calc((100% - 40px) / 2);
       h5 {
@@ -268,7 +420,9 @@ h3.center {
       }
       @media only screen and (max-width: 800px) {
         width: 100%;
-        margin: 0 0 var(--component-padding-y) 0;
+        margin: 0;
+        margin-bottom: 100px;
+        margin-bottom: var(--component-padding-y);
         &:nth-of-type(2n) {
           margin-bottom: 0;
         }
@@ -295,14 +449,17 @@ h3.center {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: var(--component-padding-y) var(--component-padding-x) 0 var(--component-padding-x);
-    &> div {
+    padding: 100px 100px 0 100px;
+    padding: var(--component-padding-y) var(--component-padding-x) 0
+      var(--component-padding-x);
+    & > div {
       width: calc((100% - 40px) / 2);
       h6 {
         margin-bottom: 20px;
       }
       @media only screen and (max-width: 800px) {
         width: 100%;
+        margin: 0 0 100px 0;
         margin: 0 0 var(--component-padding-y) 0;
         &:nth-of-type(2n) {
           margin-bottom: 0;
@@ -314,8 +471,9 @@ h3.center {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: var(--component-padding-y) var(--component-padding-x) var(--component-padding-y) var(--component-padding-x);
-    &> div {
+    padding: var(--component-padding-y) var(--component-padding-x)
+      var(--component-padding-y) var(--component-padding-x);
+    & > div {
       width: calc((100% - 120px) / 4);
       h6 {
         margin-bottom: 20px;
@@ -339,13 +497,15 @@ h3.center {
 }
 .careers {
   .container {
-    padding: 0 var(--component-padding-x) var(--component-padding-y) var(--component-padding-x);
+    padding: 0 var(--component-padding-x) var(--component-padding-y)
+      var(--component-padding-x);
     border-bottom: 2px solid $light-gray;
   }
 }
 .locations {
   .container {
-    padding: 0 var(--component-padding-x) var(--component-padding-y) var(--component-padding-x);
+    padding: 0 var(--component-padding-x) var(--component-padding-y)
+      var(--component-padding-x);
     border-bottom: 2px solid $light-gray;
   }
   .office {
@@ -373,7 +533,8 @@ h3.center {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    padding: var(--component-padding-y) var(--component-padding-x) 0 var(--component-padding-x);
+    padding: var(--component-padding-y) var(--component-padding-x) 0
+      var(--component-padding-x);
     div {
       text-align: center;
       img {
@@ -418,7 +579,7 @@ h3.center {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform:translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     padding: 40px 40px 60px 40px;
     max-width: 600px;
     z-index: 13;

@@ -1,41 +1,50 @@
 <template>
   <div class="news-detail">
-
     <section class="dark-gray-bg">
       <div class="container header">
         <div class="centered">
           <!-- <h5 class="accent">{{category}}</h5> -->
-          <h2 class="white">{{title}}</h2>
-          <div class="description gray">By {{author}}</div>
-          <div class="description white">{{publish_on | formatDate}}</div>
+          <h2 class="white">{{ title }}</h2>
+          <div class="description gray">By {{ author }}</div>
+          <div class="description white">{{ publish_on | formatDate }}</div>
         </div>
       </div>
     </section>
 
     <section class="body paper">
       <div class="container">
-        <v-more msg="Back to News" link="/news" color="accent" direction="left"/>
+        <v-more
+          msg="Back to News"
+          link="/news"
+          color="accent"
+          direction="left"
+        />
         <div v-html="body"></div>
       </div>
     </section>
 
     <section class="next-article">
-      <div class="container">
-        <h4 class="gray">Next Article</h4>
-      </div>
+      <div class="container"><h4 class="gray">Next Article</h4></div>
     </section>
 
-    <v-article-intro color="light-gray-bg" :link="'/news/' + related.id" :category="related.category" :title="related.title" :by="related.author" :date="related.publish_on | formatDate" :text="related.summary"/>
-
+    <v-article-intro
+      color="light-gray-bg"
+      :link="'/news/' + related.id"
+      :category="related.category"
+      :title="related.title"
+      :by="related.author"
+      :date="related.publish_on | formatDate"
+      :text="related.summary"
+    />
   </div>
 </template>
 
 <script>
-import moment from 'moment'
+import moment from "moment";
 
 export default {
-  name: 'v-news',
-  data () {
+  name: "v-news",
+  data() {
     return {
       category: "",
       title: "",
@@ -43,39 +52,50 @@ export default {
       publish_on: "",
       body: "",
       related: {
-        id: '' ,
-        category: '' ,
-        title: '' ,
-        author: '' ,
-        publish_on: '' ,
-        intro: '' ,
+        id: "",
+        category: "",
+        title: "",
+        author: "",
+        publish_on: "",
+        intro: ""
       }
-    }
+    };
   },
-  created: function () {
-    this.$api.getItem('news', this.$route.params.id, {
-      "fields": "*,author.*,related_article.*,related_article.author.*",
-      "filter[status][eq]": "published",
-      "filter[publish_on][leq]": moment().format("YYYY-MM-DD HH:mm:ss")
-    }).then(function(res){
-      this.category = res.data.category;
-      this.title = res.data.title;
-      this.author = res.data.author.first_name + " " + res.data.author.last_name;
-      this.publish_on = res.data.publish_on;
-      this.body = res.data.body;
+  created: function() {
+    this.$api
+      .getItem("news", this.$route.params.id, {
+        fields: "*,author.*,related_article.*,related_article.author.*",
+        "filter[status][eq]": "published",
+        "filter[publish_on][leq]": moment().format("YYYY-MM-DD HH:mm:ss")
+      })
+      .then(
+        function(res) {
+          this.category = res.data.category;
+          this.title = res.data.title;
+          this.author =
+            res.data.author.first_name + " " + res.data.author.last_name;
+          this.publish_on = res.data.publish_on;
+          this.body = res.data.body;
 
-      this.related.id = res.data.related_article.id;
-      this.related.category = res.data.related_article.category;
-      this.related.title = res.data.related_article.title;
-      this.related.author = res.data.related_article.author.first_name + " " + res.data.related_article.author.last_name;
-      this.related.publish_on = res.data.related_article.publish_on;
-      this.related.summary = res.data.related_article.summary;
-      // eslint-disable-next-line
-    }.bind(this)).catch(function(res){
-      this.$router.push('/not-found');
-    }.bind(this));
+          this.related.id = res.data.related_article.id;
+          this.related.category = res.data.related_article.category;
+          this.related.title = res.data.related_article.title;
+          this.related.author =
+            res.data.related_article.author.first_name +
+            " " +
+            res.data.related_article.author.last_name;
+          this.related.publish_on = res.data.related_article.publish_on;
+          this.related.summary = res.data.related_article.summary;
+          // eslint-disable-next-line
+        }.bind(this)
+      )
+      .catch(
+        function(res) {
+          this.$router.push("/not-found");
+        }.bind(this)
+      );
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -94,7 +114,9 @@ export default {
       margin-top: 20px;
     }
   }
-  body { quotes: '“' '\201d'; }
+  body {
+    quotes: "“" "\201d";
+  }
   .paper {
     &::before {
       content: "";
@@ -134,7 +156,8 @@ export default {
           color: $accent;
         }
       }
-      img, iframe {
+      img,
+      iframe {
         width: 100%;
         margin: 20px 0;
       }
@@ -146,10 +169,10 @@ export default {
         line-height: 46px;
         color: $dark-gray;
         &:before {
-            content: open-quote;
+          content: open-quote;
         }
         &:after {
-            content: close-quote;
+          content: close-quote;
         }
         @media only screen and (max-width: 800px) {
           margin: var(--component-padding-y) 10px;

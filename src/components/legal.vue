@@ -11,19 +11,24 @@
 
 <script>
 export default {
-  name: 'v-legal',
-  data () {
+  name: "v-legal",
+  data() {
     return {
-      privacy: ''
-    }
+      privacy: ""
+    };
   },
-  created: function () {
-    this.$api.getItem('legal', 1).then(function(res){
-      this.privacy = res.data.privacy_policy;
-      // eslint-disable-next-line
-    }.bind(this)).catch(err => console.log('Error fetching "News"', err));
+  created: function() {
+    this.$api
+      .getItem("legal", 1)
+      .then(
+        function(res) {
+          this.privacy = res.data.privacy_policy;
+          // eslint-disable-next-line
+        }.bind(this)
+      )
+      .catch(err => console.log('Error fetching "News"', err));
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

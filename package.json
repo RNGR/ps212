@@ -6,10 +6,11 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "fix": "prettier --write \"src/**/*.{js,vue}\"",
     "deploy": "NODE_ENV=production npm run build; push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
-    "@directus/sdk-js": "^3.0.0",
+    "@directus/sdk-js": "^4.0.0-rc.1",
     "moment": "^2.22.2",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
@@ -22,6 +23,7 @@
     "@vue/cli-plugin-eslint": "^3.0.0-rc.9",
     "@vue/cli-service": "^3.0.0-rc.9",
     "node-sass": "^4.9.2",
+    "prettier": "^1.15.3",
     "push-dir": "^0.4.1",
     "sass-loader": "^7.0.3",
     "vue-template-compiler": "^2.5.16",
