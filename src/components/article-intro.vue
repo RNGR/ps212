@@ -30,6 +30,7 @@ export default {
 @import "../assets/_variables.scss";
 .article {
   .container {
+    padding-bottom: 100px;
     padding-bottom: var(--component-padding-y);
     border-bottom: 1px solid $light-gray;
   }

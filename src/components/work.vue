@@ -90,9 +90,9 @@ export default {
       .then(
         function(res) {
           this.caseStudies = res.data;
-          // eslint-disable-next-line
         }.bind(this)
       )
+      // eslint-disable-next-line
       .catch(err => console.log('Error fetching "Case Studies"', err));
 
     this.$api
@@ -103,9 +103,9 @@ export default {
       .then(
         function(res) {
           this.work = res.data;
-          // eslint-disable-next-line
         }.bind(this)
       )
+      // eslint-disable-next-line
       .catch(err => console.log('Error fetching "Work"', err));
   }
 };

@@ -311,9 +311,11 @@ header {
       max-width: 100%;
     }
     #logo {
+      left: 80px;
       left: var(--page-padding);
     }
     nav {
+      right: 80px;
       right: var(--page-padding);
     }
   }
@@ -384,8 +386,10 @@ header {
     }
     display: block;
     position: absolute;
+    left: 80px;
     left: var(--page-padding);
     top: 27px;
+    margin-bottom: 100px;
     margin-bottom: var(--component-padding-y);
   }
   a:not(.icon) {
@@ -399,8 +403,11 @@ header {
   }
   a.button {
     position: absolute;
+    bottom: 80px;
     bottom: var(--page-padding);
+    left: 80px;
     left: var(--page-padding);
+    right: 80px;
     right: var(--page-padding);
     background-color: $accent;
     padding: 23px 20px 20px;
@@ -416,6 +423,7 @@ header {
     }
     display: block;
     position: absolute;
+    right: 80px;
     right: var(--page-padding);
     top: 27px;
     transition: $fast $transition all;

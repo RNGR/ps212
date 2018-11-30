@@ -109,7 +109,9 @@ export default {
 @import "../assets/_variables.scss";
 .header {
   margin-top: 120px;
+  padding-top: 100px;
   padding-top: var(--component-padding-y);
+  padding-bottom: 100px;
   padding-bottom: var(--component-padding-y);
   h2.title {
     margin-top: 20px;
@@ -132,6 +134,7 @@ export default {
   }
   .container {
     background-color: $white;
+    padding: 20px 100px 100px;
     padding: 20px var(--component-padding-x) var(--component-padding-y);
     &::after {
       content: "";
@@ -179,6 +182,7 @@ export default {
         content: close-quote;
       }
       @media only screen and (max-width: 800px) {
+        margin: 100px 10px;
         margin: var(--component-padding-y) 10px;
         font-size: 28px;
         line-height: 36px;

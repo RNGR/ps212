@@ -283,16 +283,16 @@ export default {
       })
       .then(res => {
         this.about = res.data;
-        // eslint-disable-next-line
       })
+      // eslint-disable-next-line
       .catch(err => console.log('Error fetching "About"', err));
 
     this.$api
       .getItems("services")
       .then(res => {
         this.services = res.data;
-        // eslint-disable-next-line
       })
+      // eslint-disable-next-line
       .catch(err => console.log('Error fetching "Services"', err));
 
     this.$api
@@ -303,8 +303,8 @@ export default {
       })
       .then(res => {
         this.leadership = res.data;
-        // eslint-disable-next-line
       })
+      // eslint-disable-next-line
       .catch(err => console.log('Error fetching "Leadership"', err));
 
     this.$api
@@ -315,8 +315,8 @@ export default {
       })
       .then(res => {
         this.staff = res.data;
-        // eslint-disable-next-line
       })
+      // eslint-disable-next-line
       .catch(err => console.log('Error fetching "Staff"', err));
 
     this.$api
@@ -326,8 +326,8 @@ export default {
       })
       .then(res => {
         this.careers = res.data;
-        // eslint-disable-next-line
       })
+      // eslint-disable-next-line
       .catch(err => console.log('Error fetching "Careers"', err));
 
     this.$api
@@ -337,8 +337,8 @@ export default {
       })
       .then(res => {
         this.offices = res.data;
-        // eslint-disable-next-line
       })
+      // eslint-disable-next-line
       .catch(err => console.log('Error fetching "Offices"', err));
   }
 };
@@ -480,14 +480,17 @@ h3.center {
       }
       @media only screen and (max-width: 800px) {
         width: calc((100% - 40px) / 2);
-        margin: 0 0 var(--component-padding-y) 0;
+        margin: 0;
+        margin-bottom: 100px;
+        margin-bottom: var(--component-padding-y);
         &:last-of-type {
           margin-bottom: 0;
         }
       }
       @media only screen and (max-width: 500px) {
         width: 100%;
-        margin: 0 0 var(--component-padding-y) 0;
+        margin-bottom: 100px;
+        margin-bottom: var(--component-padding-y);
         &:last-of-type {
           margin-bottom: 0;
         }
@@ -497,6 +500,7 @@ h3.center {
 }
 .careers {
   .container {
+    padding: 0 100px 100px 100px;
     padding: 0 var(--component-padding-x) var(--component-padding-y)
       var(--component-padding-x);
     border-bottom: 2px solid $light-gray;
@@ -504,6 +508,7 @@ h3.center {
 }
 .locations {
   .container {
+    padding: 0 100px 100px 100px;
     padding: 0 var(--component-padding-x) var(--component-padding-y)
       var(--component-padding-x);
     border-bottom: 2px solid $light-gray;
@@ -533,6 +538,7 @@ h3.center {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    padding: 100px 100px 0 100px;
     padding: var(--component-padding-y) var(--component-padding-x) 0
       var(--component-padding-x);
     div {

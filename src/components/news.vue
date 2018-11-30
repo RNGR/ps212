@@ -61,8 +61,8 @@ export default {
       })
       .then(res => {
         this.about = res.data;
-        // eslint-disable-next-line
       })
+      // eslint-disable-next-line
       .catch(err => console.log('Error fetching "About"', err));
 
     this.$api
@@ -74,9 +74,9 @@ export default {
       .then(
         function(res) {
           this.articles = res.data;
-          // eslint-disable-next-line
         }.bind(this)
       )
+      // eslint-disable-next-line
       .catch(err => console.log('Error fetching "News"', err));
   }
 };
@@ -112,6 +112,7 @@ export default {
 }
 .load-more {
   transition: all $slow $transition;
+  margin: 100px auto;
   margin: var(--component-padding-y) auto;
   max-width: 200px;
   text-align: center;

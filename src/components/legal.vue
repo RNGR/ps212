@@ -23,9 +23,9 @@ export default {
       .then(
         function(res) {
           this.privacy = res.data.privacy_policy;
-          // eslint-disable-next-line
         }.bind(this)
       )
+      // eslint-disable-next-line
       .catch(err => console.log('Error fetching "News"', err));
   }
 };

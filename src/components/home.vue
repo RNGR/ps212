@@ -303,8 +303,8 @@ export default {
       .then(res => {
         this.about = res.data;
         this.credentials = shuffle(res.data.credentials.split(","));
-        // eslint-disable-next-line
       })
+      // eslint-disable-next-line
       .catch(err => console.log('Error fetching "About"', err));
 
     this.$api
@@ -315,8 +315,8 @@ export default {
       })
       .then(res => {
         this.work = res.data;
-        // eslint-disable-next-line
       })
+      // eslint-disable-next-line
       .catch(err => console.log('Error fetching "Work"', err));
 
     this.$api
@@ -326,8 +326,8 @@ export default {
       })
       .then(res => {
         this.caseStudies = res.data;
-        // eslint-disable-next-line
       })
+      // eslint-disable-next-line
       .catch(err => console.log('Error fetching "Case Studies"', err));
 
     this.$api
@@ -339,8 +339,8 @@ export default {
       })
       .then(res => {
         this.articles = res.data;
-        // eslint-disable-next-line
       })
+      // eslint-disable-next-line
       .catch(err => console.log('Error fetching "News"', err));
   },
   components: {
@@ -395,7 +395,9 @@ h3 {
   padding-left: 3px;
 }
 .what-we-do {
+  padding-top: 100px;
   padding-top: var(--component-padding-y);
+  padding-bottom: 100px;
   padding-bottom: var(--component-padding-y);
   h3 {
     margin-top: 40px;
@@ -422,6 +424,7 @@ h3 {
     background-color: $white;
   }
   h3 {
+    padding-top: 100px;
     padding-top: var(--component-padding-y);
     text-align: center;
   }
@@ -429,6 +432,7 @@ h3 {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    padding: 100px 100px 0 100px;
     padding: var(--component-padding-y) var(--component-padding-x) 0
       var(--component-padding-x);
     div {
@@ -436,6 +440,7 @@ h3 {
       img {
         max-width: 100px;
         max-height: 100px;
+        margin-bottom: 100px;
         margin-bottom: var(--component-padding-y);
       }
     }
@@ -454,6 +459,7 @@ h3 {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    padding: 0 100px 100px 100px;
     padding: 0 var(--component-padding-x) var(--component-padding-y)
       var(--component-padding-x);
     ul {
@@ -481,7 +487,9 @@ h3 {
 .newsletter {
   transform: translateY(-1px); // Hack: Hides last article list border bottom
   text-align: center;
+  padding-top: 100px;
   padding-top: var(--component-padding-y);
+  padding-bottom: 100px;
   padding-bottom: var(--component-padding-y);
   h3 {
     margin-bottom: 70px;

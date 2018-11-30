@@ -41,6 +41,7 @@ export default {
 @import "../assets/_variables.scss";
 section {
   .container {
+    padding-bottom: 100px;
     padding-bottom: var(--component-padding-y);
   }
   h2.title {

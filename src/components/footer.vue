@@ -97,8 +97,8 @@ export default {
       })
       .then(res => {
         this.about = res.data;
-        // eslint-disable-next-line
       })
+      // eslint-disable-next-line
       .catch(err => console.log('Error fetching "About"', err));
 
     this.$api
@@ -107,8 +107,8 @@ export default {
       })
       .then(res => {
         this.offices = res.data;
-        // eslint-disable-next-line
       })
+      // eslint-disable-next-line
       .catch(err => console.log('Error fetching "Offices"', err));
   }
 };
@@ -118,7 +118,9 @@ export default {
 @import "../assets/_variables.scss";
 footer {
   margin-top: 200px;
+  margin-left: 80px;
   margin-left: var(--page-padding);
+  margin-right: 80px;
   margin-right: var(--page-padding);
   .container {
     border-top: 2px solid $accent;
