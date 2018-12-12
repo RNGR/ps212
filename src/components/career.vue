@@ -1,8 +1,10 @@
 <template>
   <section :class="[color, 'career', 'pad-top']">
     <div class="container">
-      <h4><a :href="link" target="_blank" class="accent">{{title}}</a></h4>
-      <div class="description gray">{{location}}</div>
+      <h4>
+        <a :href="link" target="_blank" class="accent">{{ title }}</a>
+      </h4>
+      <div class="description gray">{{ location }}</div>
       <div class="body" v-html="text"></div>
       <a :href="link" target="_blank" class="accent h6 button">Reach Out</a>
     </div>
@@ -11,7 +13,7 @@
 
 <script>
 export default {
-  name: 'v-career',
+  name: "v-career",
   props: {
     link: String,
     location: String,
@@ -20,11 +22,11 @@ export default {
     color: String
   },
   computed: {
-    subject: function () {
+    subject: function() {
       return encodeURIComponent(this.title);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

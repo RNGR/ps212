@@ -1,22 +1,29 @@
 <template>
   <div class="case-study-page">
-
     <section class="accent-bg">
       <div class="container header">
         <div class="centered">
           <h5>Case Study</h5>
-          <h2 class="title white">{{title}}</h2>
-          <h2 class="statement">{{statement}}</h2>
+          <h2 class="title white">{{ title }}</h2>
+          <h2 class="statement">{{ statement }}</h2>
         </div>
       </div>
     </section>
 
     <section class="body">
       <div class="container">
-        <v-more msg="Back to Work" link="/work" color="accent" direction="left"/>
+        <v-more
+          msg="Back to Work"
+          link="/work"
+          color="accent"
+          direction="left"
+        />
 
         <p>
-          <img v-if="image" :src="$path + '/uploads/' + $project + '/originals/' + image">
+          <img
+            v-if="image"
+            :src="$path + '/uploads/' + $project + '/originals/' + image"
+          />
         </p>
 
         <blockquote v-html="quote"></blockquote>
@@ -24,20 +31,15 @@
         <div v-html="body"></div>
 
         <div class="tags">
-          <span class="h6"
-            v-for="(tag, index) in tags"
-            :key="index">{{tag}}</span>
+          <span class="h6" v-for="(tag, index) in tags" :key="index">{{
+            tag
+          }}</span>
         </div>
-
       </div>
     </section>
 
     <section class="next-case-study">
-      <div class="container">
-
-        <h4 class="gray">Next Case Study</h4>
-
-      </div>
+      <div class="container"><h4 class="gray">Next Case Study</h4></div>
     </section>
 
     <v-case-study-intro
@@ -45,15 +47,15 @@
       color="light-gray-bg"
       :title="caseStudies.client"
       :statement="caseStudies.statement"
-      :description="caseStudies.quote"/>
-
+      :description="caseStudies.quote"
+    />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'v-news',
-  data () {
+  name: "v-news",
+  data() {
     return {
       title: "",
       statement: "",
@@ -62,29 +64,36 @@ export default {
       body: "",
       tags: [],
       caseStudies: {}
-    }
+    };
   },
-  created: function () {
-    this.$api.getItem('case_studies', this.$route.params.id, {
-      "fields": "*,image.*,related_case_study.*",
-      "filter[status][eq]": "published"
-    }).then(function(res){
-      this.title = res.data.client;
-      this.statement = res.data.statement;
-      if (res.data.image) {
-        this.image = res.data.image.filename;
-      }
-      if (res.data.tags) {
-        this.tags = res.data.tags.split(',');
-      }
-      this.quote = res.data.statement;
-      this.body = res.data.body;
-      this.caseStudies = res.data.related_case_study;
-    }.bind(this)).catch(function(){
-      this.$router.push('/not-found');
-    }.bind(this));
+  created: function() {
+    this.$api
+      .getItem("case_studies", this.$route.params.id, {
+        fields: "*,image.*,related_case_study.*",
+        "filter[status][eq]": "published"
+      })
+      .then(
+        function(res) {
+          this.title = res.data.client;
+          this.statement = res.data.statement;
+          if (res.data.image) {
+            this.image = res.data.image.filename;
+          }
+          if (res.data.tags) {
+            this.tags = res.data.tags.split(",");
+          }
+          this.quote = res.data.statement;
+          this.body = res.data.body;
+          this.caseStudies = res.data.related_case_study;
+        }.bind(this)
+      )
+      .catch(
+        function() {
+          this.$router.push("/not-found");
+        }.bind(this)
+      );
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -100,7 +109,9 @@ export default {
 @import "../assets/_variables.scss";
 .header {
   margin-top: 120px;
+  padding-top: 100px;
   padding-top: var(--component-padding-y);
+  padding-bottom: 100px;
   padding-bottom: var(--component-padding-y);
   h2.title {
     margin-top: 20px;
@@ -123,6 +134,7 @@ export default {
   }
   .container {
     background-color: $white;
+    padding: 20px 100px 100px;
     padding: 20px var(--component-padding-x) var(--component-padding-y);
     &::after {
       content: "";
@@ -147,12 +159,13 @@ export default {
         color: $accent;
       }
     }
-    img, iframe {
+    img,
+    iframe {
       width: 100%;
       margin: 20px 0;
     }
     blockquote {
-      quotes: '“' '”';
+      quotes: "“" "”";
       text-indent: -0.4em; // For hanging quote
       margin: 80px 40px;
       font-family: "Quarto", mono;
@@ -163,12 +176,13 @@ export default {
         color: $accent;
       }
       &:before {
-          content: open-quote;
+        content: open-quote;
       }
       &:after {
-          content: close-quote;
+        content: close-quote;
       }
       @media only screen and (max-width: 800px) {
+        margin: 100px 10px;
         margin: var(--component-padding-y) 10px;
         font-size: 28px;
         line-height: 36px;

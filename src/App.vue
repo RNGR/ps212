@@ -1,39 +1,38 @@
 <template>
   <div id="app">
-
-    <v-header msg="Pass this value"/>
+    <v-header msg="Pass this value" />
 
     <transition name="fade">
-    <router-view></router-view> <!-- component matched by the route will render here -->
+      <router-view></router-view>
+      <!-- component matched by the route will render here -->
     </transition>
 
-    <v-footer msg="Pass this value"/>
-
+    <v-footer msg="Pass this value" />
   </div>
 </template>
 
 <script>
-import VHeader from './components/header.vue'
-import VFooter from './components/footer.vue'
+import VHeader from "./components/header.vue";
+import VFooter from "./components/footer.vue";
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
     VHeader,
     VFooter
   },
   created: function() {
-    window.addEventListener("scroll", function () {
-        var scroll = this.scrollY;
-        var element = document.getElementById("header");
-        if(scroll > 100){
-          element.classList.add("shadow");
-        } else {
-          element.classList.remove("shadow");
-        }
+    window.addEventListener("scroll", function() {
+      var scroll = this.scrollY;
+      var element = document.getElementById("header");
+      if (scroll > 100) {
+        element.classList.add("shadow");
+      } else {
+        element.classList.remove("shadow");
+      }
     });
   }
-}
+};
 </script>
 
 <style>
@@ -65,5 +64,4 @@ export default {
 .fade-leave-to {
   opacity: 0;
 }
-
 </style>

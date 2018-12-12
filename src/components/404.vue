@@ -2,15 +2,17 @@
   <div class="not-found-page">
     <div class="container">
       <h2>Page Not Found</h2>
-      <h5 class="accent"><router-link to="/">Go to the homepage</router-link></h5>
+      <h5 class="accent">
+        <router-link to="/">Go to the homepage</router-link>
+      </h5>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'v-not-found'
-}
+  name: "v-not-found"
+};
 </script>
 
 <style lang="scss" scoped>

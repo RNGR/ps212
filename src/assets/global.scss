@@ -204,6 +204,7 @@ h3 b {
 
 .hero {
   height: 100vh;
+  padding-top: 120px;
   padding-top: var(--page-padding-top);
   .centered {
     position: absolute;
@@ -225,9 +226,12 @@ h3 b {
 }
 
 section {
+  padding-left: 80px;
   padding-left: var(--page-padding);
+  padding-right: 80px;
   padding-right: var(--page-padding);
   &.pad-top {
+    padding-top: 100px;
     padding-top: var(--component-padding-y);
   }
 }

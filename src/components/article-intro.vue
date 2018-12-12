@@ -1,19 +1,19 @@
 <template>
   <section :class="[color, 'article', 'pad-top']">
     <div class="container">
-      <h5 class="accent">{{category}}</h5>
-      <h2>{{title}}</h2>
-      <div class="description gray">By {{by}}</div>
-      <div class="description">{{date}}</div>
-      <p class="body">{{text}}</p>
-      <v-more msg="Read More" :link="link" color="accent"/>
+      <h5 class="accent">{{ category }}</h5>
+      <h2>{{ title }}</h2>
+      <div class="description gray">By {{ by }}</div>
+      <div class="description">{{ date }}</div>
+      <p class="body">{{ text }}</p>
+      <v-more msg="Read More" :link="link" color="accent" />
     </div>
   </section>
 </template>
 
 <script>
 export default {
-  name: 'v-article-intro',
+  name: "v-article-intro",
   props: {
     link: String,
     category: String,
@@ -23,13 +23,14 @@ export default {
     text: String,
     color: String
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
 @import "../assets/_variables.scss";
 .article {
   .container {
+    padding-bottom: 100px;
     padding-bottom: var(--component-padding-y);
     border-bottom: 1px solid $light-gray;
   }
