@@ -37,6 +37,7 @@ export default {
   name: 'v-news',
   data () {
     return {
+      id: this.$route.params.id,
       category: "",
       title: "",
       author: "",
@@ -52,28 +53,39 @@ export default {
       }
     }
   },
+  beforeRouteUpdate(to, from, next) {
+    // this.name = to.params.name
+    // this.$route.params.id
+    this.load(event, to.params.id);
+    next();
+  },
   created: function () {
-    this.$api.getItem('news', this.$route.params.id, {
-      "fields": "*,author.*,related_article.*,related_article.author.*",
-      "filter[status][eq]": "published",
-      "filter[publish_on][leq]": moment().format("YYYY-MM-DD HH:mm:ss")
-    }).then(function(res){
-      this.category = res.data.category;
-      this.title = res.data.title;
-      this.author = res.data.author.first_name + " " + res.data.author.last_name;
-      this.publish_on = res.data.publish_on;
-      this.body = res.data.body;
+    this.load(event, this.$route.params.id);
+  },
+  methods: {
+    load: function (event, id) {
+      this.$api.getItem('news', id, {
+        "fields": "*,author.*,related_article.*,related_article.author.*",
+        "filter[status][eq]": "published",
+        "filter[publish_on][leq]": moment().format("YYYY-MM-DD HH:mm:ss")
+      }).then(function(res){
+        this.category = res.data.category;
+        this.title = res.data.title;
+        this.author = res.data.author.first_name + " " + res.data.author.last_name;
+        this.publish_on = res.data.publish_on;
+        this.body = res.data.body;
 
-      this.related.id = res.data.related_article.id;
-      this.related.category = res.data.related_article.category;
-      this.related.title = res.data.related_article.title;
-      this.related.author = res.data.related_article.author.first_name + " " + res.data.related_article.author.last_name;
-      this.related.publish_on = res.data.related_article.publish_on;
-      this.related.summary = res.data.related_article.summary;
-      // eslint-disable-next-line
-    }.bind(this)).catch(function(res){
-      this.$router.push('/not-found');
-    }.bind(this));
+        this.related.id = res.data.related_article.id;
+        this.related.category = res.data.related_article.category;
+        this.related.title = res.data.related_article.title;
+        this.related.author = res.data.related_article.author.first_name + " " + res.data.related_article.author.last_name;
+        this.related.publish_on = res.data.related_article.publish_on;
+        this.related.summary = res.data.related_article.summary;
+        // eslint-disable-next-line
+      }.bind(this)).catch(function(res){
+        this.$router.push('/not-found');
+      }.bind(this));
+    }
   }
 }
 </script>
