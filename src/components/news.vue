@@ -27,13 +27,21 @@
     </section>
 
     <div id="scroll-top">
+
+      <div class="relations">
+        <h4>Media Inquiries</h4>
+        <p>
+          For more information on press releases or to discuss media inquireies, please contact Erika Troia at <a href="mailto:erika@ps212.com">erika@ps212.com</a> or 917.374.5050
+        </p>
+      </div>
+
       <v-article-intro
         v-for="(article, index) in articles"
         :key="index"
         :link="'/news/' + article.id"
         :category="article.category"
         :title="article.title"
-        :by="article.author.first_name + ' ' + article.author.last_name"
+        :by="article.author"
         :date="article.publish_on | formatDate"
         :text="article.summary"
       />
@@ -109,6 +117,16 @@ export default {
 }
 .news-page {
   position: relative;
+  .relations {
+    margin: 60px auto 0;
+    max-width: 800px;
+    padding: 40px;
+    background-color: $light-gray;
+    color: $body;
+    h4 {
+      margin-bottom: 10px;
+    }
+  }
 }
 .load-more {
   transition: all $slow $transition;

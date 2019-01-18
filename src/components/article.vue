@@ -80,18 +80,14 @@ export default {
           function(res) {
             this.category = res.data.category;
             this.title = res.data.title;
-            this.author =
-              res.data.author.first_name + " " + res.data.author.last_name;
+            this.author = res.data.author;
             this.publish_on = res.data.publish_on;
             this.body = res.data.body;
 
             this.related.id = res.data.related_article.id;
             this.related.category = res.data.related_article.category;
             this.related.title = res.data.related_article.title;
-            this.related.author =
-              res.data.related_article.author.first_name +
-              " " +
-              res.data.related_article.author.last_name;
+            this.related.author = res.data.related_article.author;
             this.related.publish_on = res.data.related_article.publish_on;
             this.related.summary = res.data.related_article.summary;
             // eslint-disable-next-line

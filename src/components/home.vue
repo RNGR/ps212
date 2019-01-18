@@ -112,7 +112,7 @@
       :link="'/news/' + article.id"
       :category="article.category"
       :title="article.title"
-      :by="article.author.first_name + ' ' + article.author.last_name"
+      :by="article.author"
       :date="article.publish_on | formatDate"
       :text="article.summary"
     />
