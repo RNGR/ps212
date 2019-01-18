@@ -30,9 +30,7 @@
 
       <div class="relations">
         <h4>Media Inquiries</h4>
-        <p>
-          For more information on press releases or to discuss media inquireies, please contact Erika Troia at <a href="mailto:erika@ps212.com">erika@ps212.com</a> or 917.374.5050
-        </p>
+        <p v-html="about.news_cta"></p>
       </div>
 
       <v-article-intro
