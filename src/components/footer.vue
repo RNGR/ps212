@@ -20,7 +20,7 @@
         </router-link>
         <p class="h6 gray">{{ about.home_heading_description }}</p>
         <div class="copyright gray h6">
-          © {{ year }} PS212, ALL RIGHTS RESERVED
+          © {{ year }} PS212<span class="arr">, ALL RIGHTS RESERVED</span>
         </div>
       </div>
 
@@ -179,15 +179,19 @@ footer {
   }
 }
 @media only screen and (max-width: 800px) {
+  .arr {
+    display: none;
+  }
   footer {
     margin-top: 100px;
     .container {
       padding-bottom: 50px;
       .column {
-        width: calc((100% - 40px) / 2);
+        width: calc((100% - 20px) / 2);
         padding-top: 40px;
         padding-bottom: 40px;
         margin-bottom: 40px;
+        margin-right: 20px;
         &:nth-of-type(2n) {
           margin-right: 0;
         }

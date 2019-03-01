@@ -148,6 +148,11 @@ export default {
         margin-right: 0;
       }
     }
+    @media only screen and (max-width: 800px) {
+      width: calc((100% - 20px) / 2);
+      margin-bottom: 20px;
+      margin-right: 20px;
+    }
   }
 }
 </style>

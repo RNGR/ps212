@@ -25,7 +25,7 @@ export default {
     window.addEventListener("scroll", function() {
       var scroll = this.scrollY;
       var element = document.getElementById("header");
-      if (scroll > 100) {
+      if (scroll > 20) {
         element.classList.add("shadow");
       } else {
         element.classList.remove("shadow");

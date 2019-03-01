@@ -198,5 +198,17 @@ export default {
       text-align: center;
     }
   }
+  @media only screen and (max-width: 500px) {
+    .paper {
+      padding-left: 0;
+      padding-right: 0;
+      font-size: 20px;
+      line-height: 24px;
+    }
+    .body .container p {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+  }
 }
 </style>

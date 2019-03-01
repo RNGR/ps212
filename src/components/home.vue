@@ -366,6 +366,21 @@ h3 {
 
 <style lang="scss" scoped>
 @import "../assets/_variables.scss";
+
+.hero .centered {
+  @media only screen and (max-width: 800px) {
+    h2 {
+      font-size: 28px;
+      line-height: 36px;
+    }
+    p.description {
+      margin-top: 20px;
+    }
+    button {
+
+    }
+  }
+}
 .background {
   width: 100%;
   height: 100%;
@@ -506,6 +521,7 @@ h3 {
       background-color: $white;
       padding: 10px 40px;
       width: 100%;
+      height: 90px;
       &::placeholder {
         color: $light-gray;
       }

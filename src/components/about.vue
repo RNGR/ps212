@@ -311,7 +311,8 @@ export default {
       .getItems("team", {
         "filter[leadership][eq]": "0",
         fields: "*,image.*",
-        "filter[status][eq]": "published"
+        "filter[status][eq]": "published",
+        "sort": "sort"
       })
       .then(res => {
         this.staff = res.data;
@@ -587,8 +588,14 @@ h3.center {
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 40px 40px 60px 40px;
+    width: calc(100% - 40px);
+    overflow: scroll;
     max-width: 600px;
     z-index: 13;
+    @media only screen and (max-width: 800px) {
+      padding: 20px;
+      height: calc(100% - 40px);
+    }
     h3 {
       margin-bottom: 0;
     }
@@ -616,6 +623,19 @@ h3.center {
   cursor: pointer;
   &:hover {
     color: $dark-accent;
+  }
+}
+@media only screen and (max-width: 800px) {
+  .services,
+  .staff,
+  .careers,
+  .locations {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .careers .career {
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 </style>

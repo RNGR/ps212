@@ -197,6 +197,24 @@ header {
       }
     }
   }
+  @media only screen and (max-width: 800px) {
+    height: 80px;
+    #logo {
+      top: 27px;
+    }
+    nav {
+      top: 20px;
+    }
+    &.shadow {
+      height: 60px;
+      #logo {
+        top: 17px;
+      }
+      nav {
+        top: 10px;
+      }
+    }
+  }
 
   // Alt colors
   &.home,

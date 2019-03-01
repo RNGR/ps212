@@ -75,4 +75,9 @@ export default {
     color: $gray;
   }
 }
+@media only screen and (max-width: 800px) {
+  .career ul {
+    margin: 0 0 10px 10px;
+  }
+}
 </style>
