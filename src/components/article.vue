@@ -5,7 +5,7 @@
         <div class="centered">
           <!-- <h5 class="accent">{{category}}</h5> -->
           <h2 class="white">{{ title }}</h2>
-          <div class="description gray">By {{ author }}</div>
+          <div class="description gray">{{ author }}</div>
           <div class="description white">{{ publish_on | formatDate }}</div>
         </div>
       </div>
