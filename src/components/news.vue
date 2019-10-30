@@ -73,6 +73,7 @@ export default {
 
     this.$api
       .getItems("news", {
+        sort: "-publish_on",
         fields: "*,author.*",
         "filter[status][eq]": "published",
         "filter[publish_on][leq]": moment().format("YYYY-MM-DD HH:mm:ss")
