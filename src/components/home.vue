@@ -99,11 +99,11 @@
     </section>
 
     <v-case-study-intro
-      v-if="caseStudies[0]"
-      :id="caseStudies[0].id"
-      :title="caseStudies[0].client"
-      :statement="caseStudies[0].statement"
-      :description="caseStudies[0].quote"
+      v-if="about.case_study"
+      :id="about.case_study.id"
+      :title="about.case_study.client"
+      :statement="about.case_study.statement"
+      :description="about.case_study.quote"
     />
 
     <v-article-intro
@@ -233,7 +233,6 @@ export default {
       about: [],
       work: [],
       credentials: ["Tapestry"],
-      caseStudies: [],
       articles: []
     };
   },
@@ -319,17 +318,6 @@ export default {
       })
       // eslint-disable-next-line
       .catch(err => console.log('Error fetching "Work"', err));
-
-    this.$api
-      .getItems("case_studies", {
-        limit: "1",
-        "filter[status][eq]": "published"
-      })
-      .then(res => {
-        this.caseStudies = res.data;
-      })
-      // eslint-disable-next-line
-      .catch(err => console.log('Error fetching "Case Studies"', err));
 
     this.$api
       .getItems("news", {
