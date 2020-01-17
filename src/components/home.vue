@@ -109,6 +109,7 @@
     <v-article-intro
       v-for="(article, index) in articles"
       :key="index"
+      :linkable="article.body.length > 20 ? true : false"
       :link="'/news/' + article.id"
       :category="article.category"
       :title="article.title"

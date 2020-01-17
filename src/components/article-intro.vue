@@ -6,7 +6,7 @@
       <div v-if="by" class="description gray">{{ by }}</div>
       <div class="description">{{ date }}</div>
       <p class="body">{{ text }}</p>
-      <v-more msg="Read More" :link="link" color="accent" />
+      <v-more v-if="linkable" msg="Read More" :link="link" color="accent" />
     </div>
   </section>
 </template>
@@ -15,6 +15,7 @@
 export default {
   name: "v-article-intro",
   props: {
+    linkable: Boolean,
     link: String,
     category: String,
     title: String,

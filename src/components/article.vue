@@ -35,6 +35,7 @@
 
     <v-article-intro
       color="light-gray-bg"
+      :linkable="article.body.length > 20 ? true : false"
       :link="'/news/' + related.id"
       :category="related.category"
       :title="related.title"
