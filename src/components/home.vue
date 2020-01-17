@@ -91,7 +91,7 @@
         <div class="names h6">
           <ul v-for="(n, index) in 4" :key="index">
             <li v-for="(client, index2) in chunked[index]" :key="index2">
-              {{ client.name }}
+              {{ client }}
             </li>
           </ul>
         </div>
@@ -292,7 +292,10 @@ export default {
             "”";
     },
     chunked: function() {
-      return split(this.work, 4);
+      return split(this.client_list, 4);
+    },
+    client_list: function() {
+      return shuffle(this.about.clients);
     }
   },
   created: function() {
