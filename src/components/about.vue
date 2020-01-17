@@ -114,7 +114,7 @@
           :link="career.link"
           :category="career.category"
           :title="career.title"
-          :location="career.office.name"
+          :location="career.location"
           :text="career.description"
         />
       </div>
@@ -322,7 +322,7 @@ export default {
 
     this.$api
       .getItems("careers", {
-        fields: "*,office.*",
+        fields: "*",
         "filter[status][eq]": "published"
       })
       .then(res => {
