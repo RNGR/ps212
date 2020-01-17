@@ -49,8 +49,8 @@
                 :src="$path + '/uploads/_/originals/' + work.image.filename"
               />
               <div v-else class="blank"></div>
-              <div class="subtext">{{ work.title }}</div>
-              <h6 class="gray">{{ work.client }}</h6>
+              <div class="subtext">{{ work.name }}</div>
+              <h6 class="gray">{{ work.description }}</h6>
             </div>
           </div>
         </section>

@@ -91,7 +91,7 @@
         <div class="names h6">
           <ul v-for="(n, index) in 4" :key="index">
             <li v-for="(client, index2) in chunked[index]" :key="index2">
-              {{ client.client }}
+              {{ client.name }}
             </li>
           </ul>
         </div>
@@ -332,6 +332,7 @@ export default {
 
     this.$api
       .getItems("news", {
+        sort: "-publish_on",
         fields: "*,author.*",
         limit: "2",
         "filter[status][eq]": "published",

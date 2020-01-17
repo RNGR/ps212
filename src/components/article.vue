@@ -20,6 +20,12 @@
           direction="left"
         />
         <div v-html="body"></div>
+        <v-more
+          msg="Back to News"
+          link="/news"
+          color="accent"
+          direction="left"
+        />
       </div>
     </section>
 

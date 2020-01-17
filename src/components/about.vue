@@ -478,6 +478,9 @@ h3.center {
       width: calc((100% - 120px) / 4);
       h6 {
         margin-bottom: 20px;
+        &.accent {
+          margin-bottom: 60px;
+        }
       }
       @media only screen and (max-width: 800px) {
         width: calc((100% - 40px) / 2);
