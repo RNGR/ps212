@@ -35,7 +35,7 @@
 
     <v-article-intro
       color="light-gray-bg"
-      :linkable="article.body.length > 20 ? true : false"
+      :linkable="related.body && related.body.length > 20 ? true : false"
       :link="'/news/' + related.id"
       :category="related.category"
       :title="related.title"
@@ -79,7 +79,7 @@ export default {
     load: function (event, id) {
       this.$api
         .getItem("news", id, {
-          fields: "*,author.*,related_article.*,related_article.author.*",
+          fields: "*,related_article.*",
           "filter[status][eq]": "published",
           "filter[publish_on][leq]": moment().format("YYYY-MM-DD HH:mm:ss")
         })

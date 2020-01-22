@@ -36,7 +36,7 @@
       <v-article-intro
         v-for="(article, index) in articles"
         :key="index"
-        :linkable="article.body.length > 20 ? true : false"
+        :linkable="article.body && article.body.length > 20 ? true : false"
         :link="'/news/' + article.id"
         :category="article.category"
         :title="article.title"
@@ -75,7 +75,7 @@ export default {
     this.$api
       .getItems("news", {
         sort: "-publish_on",
-        fields: "*,author.*",
+        fields: "*",
         "filter[status][eq]": "published",
         "filter[publish_on][leq]": moment().format("YYYY-MM-DD HH:mm:ss")
       })
