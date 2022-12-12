@@ -20,7 +20,7 @@
         </router-link>
         <p class="h6 gray">{{ about.home_heading_description }}</p>
         <div class="copyright gray h6">
-          © {{ year }} PS212<span class="arr">, ALL RIGHTS RESERVED</span>
+          ©{{ year }} PS212<span class="arr">, ALL RIGHTS RESERVED</span>
         </div>
       </div>
 
