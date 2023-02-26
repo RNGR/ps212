@@ -56,11 +56,10 @@
             <img
               v-if="leader.image"
               :src="
-                $path +
-                  '/thumbnail/' +
-                  $project +
-                  '/600/600/crop/best/' +
-                  leader.image.filename
+                baseURL +
+                'assets/' +
+                leader.image.id +
+                '?key=thumbnail-600-best'
               "
             />
             <div class="subtext">{{ leader.name }}</div>
@@ -84,11 +83,10 @@
             <img
               v-if="member.image"
               :src="
-                $path +
-                  '/thumbnail/' +
-                  $project +
-                  '/200/200/crop/best/' +
-                  member.image.filename
+                baseURL +
+                'assets/' +
+                member.image.id +
+                '?key=thumbnail-200-best'
               "
             />
             <div class="subtext">{{ member.name }}</div>
@@ -127,15 +125,11 @@
           <img
             v-if="office.image"
             :src="
-              $path +
-                '/thumbnail/' +
-                $project +
-                '/800/400/crop/best/' +
-                office.image.filename
+              baseURL + 'assets/' + office.image.id + '?key=thumbnail-800-best'
             "
           />
           <div class="subtext">{{ office.name }}</div>
-          <h6 v-html="$options.filters.nl2br(office.address)"></h6>
+          <h6 v-html="$filters.nl2br(office.address)"></h6>
         </div>
       </div>
     </section>
@@ -150,37 +144,37 @@
           <div>
             <img
               v-if="about.logo_1"
-              :src="$path + '/uploads/_/originals/' + about.logo_1.filename"
+              :src="baseURL + 'assets/' + about.logo_1.id"
             />
           </div>
           <div>
             <img
               v-if="about.logo_2"
-              :src="$path + '/uploads/_/originals/' + about.logo_2.filename"
+              :src="baseURL + 'assets/' + about.logo_2.id"
             />
           </div>
           <div>
             <img
               v-if="about.logo_3"
-              :src="$path + '/uploads/_/originals/' + about.logo_3.filename"
+              :src="baseURL + 'assets/' + about.logo_3.id"
             />
           </div>
           <div>
             <img
               v-if="about.logo_4"
-              :src="$path + '/uploads/_/originals/' + about.logo_4.filename"
+              :src="baseURL + 'assets/' + about.logo_4.id"
             />
           </div>
           <div>
             <img
               v-if="about.logo_5"
-              :src="$path + '/uploads/_/originals/' + about.logo_5.filename"
+              :src="baseURL + 'assets/' + about.logo_5.id"
             />
           </div>
           <div>
             <img
               v-if="about.logo_6"
-              :src="$path + '/uploads/_/originals/' + about.logo_6.filename"
+              :src="baseURL + 'assets/' + about.logo_6.id"
             />
           </div>
         </div>
@@ -252,101 +246,135 @@
 </template>
 
 <script>
+import { ref, onMounted } from "vue";
+const api = require("../api");
+
 export default {
   name: "v-about",
-  data() {
-    return {
-      about: {},
-      services: [],
-      leadership: [],
-      staff: [],
-      careers: [],
-      offices: [],
-      showUserDetail: false
-    };
-  },
-  computed: {
-    our_story: function() {
-      return !this.about.our_story
-        ? ""
-        : "“" +
-            this.about.our_story
+  setup() {
+    const about = ref({});
+    const our_story = ref("");
+    const services = ref([]);
+    const leadership = ref([]);
+    const staff = ref([]);
+    const careers = ref([]);
+    const offices = ref([]);
+    const showUserDetail = ref(false);
+    const baseURL = ref("");
+
+    onMounted(async () => {
+      try {
+        baseURL.value = api.getUri();
+        const aboutItem = await api.get("/items/about/1", {
+          params: {
+            "fields[]": "*.*",
+          },
+        });
+        about.value = aboutItem.data.data;
+        our_story.value = !about.value.our_story
+          ? ""
+          : "“" +
+            about.value.our_story
               .replace(/(<p[^>]+?>|<p>|<\/p>)/gim, "")
               .trim() +
             "”";
-    }
+        // console.log({ aboutItem: aboutItem });
+        // console.log({ about: about });
+      } catch (err) {
+        // eslint-disable-next-line
+        console.log('Error fetching "About"', err);
+      }
+      try {
+        const serviceItems = await api.get("/items/services", {
+          params: {
+            "fields[]": "*",
+          },
+        });
+        services.value = serviceItems.data.data;
+        // console.log({ serviceItems: serviceItems });
+        // console.log({ services: services });
+      } catch (err) {
+        // eslint-disable-next-line
+        console.log('Error fetching "Services"', err);
+      }
+      try {
+        const leadershipItems = await api.get("/items/team", {
+          params: {
+            "fields[]": "*,image.*",
+            "filter[leadership][_eq]": "1",
+            "filter[status][_eq]": "published",
+            sort: "sort",
+          },
+        });
+        leadership.value = leadershipItems.data.data;
+        // console.log({ leadershipItems: leadershipItems });
+        // console.log({ leadership: leadership });
+      } catch (err) {
+        // eslint-disable-next-line
+        console.log('Error fetching "Leadership"', err);
+      }
+      try {
+        const staffItems = await api.get("/items/team", {
+          params: {
+            "fields[]": "*,image.*",
+            "filter[leadership][_eq]": "0",
+            "filter[status][_eq]": "published",
+            sort: "sort",
+          },
+        });
+        staff.value = staffItems.data.data;
+        // console.log({ staffItems: staffItems });
+        // console.log({ staff: staff });
+      } catch (err) {
+        // eslint-disable-next-line
+        console.log('Error fetching "Staff"', err);
+      }
+      try {
+        const careersItems = await api.get("/items/careers", {
+          params: {
+            "fields[]": "*",
+            "filter[status][_eq]": "published",
+          },
+        });
+        careers.value = careersItems.data.data;
+        // console.log({ careersItems: careersItems });
+        // console.log({ careers: careers });
+      } catch (err) {
+        // eslint-disable-next-line
+        console.log('Error fetching "Careers"', err);
+      }
+      try {
+        const officesItems = await api.get("/items/offices", {
+          params: {
+            "fields[]": "*,image.*",
+            "filter[status][_eq]": "published",
+          },
+        });
+        offices.value = officesItems.data.data;
+        // console.log({ officesItems: officesItems });
+        // console.log({ offices: offices });
+      } catch (err) {
+        // eslint-disable-next-line
+        console.log('Error fetching "Offices"', err);
+      }
+    });
+    return {
+      about,
+      our_story,
+      services,
+      leadership,
+      staff,
+      careers,
+      offices,
+      showUserDetail,
+      baseURL,
+    };
   },
-  created: function() {
-    this.$api
-      .getItem("about", 1, {
-        fields: "*.*"
-      })
-      .then(res => {
-        this.about = res.data;
-      })
-      // eslint-disable-next-line
-      .catch(err => console.log('Error fetching "About"', err));
-
-    this.$api
-      .getItems("services")
-      .then(res => {
-        this.services = res.data;
-      })
-      // eslint-disable-next-line
-      .catch(err => console.log('Error fetching "Services"', err));
-
-    this.$api
-      .getItems("team", {
-        "filter[leadership][eq]": "1",
-        fields: "*,image.*",
-        "filter[status][eq]": "published"
-      })
-      .then(res => {
-        this.leadership = res.data;
-      })
-      // eslint-disable-next-line
-      .catch(err => console.log('Error fetching "Leadership"', err));
-
-    this.$api
-      .getItems("team", {
-        "filter[leadership][eq]": "0",
-        fields: "*,image.*",
-        "filter[status][eq]": "published",
-        "sort": "sort"
-      })
-      .then(res => {
-        this.staff = res.data;
-      })
-      // eslint-disable-next-line
-      .catch(err => console.log('Error fetching "Staff"', err));
-
-    this.$api
-      .getItems("careers", {
-        fields: "*",
-        "filter[status][eq]": "published"
-      })
-      .then(res => {
-        this.careers = res.data;
-      })
-      // eslint-disable-next-line
-      .catch(err => console.log('Error fetching "Careers"', err));
-
-    this.$api
-      .getItems("offices", {
-        fields: "*,image.*",
-        "filter[status][eq]": "published"
-      })
-      .then(res => {
-        this.offices = res.data;
-      })
-      // eslint-disable-next-line
-      .catch(err => console.log('Error fetching "Offices"', err));
-  }
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/_variables.scss";
+@import "~@/assets/_variables.scss";
 .about-page {
   .background {
     width: 100%;
@@ -359,7 +387,7 @@ export default {
       left: 0;
       right: 0;
       bottom: 0;
-      background-image: url("/images/about-hero.jpg");
+      background-image: url(./images/about-hero.jpg);
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center center;

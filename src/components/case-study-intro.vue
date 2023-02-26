@@ -19,26 +19,26 @@ export default {
     description: String,
     color: {
       type: String,
-      default: "accent-bg"
+      default: "accent-bg",
     },
     spacing: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   computed: {
-    link: function() {
+    link: function () {
       return "/work/" + this.id;
     },
-    moreColor: function() {
+    moreColor: function () {
       return this.color == "accent-bg" ? "white" : "accent";
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/_variables.scss";
+@import "~@/assets/_variables.scss";
 section {
   .container {
     padding-bottom: 100px;

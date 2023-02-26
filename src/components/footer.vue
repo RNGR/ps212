@@ -72,7 +72,7 @@
 
       <div v-for="(office, index) in offices" :key="index" class="column">
         <h4>{{ office.name }}</h4>
-        <p class="h6" v-html="$options.filters.nl2br(office.address)"></p>
+        <p class="h6" v-html="$filters.nl2br(office.address)"></p>
       </div>
     </div>
   </footer>
@@ -84,41 +84,45 @@ import moment from "moment";
 export default {
   name: "v-footer",
   props: {
-    msg: String
+    msg: String,
   },
   data() {
     return {
       offices: [],
       about: [],
-      year: moment().format("YYYY")
+      year: moment().format("YYYY"),
     };
   },
-  created: function() {
+  created: function () {
     this.$api
-      .getItem("about", 1, {
-        fields: "*"
+      .get("/items/about/1", {
+        params: {
+          "fields[]": "*",
+        },
       })
-      .then(res => {
+      .then((res) => {
         this.about = res.data;
       })
       // eslint-disable-next-line
-      .catch(err => console.log('Error fetching "About"', err));
+      .catch((err) => console.log('Error fetching "About"', err));
 
     this.$api
-      .getItems("offices", {
-        fields: "*,image.*"
+      .get("/items/offices", {
+        params: {
+          "fields[]": "*,image.*",
+        },
       })
-      .then(res => {
+      .then((res) => {
         this.offices = res.data;
       })
       // eslint-disable-next-line
-      .catch(err => console.log('Error fetching "Offices"', err));
-  }
+      .catch((err) => console.log('Error fetching "Offices"', err));
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/_variables.scss";
+@import "~@/assets/_variables.scss";
 footer {
   margin-top: 200px;
   margin-left: 80px;

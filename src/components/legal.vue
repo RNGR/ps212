@@ -14,20 +14,24 @@ export default {
   name: "v-legal",
   data() {
     return {
-      privacy: ""
+      privacy: "",
     };
   },
-  created: function() {
+  created: function () {
     this.$api
-      .getItem("legal", 1)
+      .get("/items/legal/1", {
+        params: {
+          "fields[]": "*",
+        },
+      })
       .then(
-        function(res) {
+        function (res) {
           this.privacy = res.data.privacy_policy;
         }.bind(this)
       )
       // eslint-disable-next-line
-      .catch(err => console.log('Error fetching "News"', err));
-  }
+      .catch((err) => console.log('Error fetching "News"', err));
+  },
 };
 </script>
 

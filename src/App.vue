@@ -2,10 +2,11 @@
   <div id="app">
     <v-header msg="Pass this value" />
 
-    <transition name="fade">
-      <router-view></router-view>
-      <!-- component matched by the route will render here -->
-    </transition>
+    <router-view v-slot="{ Component }">
+      <transition>
+        <component :is="Component" />
+      </transition>
+    </router-view>
 
     <v-footer msg="Pass this value" />
   </div>
@@ -19,10 +20,10 @@ export default {
   name: "app",
   components: {
     VHeader,
-    VFooter
+    VFooter,
   },
-  created: function() {
-    window.addEventListener("scroll", function() {
+  setup() {
+    window.addEventListener("scroll", function () {
       var scroll = this.scrollY;
       var element = document.getElementById("header");
       if (scroll > 20) {
@@ -31,7 +32,7 @@ export default {
         element.classList.remove("shadow");
       }
     });
-  }
+  },
 };
 </script>
 

@@ -32,15 +32,14 @@
 
     <div id="scroll-top">
       <div
-        v-for="page in 10"
-        :key="page"
-        v-if="workPages(page).length || caseStudies[page]"
+        v-for="(caseStudy, index) in caseStudies"
+        :key="index"
+        workItems="caseStudy.workItems"
       >
         <section>
           <div class="container case-studies">
             <div
-              v-if="workPages(page).length"
-              v-for="(work, index) in workPages(page)"
+              v-for="(work, index) in workItems"
               :key="index"
               class="case-study"
             >
@@ -56,11 +55,11 @@
         </section>
 
         <v-case-study-intro
-          v-if="caseStudies[page]"
-          :id="caseStudies[page].id | toString"
-          :title="caseStudies[page].client"
-          :statement="caseStudies[page].statement"
-          :description="caseStudies[page].quote"
+          v-if="caseStudies[index]"
+          :id="caseStudies[index].id | toString"
+          :title="caseStudies[index].client"
+          :statement="caseStudies[index].statement"
+          :description="caseStudies[index].quote"
           spacing="spacing"
         />
       </div>
@@ -74,45 +73,63 @@ export default {
   data() {
     return {
       caseStudies: [],
-      work: []
+      work: [],
     };
   },
-  methods: {
-    workPages(pageNumber) {
-      return this.work.slice(pageNumber * 12 - 12, pageNumber * 12);
-    }
-  },
-  created: function() {
+  // methods: {
+  //   workPages(pageNumber) {
+  //     return this.work.slice(pageNumber * 12 - 12, pageNumber * 12);
+  //   },
+  // },
+  created: function () {
     this.$api
-      .getItems("case_studies", {
-        "filter[status][eq]": "published"
+      .get("/items/case_studies", {
+        params: {
+          "filter[status][_eq]": "published",
+          limit: 10,
+        },
       })
       .then(
-        function(res) {
+        function (res) {
           this.caseStudies = res.data;
         }.bind(this)
       )
       // eslint-disable-next-line
-      .catch(err => console.log('Error fetching "Case Studies"', err));
+      .catch((err) => console.log('Error fetching "Case Studies"', err));
 
     this.$api
-      .getItems("work", {
-        "filter[status][eq]": "published",
-        fields: "*.*"
+      .get("/items/work", {
+        params: {
+          "fields[]": "*.*",
+          "filter[status][_eq]": "published",
+        },
       })
       .then(
-        function(res) {
+        function (res) {
           this.work = res.data;
+          this.workSize = res.data.length;
         }.bind(this)
       )
       // eslint-disable-next-line
-      .catch(err => console.log('Error fetching "Work"', err));
-  }
+      .catch((err) => console.log('Error fetching "Work"', err));
+
+    const chunkSize = 12;
+    this.caseStudies.array.forEach((caseStudy, index) => {
+      const i = index + 1;
+      const low = i * chunkSize - chunkSize;
+      if (low <= this.workSize) {
+        const high = i * chunkSize;
+        caseStudy.workItems = this.work.slice(low, high);
+      } else {
+        caseStudy.workItems = [];
+      }
+    });
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/_variables.scss";
+@import "~@/assets/_variables.scss";
 #scroll-top {
   margin-top: 60px;
 }

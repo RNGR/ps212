@@ -19,18 +19,18 @@ export default {
     location: String,
     title: String,
     text: String,
-    color: String
+    color: String,
   },
   computed: {
-    subject: function() {
+    subject: function () {
       return encodeURIComponent(this.title);
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/_variables.scss";
+@import "~@/assets/_variables.scss";
 .career {
   .container {
     // padding-bottom: 80px;
@@ -55,7 +55,7 @@ export default {
 </style>
 
 <style lang="scss">
-@import "../assets/_variables.scss";
+@import "~@/assets/_variables.scss";
 .career {
   div.body {
     p {

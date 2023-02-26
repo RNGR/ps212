@@ -5,7 +5,7 @@
         <div class="centered">
           <h2 class="accent">{{ about.home_heading_one }}</h2>
           <h2 id="credentials">
-            <vue-typer
+            <Typer
               :text="credentials"
               :shuffle="true"
               :pre-type-delay="1000"
@@ -14,7 +14,7 @@
               :erase-delay="70"
               erase-style="backspace"
             >
-            </vue-typer>
+            </Typer>
           </h2>
           <p class="description">{{ about.home_heading_description }}</p>
           <v-more msg="View Services" link="/about" color="accent" />
@@ -53,37 +53,37 @@
           <div>
             <img
               v-if="about.logo_1"
-              :src="$path + '/uploads/_/originals/' + about.logo_1.filename"
+              :src="baseURL + 'assets/' + about.logo_1.id"
             />
           </div>
           <div>
             <img
               v-if="about.logo_2"
-              :src="$path + '/uploads/_/originals/' + about.logo_2.filename"
+              :src="baseURL + 'assets/' + about.logo_2.id"
             />
           </div>
           <div>
             <img
               v-if="about.logo_3"
-              :src="$path + '/uploads/_/originals/' + about.logo_3.filename"
+              :src="baseURL + 'assets/' + about.logo_3.id"
             />
           </div>
           <div>
             <img
               v-if="about.logo_4"
-              :src="$path + '/uploads/_/originals/' + about.logo_4.filename"
+              :src="baseURL + 'assets/' + about.logo_4.id"
             />
           </div>
           <div>
             <img
               v-if="about.logo_5"
-              :src="$path + '/uploads/_/originals/' + about.logo_5.filename"
+              :src="baseURL + 'assets/' + about.logo_5.id"
             />
           </div>
           <div>
             <img
               v-if="about.logo_6"
-              :src="$path + '/uploads/_/originals/' + about.logo_6.filename"
+              :src="baseURL + 'assets/' + about.logo_6.id"
             />
           </div>
         </div>
@@ -114,7 +114,7 @@
       :category="article.category"
       :title="article.title"
       :by="article.author"
-      :date="article.publish_on | formatDate"
+      :date="$filters.formatDate(article.publish_on)"
       :text="article.summary"
     />
 
@@ -154,8 +154,11 @@
 
 <script>
 // eslint-disable-next-line
-import { VueTyper } from "vue-typer";
+import { Typer } from "vue3-typer";
+//import "vue3-typer/dist/vue-typer.css";
 import moment from "moment";
+import { ref, onMounted, defineComponent } from "vue";
+const api = require("../api");
 
 function split(arr, n) {
   var rest = arr.length % n, // how much to divide
@@ -217,133 +220,161 @@ function isScrolledIntoView(el) {
   }
 }
 
-window.onscroll = function() {
+window.onscroll = function () {
   let strongs = document.querySelector("h3 b");
   if (strongs) {
     isScrolledIntoView(strongs);
   }
 };
 
-export default {
+export default defineComponent({
   name: "v-home",
-  data() {
-    return {
-      email: "",
-      error: "",
-      about: [],
-      work: [],
-      credentials: ["Tapestry"],
-      articles: []
-    };
+  components: {
+    Typer,
   },
-  methods: {
-    subscribe: function(event) {
+  setup() {
+    const email = ref("");
+    const error = ref("");
+    const aboutItem = ref([]);
+    const about = ref([]);
+    const work = ref([]);
+    const credentials = ref(["Tapestry"]);
+    const articles = ref([]);
+    const what_we_do = ref("");
+    const baseURL = ref("");
+
+    onMounted(async () => {
+      try {
+        baseURL.value = api.getUri();
+        const aboutItem = await api.get("/items/about/1", {
+          params: {
+            "fields[]": "*.*",
+          },
+        });
+        about.value = aboutItem.data.data;
+        credentials.value = shuffle(about.value.credentials.split(","));
+        what_we_do.value = !about.value.what_we_do
+          ? ""
+          : "“" +
+            about.value.what_we_do
+              .replace(/(<p[^>]+?>|<p>|<\/p>)/gim, "")
+              .trim() +
+            "”";
+        // console.log({ aboutItem: aboutItem });
+        // console.log({ about: about });
+        // console.log({ credentials: credentials });
+        // console.log({ whatwedo: what_we_do });
+      } catch (err) {
+        // eslint-disable-next-line
+        console.log('Error fetching "About"', err);
+      }
+      try {
+        const workItem = await api.get("/items/work", {
+          params: {
+            limit: 24,
+            "filter[status][_eq]": "published",
+          },
+        });
+        work.value = workItem.data.data;
+        console.log({ workItem: workItem });
+        console.log({ work: work });
+      } catch (err) {
+        // eslint-disable-next-line
+        console.log('Error fetching "Work"', err);
+      }
+      try {
+        const newsItem = await api.get("/items/news", {
+          params: {
+            "fields[]": "*,author.*",
+            sort: "-publish_on",
+            limit: 2,
+            "filter[status][_eq]": "published",
+            "filter[publish_on][_lte]": moment().format("YYYY-MM-DD HH:mm:ss"),
+          },
+        });
+        articles.value = newsItem.data;
+        console.log({ news: newsItem });
+        console.log({ news: articles });
+      } catch (err) {
+        // eslint-disable-next-line
+        console.log('Error fetching "News"', err);
+      }
+    });
+    async function subscribe(event) {
       // `event` is the native DOM event
       if (event.type != "submit") {
         return true;
       }
-      if (!this.email) {
-        this.error = "Email Required";
+      if (!email.value) {
+        error.value = "Email Required";
         return true;
       }
-      if (!this.validEmail(this.email)) {
-        this.error = "Email Invalid";
+      if (!validEmail(email.value)) {
+        error.value = "Email Invalid";
         return true;
       }
-      this.$api
-        .getItems("contacts", {
-          "filter[email][eq]": this.email
-        })
-        .then(res => {
-          if (res.data.length > 0) {
-            this.error = "Email Exists";
-          } else {
-            this.$api
-              .createItem("contacts", {
-                added_on: moment().toISOString(),
-                email: this.email
-              })
-              .then(function() {
-                this.error = "Email Added";
-              })
-              .catch(function() {
-                this.error = "Try Again Later";
-              });
-          }
-        })
-        .catch(function() {
-          return false;
+      try {
+        const res = await api.get("/items/contacts", {
+          params: {
+            "fields[]": "*",
+            "filter[email][_eq]": email.value,
+          },
         });
-    },
-    validEmail: function(email) {
-      // eslint-disable-next-line
-      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(email);
+        console.log({ contactRes: res });
+        if (res.data.length > 0) {
+          error.value = "Email Exists";
+        } else {
+          try {
+            const contactId = await api.post("/items/contacts", {
+              added_on: moment().toISOString(),
+              email: email.value,
+            });
+            console.log('Success "New Contact Email"', contactId);
+            error.value = "Email Added";
+          } catch (err) {
+            // eslint-disable-next-line
+            console.log('Error adding "New Contact Email"', err);
+            error.value = "Try Again Later";
+          }
+        }
+      } catch (err) {
+        return false;
+      }
     }
-  },
-  computed: {
-    what_we_do: function() {
-      return !this.about.what_we_do
-        ? ""
-        : "“" +
-            this.about.what_we_do
-              .replace(/(<p[^>]+?>|<p>|<\/p>)/gim, "")
-              .trim() +
-            "”";
-    },
-    chunked: function() {
-      return split(this.client_list, 4);
-    },
-    client_list: function() {
-      return shuffle(this.about.clients);
+    function validEmail() {
+      // eslint-disable-next-line
+      const re =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email.value);
     }
-  },
-  created: function() {
-    this.$api
-      .getItem("about", 1, {
-        fields: "*.*"
-      })
-      .then(res => {
-        this.about = res.data;
-        this.credentials = shuffle(res.data.credentials.split(","));
-      })
-      // eslint-disable-next-line
-      .catch(err => console.log('Error fetching "About"', err));
+    function chunked() {
+      return split(client_list, 4);
+    }
+    function client_list() {
+      if (!about.value.clients) return [];
 
-    this.$api
-      .getItems("work", {
-        limit: "24",
-        "filter[status][eq]": "published"
-        // "sort": "?"
-      })
-      .then(res => {
-        this.work = res.data;
-      })
-      // eslint-disable-next-line
-      .catch(err => console.log('Error fetching "Work"', err));
-
-    this.$api
-      .getItems("news", {
-        sort: "-publish_on",
-        fields: "*,author.*",
-        limit: "2",
-        "filter[status][eq]": "published",
-        "filter[publish_on][leq]": moment().format("YYYY-MM-DD HH:mm:ss")
-      })
-      .then(res => {
-        this.articles = res.data;
-      })
-      // eslint-disable-next-line
-      .catch(err => console.log('Error fetching "News"', err));
+      about.value.clients = shuffle(about.value.clients);
+    }
+    return {
+      email,
+      error,
+      aboutItem,
+      about,
+      work,
+      credentials,
+      articles,
+      subscribe,
+      what_we_do,
+      chunked,
+      client_list,
+      baseURL,
+    };
   },
-  components: {
-    VueTyper
-  }
-};
+});
 </script>
 
 <style lang="scss">
-@import "../assets/_variables.scss";
+@import "~@/assets/_variables.scss";
 .accent {
   max-width: 960px;
   margin-bottom: 10px;
@@ -358,7 +389,7 @@ h3 {
 </style>
 
 <style lang="scss" scoped>
-@import "../assets/_variables.scss";
+@import "~@/assets/_variables.scss";
 
 .hero .centered {
   @media only screen and (max-width: 800px) {
@@ -370,7 +401,6 @@ h3 {
       margin-top: 20px;
     }
     button {
-
     }
   }
 }
@@ -385,7 +415,7 @@ h3 {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url("/images/home-hero.jpg");
+    background-image: url("./images/home-hero.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;

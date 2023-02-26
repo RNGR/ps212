@@ -1,6 +1,22 @@
 # PS212
 
 ## Install Notes
+
+# FOR LOCAL DEVELOPMENT
+# Install python 3.10.9
+# MacOS:
+`brew install pyenv`
+# Install and set local
+`pyenv install 3.10.9`
+`pyenv local 3.10.9`
+
+# Add pyenv to your PATH so that you can reference python (not python3)
+`echo "export PATH=\"\${HOME}/.pyenv/shims:\${PATH}\"" >> ~/.zshrc`
+`source ~/.zshrc`
+`which python`
+`python --version`
+
+# Install NPM Packages:
 `npm install -g @vue/cli`
 `vue create my-project`
 `npm install sass-loader node-sass webpack --save-dev`

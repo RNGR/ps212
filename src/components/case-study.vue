@@ -20,10 +20,7 @@
         />
 
         <p>
-          <img
-            v-if="image"
-            :src="$path + '/uploads/' + $project + '/originals/' + image"
-          />
+          <img v-if="image" :src="$path + '/assets/' + image" />
         </p>
 
         <blockquote v-html="quote"></blockquote>
@@ -63,21 +60,23 @@ export default {
       quote: "",
       body: "",
       tags: [],
-      caseStudies: {}
+      caseStudies: {},
     };
   },
-  created: function() {
+  created: function () {
     this.$api
-      .getItem("case_studies", this.$route.params.id, {
-        fields: "*,image.*,related_case_study.*",
-        "filter[status][eq]": "published"
+      .get("/items/case_studies/" + this.$route.params.id, {
+        params: {
+          "fields[]": "*,image.*,related_case_study.*",
+          "filter[status][_eq]": "published",
+        },
       })
       .then(
-        function(res) {
+        function (res) {
           this.title = res.data.client;
           this.statement = res.data.statement;
           if (res.data.image) {
-            this.image = res.data.image.filename;
+            this.image = res.data.image.id;
           }
           if (res.data.tags) {
             this.tags = res.data.tags.split(",");
@@ -88,16 +87,16 @@ export default {
         }.bind(this)
       )
       .catch(
-        function() {
+        function () {
           this.$router.push("/not-found");
         }.bind(this)
       );
-  }
+  },
 };
 </script>
 
 <style lang="scss">
-@import "../assets/_variables.scss";
+@import "~@/assets/_variables.scss";
 .body {
   p {
     margin: 40px 0;
@@ -106,7 +105,7 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-@import "../assets/_variables.scss";
+@import "~@/assets/_variables.scss";
 .header {
   margin-top: 120px;
   padding-top: 100px;

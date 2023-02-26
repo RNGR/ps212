@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: "v-not-found"
+  name: "v-not-found",
 };
 </script>
 

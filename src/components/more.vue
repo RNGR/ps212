@@ -41,14 +41,14 @@ export default {
     color: String,
     direction: {
       type: String,
-      default: "right"
-    }
-  }
+      default: "right",
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/_variables.scss";
+@import "~@/assets/_variables.scss";
 button {
   margin-top: 40px;
   vertical-align: middle;
