@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import { computed } from "vue";
+
 export default {
   name: "v-case-study-intro",
   props: {
@@ -26,41 +28,53 @@ export default {
       default: "",
     },
   },
-  computed: {
-    link: function () {
-      return "/work/" + this.id;
-    },
-    moreColor: function () {
-      return this.color == "accent-bg" ? "white" : "accent";
-    },
+  setup(props) {
+    const link = computed(() => {
+      return "/work/" + props.id;
+    });
+    const moreColor = computed(() => {
+      return props.color == "accent-bg" ? "white" : "accent";
+    });
+
+    return {
+      link,
+      moreColor,
+    };
   },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/_variables.scss";
+
 section {
   .container {
     padding-bottom: 100px;
     padding-bottom: var(--component-padding-y);
   }
+
   h2.title {
     margin-top: 10px;
   }
+
   h2.statement {
     margin-bottom: 20px;
   }
+
   .description {
     max-width: 600px;
   }
+
   &.spacing {
     margin-top: 20px;
     margin-bottom: 60px;
   }
+
   &.light-gray-bg {
     .title {
       color: $accent;
     }
+
     .description {
       color: $dark-gray;
     }

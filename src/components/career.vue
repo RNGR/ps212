@@ -2,7 +2,7 @@
   <section :class="[color, 'career', 'pad-top']">
     <div class="container">
       <h4>
-        <a :href="link" target="_blank" class="accent">{{ title }}</a>
+        <a :href="link" target="_blank" class="accent">{{ encodedTitle }}</a>
       </h4>
       <div class="description gray">{{ location }}</div>
       <div class="body" v-html="text"></div>
@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import { computed } from "vue";
+
 export default {
   name: "v-career",
   props: {
@@ -21,29 +23,32 @@ export default {
     text: String,
     color: String,
   },
-  computed: {
-    subject: function () {
-      return encodeURIComponent(this.title);
-    },
+  setup(props) {
+    const encodedTitle = computed(() => {
+      return encodeURIComponent(props.title);
+    });
+
+    return {
+      encodedTitle,
+    };
   },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/_variables.scss";
+
 .career {
-  .container {
-    // padding-bottom: 80px;
-    // border-bottom: 1px solid $light-gray;
-  }
   h2 {
     max-width: 800px;
     margin: 20px 0 10px;
   }
+
   div.body {
     max-width: 700px;
     margin-top: 0px;
   }
+
   a.button {
     background-color: $accent;
     display: inline-block;
@@ -56,6 +61,7 @@ export default {
 
 <style lang="scss">
 @import "~@/assets/_variables.scss";
+
 .career {
   div.body {
     p {
@@ -63,10 +69,12 @@ export default {
     }
   }
 }
+
 .career ul {
   margin: 0 0 10px 0;
   padding: 0;
   list-style-type: disc;
+
   li {
     margin-top: 10px;
     font-family: "Gotham HTF", mono;
@@ -75,6 +83,7 @@ export default {
     color: $gray;
   }
 }
+
 @media only screen and (max-width: 800px) {
   .career ul {
     margin: 0 0 10px 10px;

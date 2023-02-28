@@ -99,35 +99,6 @@ export default {
       baseURL,
     };
   },
-  // created: function () {
-  // this.$api
-  //   .get("/items/about/1", {
-  //     params: {
-  //       "fields[]": "*",
-  //     },
-  //   })
-  //   .then((res) => {
-  //     this.about = res.data;
-  //   })
-  //   // eslint-disable-next-line
-  //   .catch((err) => console.log('Error fetching "About"', err));
-  // this.$api
-  //   .get("/items/news", {
-  //     params: {
-  //       "fields[]": "*",
-  //       sort: "-publish_on",
-  //       "filter[status][_eq]": "published",
-  //       "filter[publish_on][_lte]": moment().format("YYYY-MM-DD HH:mm:ss"),
-  //     },
-  //   })
-  //   .then(
-  //     function (res) {
-  //       this.articles = res.data;
-  //     }.bind(this)
-  //   )
-  //   // eslint-disable-next-line
-  //   .catch((err) => console.log('Error fetching "News"', err));
-  // },
 };
 </script>
 

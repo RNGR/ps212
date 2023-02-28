@@ -15,6 +15,7 @@
 <script>
 import VHeader from "./components/header.vue";
 import VFooter from "./components/footer.vue";
+import { onMounted, onUnmounted } from "vue";
 
 export default {
   name: "app",
@@ -23,15 +24,23 @@ export default {
     VFooter,
   },
   setup() {
-    window.addEventListener("scroll", function () {
-      var scroll = this.scrollY;
-      var element = document.getElementById("header");
+    onMounted(() => {
+      window.addEventListener("scroll", handleScroll);
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener("scroll", handleScroll);
+    });
+
+    const handleScroll = () => {
+      let scroll = window.scrollY;
+      let element = document.getElementById("header");
       if (scroll > 20) {
         element.classList.add("shadow");
       } else {
         element.classList.remove("shadow");
       }
-    });
+    };
   },
 };
 </script>

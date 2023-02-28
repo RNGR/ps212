@@ -12,15 +12,10 @@
 
     <section class="body">
       <div class="container">
-        <v-more
-          msg="Back to Work"
-          link="/work"
-          color="accent"
-          direction="left"
-        />
+        <v-more msg="Back to Work" link="/work" color="accent" direction="left" />
 
         <p>
-          <img v-if="image" :src="$path + '/assets/' + image" />
+          <img v-if="image" :src="baseURL + 'assets/' + image" />
         </p>
 
         <blockquote v-html="quote"></blockquote>
@@ -36,67 +31,93 @@
     </section>
 
     <section class="next-case-study">
-      <div class="container"><h4 class="gray">Next Case Study</h4></div>
+      <div class="container">
+        <h4 class="gray">Next Case Study</h4>
+      </div>
     </section>
 
-    <v-case-study-intro
-      :id="caseStudies.id"
-      color="light-gray-bg"
-      :title="caseStudies.client"
-      :statement="caseStudies.statement"
-      :description="caseStudies.quote"
-    />
+    <v-case-study-intro :id="caseStudies.id" color="light-gray-bg" :title="caseStudies.client"
+      :statement="caseStudies.statement" :description="caseStudies.quote" />
   </div>
 </template>
 
 <script>
+import { ref } from "vue";
+import { useRoute, useRouter, onBeforeRouteUpdate } from "vue-router";
+const api = require("../api");
+
 export default {
   name: "v-news",
-  data() {
+  setup() {
+    const router = useRouter();
+    const route = useRoute();
+    const title = ref("");
+    const statement = ref("");
+    const image = ref("");
+    const quote = ref("");
+    const body = ref("");
+    const tags = ref([]);
+    const caseStudy = ref({});
+    const caseStudies = ref({});
+    const baseURL = ref("");
+
+    load(route.params.id);
+    async function load(id) {
+      try {
+        baseURL.value = api.getUri();
+        const caseStudiesItem = await api.get(
+          "/items/case_studies/" + id,
+          {
+            params: {
+              "fields[]": "*,image.*,related_case_study.*",
+              "filter[status][_eq]": "published",
+            },
+          }
+        );
+        caseStudy.value = caseStudiesItem.data.data;
+        // console.log({ caseStudiesItem: caseStudiesItem });
+        // console.log({ caseStudy: caseStudy });
+        title.value = caseStudy.value.client;
+        statement.value = caseStudy.value.statement;
+        if (caseStudy.value.image) {
+          image.value = caseStudy.value.image.id;
+        }
+        if (caseStudy.value.tags) {
+          tags.value = caseStudy.value.tags.split(",");
+        }
+        quote.value = caseStudy.value.statement;
+        body.value = caseStudy.value.body;
+        caseStudies.value = caseStudy.value.related_case_study;
+      } catch (err) {
+        // eslint-disable-next-line
+        console.log('Error fetching "Case Study"', err);
+        router.push("/not-found");
+      }
+    }
+
+    onBeforeRouteUpdate(async (to, from) => {
+      if (to.params.id !== from.params.id) {
+        load(to.params.id);
+      }
+    });
+
     return {
-      title: "",
-      statement: "",
-      image: "",
-      quote: "",
-      body: "",
-      tags: [],
-      caseStudies: {},
+      title,
+      statement,
+      image,
+      quote,
+      body,
+      tags,
+      caseStudies,
+      baseURL,
     };
-  },
-  created: function () {
-    this.$api
-      .get("/items/case_studies/" + this.$route.params.id, {
-        params: {
-          "fields[]": "*,image.*,related_case_study.*",
-          "filter[status][_eq]": "published",
-        },
-      })
-      .then(
-        function (res) {
-          this.title = res.data.client;
-          this.statement = res.data.statement;
-          if (res.data.image) {
-            this.image = res.data.image.id;
-          }
-          if (res.data.tags) {
-            this.tags = res.data.tags.split(",");
-          }
-          this.quote = res.data.statement;
-          this.body = res.data.body;
-          this.caseStudies = res.data.related_case_study;
-        }.bind(this)
-      )
-      .catch(
-        function () {
-          this.$router.push("/not-found");
-        }.bind(this)
-      );
   },
 };
 </script>
 
 <style lang="scss">
 @import "~@/assets/_variables.scss";
+
 .body {
   p {
     margin: 40px 0;
@@ -106,22 +127,27 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@/assets/_variables.scss";
+
 .header {
   margin-top: 120px;
   padding-top: 100px;
   padding-top: var(--component-padding-y);
   padding-bottom: 100px;
   padding-bottom: var(--component-padding-y);
+
   h2.title {
     margin-top: 20px;
   }
+
   p.body {
     max-width: 700px;
     margin-top: 20px;
   }
 }
+
 .body {
   position: relative;
+
   &::before {
     content: "";
     background-color: $accent;
@@ -131,10 +157,12 @@ export default {
     right: 0;
     height: 200px;
   }
+
   .container {
     background-color: $white;
     padding: 20px 100px 100px;
     padding: 20px var(--component-padding-x) var(--component-padding-y);
+
     &::after {
       content: "";
       background-color: $light-gray;
@@ -144,25 +172,31 @@ export default {
       right: 30%;
       height: 2px;
     }
+
     h5 {
       margin-bottom: 50px;
     }
+
     p {
       margin: 40px 0;
     }
+
     a {
       transition: color $fast $transition;
       color: $dark-gray;
       text-decoration: underline;
+
       &:hover {
         color: $accent;
       }
     }
+
     img,
     iframe {
       width: 100%;
       margin: 20px 0;
     }
+
     blockquote {
       quotes: "“" "”";
       text-indent: -0.4em; // For hanging quote
@@ -171,15 +205,19 @@ export default {
       font-size: 36px;
       line-height: 46px;
       color: $gray;
+
       strong {
         color: $accent;
       }
+
       &:before {
         content: open-quote;
       }
+
       &:after {
         content: close-quote;
       }
+
       @media only screen and (max-width: 800px) {
         margin: 100px 10px;
         margin: var(--component-padding-y) 10px;
@@ -189,8 +227,10 @@ export default {
     }
   }
 }
+
 .tags {
   margin-top: 80px;
+
   span {
     background-color: $accent;
     padding: 14px 28px;
@@ -198,6 +238,7 @@ export default {
     margin-right: 20px;
   }
 }
+
 .next-case-study {
   h4 {
     margin: 40px auto;

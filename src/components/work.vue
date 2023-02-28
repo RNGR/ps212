@@ -2,13 +2,13 @@
   <div class="work-page">
     <section class="accent-bg">
       <div class="container hero">
-        <div class="centered" v-if="caseStudies[0]">
-          <h2 class="white">{{ caseStudies[0].client }}</h2>
-          <h2>{{ caseStudies[0].statement }}</h2>
-          <p class="description white">{{ caseStudies[0].quote }}</p>
+        <div class="centered" v-if="heroCaseStudy">
+          <h2 class="white">{{ heroCaseStudy.client }}</h2>
+          <h2>{{ heroCaseStudy.statement }}</h2>
+          <p class="description white">{{ heroCaseStudy.quote }}</p>
           <v-more
             msg="View Case Study"
-            :link="'/work/' + caseStudies[0].id"
+            :link="'/work/' + heroCaseStudy.id"
             color="white"
           />
         </div>
@@ -31,21 +31,17 @@
     </section>
 
     <div id="scroll-top">
-      <div
-        v-for="(caseStudy, index) in caseStudies"
-        :key="index"
-        workItems="caseStudy.workItems"
-      >
+      <div v-for="(caseStudy, index) in caseStudies" :key="index">
         <section>
           <div class="container case-studies">
             <div
-              v-for="(work, index) in workItems"
+              v-for="(work, index) in caseStudy.workItems"
               :key="index"
               class="case-study"
             >
               <img
                 v-if="work.image"
-                :src="$path + '/uploads/_/originals/' + work.image.filename"
+                :src="baseURL + 'assets/' + work.image.id"
               />
               <div v-else class="blank"></div>
               <div class="subtext">{{ work.name }}</div>
@@ -55,11 +51,11 @@
         </section>
 
         <v-case-study-intro
-          v-if="caseStudies[index]"
-          :id="caseStudies[index].id | toString"
-          :title="caseStudies[index].client"
-          :statement="caseStudies[index].statement"
-          :description="caseStudies[index].quote"
+          v-if="caseStudy"
+          :id="caseStudy.id | $filters.toString()"
+          :title="caseStudy.client"
+          :statement="caseStudy.statement"
+          :description="caseStudy.quote"
           spacing="spacing"
         />
       </div>
@@ -68,12 +64,71 @@
 </template>
 
 <script>
+import { ref, onMounted } from "vue";
+const api = require("../api");
+
 export default {
   name: "v-work",
-  data() {
+  setup() {
+    const heroCaseStudy = ref({});
+    const caseStudies = ref([]);
+    const work = ref([]);
+    const baseURL = ref("");
+
+    onMounted(async () => {
+      try {
+        baseURL.value = api.getUri();
+        const caseStudiesItem = await api.get("/items/case_studies", {
+          params: {
+            "filter[status][_eq]": "published",
+            limit: 10,
+          },
+        });
+        caseStudies.value = caseStudiesItem.data.data;
+        heroCaseStudy.value = caseStudies.value.shift();
+        // console.log({ caseStudiesItem: caseStudiesItem });
+        // console.log({ caseStudies: caseStudies });
+        // console.log({ heroCaseStudy: heroCaseStudy });
+      } catch (err) {
+        // eslint-disable-next-line
+        console.log('Error fetching "Case Studies"', err);
+      }
+      try {
+        const workItems = await api.get("/items/work", {
+          params: {
+            "fields[]": "*.*",
+            "filter[status][_eq]": "published",
+          },
+        });
+        work.value = workItems.data.data;
+        // console.log({ workItems: workItems });
+        // console.log({ work: work });
+      } catch (err) {
+        // eslint-disable-next-line
+        console.log('Error fetching "Work"', err);
+      }
+
+      const workSize = work.value.length;
+      // console.log({workSize: workSize});
+      const chunkSize = 12;
+      caseStudies.value.forEach((caseStudy, index) => {
+        const i = index + 1;
+        const low = i * chunkSize - chunkSize;
+        if (low <= workSize) {
+          const high = i * chunkSize;
+          caseStudy.workItems = work.value.slice(low, high);
+        } else {
+          caseStudy.workItems = [];
+        }
+      });
+      // console.log({ caseStudies: caseStudies });
+    });
+
     return {
-      caseStudies: [],
-      work: [],
+      heroCaseStudy,
+      caseStudies,
+      work,
+      baseURL,
     };
   },
   // methods: {
@@ -81,73 +136,35 @@ export default {
   //     return this.work.slice(pageNumber * 12 - 12, pageNumber * 12);
   //   },
   // },
-  created: function () {
-    this.$api
-      .get("/items/case_studies", {
-        params: {
-          "filter[status][_eq]": "published",
-          limit: 10,
-        },
-      })
-      .then(
-        function (res) {
-          this.caseStudies = res.data;
-        }.bind(this)
-      )
-      // eslint-disable-next-line
-      .catch((err) => console.log('Error fetching "Case Studies"', err));
-
-    this.$api
-      .get("/items/work", {
-        params: {
-          "fields[]": "*.*",
-          "filter[status][_eq]": "published",
-        },
-      })
-      .then(
-        function (res) {
-          this.work = res.data;
-          this.workSize = res.data.length;
-        }.bind(this)
-      )
-      // eslint-disable-next-line
-      .catch((err) => console.log('Error fetching "Work"', err));
-
-    const chunkSize = 12;
-    this.caseStudies.array.forEach((caseStudy, index) => {
-      const i = index + 1;
-      const low = i * chunkSize - chunkSize;
-      if (low <= this.workSize) {
-        const high = i * chunkSize;
-        caseStudy.workItems = this.work.slice(low, high);
-      } else {
-        caseStudy.workItems = [];
-      }
-    });
-  },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/_variables.scss";
+
 #scroll-top {
   margin-top: 60px;
 }
+
 .case-studies {
   display: flex;
   flex-wrap: wrap;
+
   .case-study {
     width: calc((100% - 120px) / 4);
     margin-bottom: 40px;
     margin-right: 40px;
+
     &:nth-of-type(4n) {
       margin-right: 0;
     }
+
     img {
       display: block;
       margin-bottom: 10px;
       max-width: 100%;
     }
+
     .blank {
       background-color: $dark-gray;
       display: block;
@@ -155,16 +172,21 @@ export default {
       max-width: 100%;
       padding-bottom: 100%;
     }
+
     .subtext {
     }
+
     h6 {
     }
+
     @media only screen and (max-width: 1050px) {
       width: calc((100% - 40px) / 2);
+
       &:nth-of-type(2n) {
         margin-right: 0;
       }
     }
+
     @media only screen and (max-width: 800px) {
       width: calc((100% - 20px) / 2);
       margin-bottom: 20px;

@@ -36,8 +36,6 @@ const client = require("./api");
 // Global variables
 app.config.globalProperties.$api = client;
 app.config.globalProperties.$path = client.baseURL;
-// app.config.compilerOptions.isCustomElement = tag => tag === 'Vue3Typer';
-// app.config.compilerOptions.isCustomElement = tag => tag === 'vue3-typer';
 
 // Smooth scroll
 import vueSmoothScroll from "vue3-smooth-scroll";

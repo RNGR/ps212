@@ -29,11 +29,12 @@ const router = createRouter({
   base: "", // /ps212/
   routes, // short for `routes: routes`
   scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition;
-    } else {
-      return { x: 0, y: 0 };
-    }
+    return (
+      savedPosition ||
+      new Promise((resolve) => {
+        setTimeout(() => resolve({ left: 0, top: 0, behavior: "smooth" }), 300);
+      })
+    );
   },
 });
 

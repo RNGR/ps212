@@ -49,47 +49,59 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@/assets/_variables.scss";
+
 button {
   margin-top: 40px;
   vertical-align: middle;
   padding: 0;
+
   svg {
     transition: all $fast $transition;
     vertical-align: middle;
     margin-top: -4px;
   }
+
   &:hover {
     .left-arrow {
       transform: translateX(-10px);
     }
+
     .right-arrow {
       transform: translateX(10px);
     }
   }
+
   &.accent {
     color: $accent;
+
     svg polygon {
       fill: $accent;
     }
   }
+
   &.white {
     color: $white;
+
     svg polygon {
       fill: $white;
     }
   }
+
   &.left {
     .left-arrow {
       margin-right: 20px;
     }
+
     .right-arrow {
       display: none;
     }
   }
+
   &.right {
     .left-arrow {
       display: none;
     }
+
     .right-arrow {
       margin-left: 20px;
     }
