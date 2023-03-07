@@ -90,7 +90,7 @@
 
         <div class="names h6">
           <ul v-for="(n, index) in 4" :key="index">
-            <li v-for="(client, index2) in chunked[index]" :key="index2">
+            <li v-for="(client, index2) in clients_list[index]" :key="index2">
               {{ client }}
             </li>
           </ul>
@@ -237,6 +237,7 @@ export default defineComponent({
     const error = ref("");
     const aboutItem = ref([]);
     const about = ref([]);
+    const clients_list = ref([]);
     const work = ref([]);
     const credentials = ref(["Tapestry"]);
     const articles = ref([]);
@@ -260,8 +261,12 @@ export default defineComponent({
               .replace(/(<p[^>]+?>|<p>|<\/p>)/gim, "")
               .trim() +
             "”";
+        clients_list.value = !about.value.clients
+          ? []
+          : split(shuffle(about.value.clients), 4);
         // console.log({ aboutItem: aboutItem });
         // console.log({ about: about });
+        // console.log({clients_list: clients_list});
         // console.log({ credentials: credentials });
         // console.log({ whatwedo: what_we_do });
       } catch (err) {
@@ -276,8 +281,8 @@ export default defineComponent({
           },
         });
         work.value = workItem.data.data;
-        console.log({ workItem: workItem });
-        console.log({ work: work });
+        // console.log({ workItem: workItem });
+        // console.log({ work: work });
       } catch (err) {
         // eslint-disable-next-line
         console.log('Error fetching "Work"', err);
@@ -292,9 +297,9 @@ export default defineComponent({
             "filter[publish_on][_lte]": moment().format("YYYY-MM-DD HH:mm:ss"),
           },
         });
-        articles.value = newsItem.data;
-        console.log({ news: newsItem });
-        console.log({ news: articles });
+        articles.value = newsItem.data.data;
+        // console.log({ news: newsItem });
+        // console.log({ news: articles });
       } catch (err) {
         // eslint-disable-next-line
         console.log('Error fetching "News"', err);
@@ -347,26 +352,17 @@ export default defineComponent({
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(email.value);
     }
-    function chunked() {
-      return split(client_list, 4);
-    }
-    function client_list() {
-      if (!about.value.clients) return [];
-
-      about.value.clients = shuffle(about.value.clients);
-    }
     return {
       email,
       error,
       aboutItem,
       about,
+      clients_list,
       work,
       credentials,
       articles,
       subscribe,
       what_we_do,
-      chunked,
-      client_list,
       baseURL,
     };
   },

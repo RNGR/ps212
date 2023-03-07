@@ -2,7 +2,7 @@
   <section :class="[color, 'career', 'pad-top']">
     <div class="container">
       <h4>
-        <a :href="link" target="_blank" class="accent">{{ encodedTitle }}</a>
+        <a :href="link" target="_blank" class="accent">{{ title }}</a>
       </h4>
       <div class="description gray">{{ location }}</div>
       <div class="body" v-html="text"></div>

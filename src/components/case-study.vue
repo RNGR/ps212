@@ -12,7 +12,12 @@
 
     <section class="body">
       <div class="container">
-        <v-more msg="Back to Work" link="/work" color="accent" direction="left" />
+        <v-more
+          msg="Back to Work"
+          link="/work"
+          color="accent"
+          direction="left"
+        />
 
         <p>
           <img v-if="image" :src="baseURL + 'assets/' + image" />
@@ -36,8 +41,13 @@
       </div>
     </section>
 
-    <v-case-study-intro :id="caseStudies.id" color="light-gray-bg" :title="caseStudies.client"
-      :statement="caseStudies.statement" :description="caseStudies.quote" />
+    <v-case-study-intro
+      :id="caseStudies.id"
+      color="light-gray-bg"
+      :title="caseStudies.client"
+      :statement="caseStudies.statement"
+      :description="caseStudies.quote"
+    />
   </div>
 </template>
 
@@ -65,15 +75,12 @@ export default {
     async function load(id) {
       try {
         baseURL.value = api.getUri();
-        const caseStudiesItem = await api.get(
-          "/items/case_studies/" + id,
-          {
-            params: {
-              "fields[]": "*,image.*,related_case_study.*",
-              "filter[status][_eq]": "published",
-            },
-          }
-        );
+        const caseStudiesItem = await api.get("/items/case_studies/" + id, {
+          params: {
+            "fields[]": "*,image.*,related_case_study.*",
+            "filter[status][_eq]": "published",
+          },
+        });
         caseStudy.value = caseStudiesItem.data.data;
         // console.log({ caseStudiesItem: caseStudiesItem });
         // console.log({ caseStudy: caseStudy });
