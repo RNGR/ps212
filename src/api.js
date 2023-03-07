@@ -4,7 +4,7 @@ const axios = require("axios");
 //require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
 const api = new axios.create({
-  baseURL: process.env.VUE_APP_API_URL,
+  baseURL: "https://ps212.directus.app/",
 });
 
 module.exports = api;
