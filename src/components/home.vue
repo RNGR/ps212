@@ -253,7 +253,7 @@ export default defineComponent({
           },
         });
         about.value = aboutItem.data.data;
-        credentials.value = shuffle(about.value.credentials.split(","));
+        credentials.value = shuffle(about.value.credentials);
         what_we_do.value = !about.value.what_we_do
           ? ""
           : "“" +
