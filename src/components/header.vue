@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header id="header" :class="this.$route.name">
+    <header id="header" :class="$route.name">
       <div class="container">
         <router-link to="/">
           <svg
@@ -103,25 +103,31 @@
 </template>
 
 <script>
+import { ref, watchEffect } from "vue";
+
 export default {
   name: "v-header",
   props: {
-    msg: String
+    msg: String,
   },
-  data() {
+  setup(props) {
+    const showMobileMenu = ref(false);
+
+    showMobileMenu.value = false;
+    watchEffect(() => {
+      console.log(`name is: ` + props.msg);
+    });
+
     return {
-      showMobileMenu: false
+      showMobileMenu,
     };
   },
-  created() {
-    // console.log(this.$route.name);
-  }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-@import "../assets/_variables.scss";
+@import "~@/assets/_variables.scss";
 header {
   transition: all $slow $transition;
   position: fixed;

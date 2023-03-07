@@ -10,30 +10,45 @@
 </template>
 
 <script>
+import { ref, onMounted } from "vue";
+const api = require("../api");
+
 export default {
   name: "v-legal",
-  data() {
+  setup() {
+    const privacy = ref("");
+    const legal = ref({});
+    const baseURL = ref("");
+
+    onMounted(async () => {
+      try {
+        baseURL.value = api.getUri();
+        const legalItem = await api.get("/items/legal/1", {
+          params: {
+            "fields[]": "*",
+          },
+        });
+        legal.value = legalItem.data.data;
+        // console.log({ legalItem: legalItem });
+        // console.log({ legal: legal });
+        privacy.value = legal.value.privacy_policy;
+      } catch (err) {
+        // eslint-disable-next-line
+        console.log('Error fetching "Legal"', err);
+      }
+    });
     return {
-      privacy: ""
+      privacy,
+      baseURL,
     };
   },
-  created: function() {
-    this.$api
-      .getItem("legal", 1)
-      .then(
-        function(res) {
-          this.privacy = res.data.privacy_policy;
-        }.bind(this)
-      )
-      // eslint-disable-next-line
-      .catch(err => console.log('Error fetching "News"', err));
-  }
 };
 </script>
 
 <style lang="scss" scoped>
 .legal-page {
   margin-top: 220px;
+
   h3 {
     text-align: center;
   }

@@ -72,7 +72,7 @@
 
       <div v-for="(office, index) in offices" :key="index" class="column">
         <h4>{{ office.name }}</h4>
-        <p class="h6" v-html="$options.filters.nl2br(office.address)"></p>
+        <p class="h6" v-html="$filters.nl2br(office.address)"></p>
       </div>
     </div>
   </footer>
@@ -80,56 +80,77 @@
 
 <script>
 import moment from "moment";
+import { ref, onMounted } from "vue";
+const api = require("../api");
 
 export default {
   name: "v-footer",
   props: {
-    msg: String
+    msg: String,
   },
-  data() {
+  setup() {
+    const offices = ref([]);
+    const about = ref([]);
+    const year = ref("");
+    const baseURL = ref("");
+
+    onMounted(async () => {
+      try {
+        baseURL.value = api.getUri();
+        year.value = moment().format("YYYY");
+        const aboutItem = await api.get("/items/about/1", {
+          params: {
+            "fields[]": "*",
+          },
+        });
+        about.value = aboutItem.data.data;
+        // console.log({ aboutItem: aboutItem });
+        // console.log({ about: about });
+      } catch (err) {
+        // eslint-disable-next-line
+        console.log('Error fetching "About"', err);
+      }
+      try {
+        const OfficeItems = await api.get("/items/offices", {
+          params: {
+            "fields[]": "*,image.*",
+          },
+        });
+        offices.value = OfficeItems.data.data;
+        // console.log({ OfficeItems: OfficeItems });
+        // console.log({ offices: offices });
+      } catch (err) {
+        // eslint-disable-next-line
+        console.log('Error fetching "Offices"', err);
+      }
+    });
+
     return {
-      offices: [],
-      about: [],
-      year: moment().format("YYYY")
+      offices,
+      about,
+      year,
+      baseURL,
     };
   },
-  created: function() {
-    this.$api
-      .getItem("about", 1, {
-        fields: "*"
-      })
-      .then(res => {
-        this.about = res.data;
-      })
-      // eslint-disable-next-line
-      .catch(err => console.log('Error fetching "About"', err));
-
-    this.$api
-      .getItems("offices", {
-        fields: "*,image.*"
-      })
-      .then(res => {
-        this.offices = res.data;
-      })
-      // eslint-disable-next-line
-      .catch(err => console.log('Error fetching "Offices"', err));
-  }
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/_variables.scss";
+@import "~@/assets/_variables.scss";
+
 footer {
   margin-top: 200px;
   margin-left: 80px;
   margin-left: var(--page-padding);
   margin-right: 80px;
   margin-right: var(--page-padding);
+
   .container {
     border-top: 2px solid $accent;
     background-color: $white;
     display: flex;
     flex-wrap: wrap;
+
     .column {
       width: calc((100% - 120px) / 4);
       padding-top: 100px;
@@ -137,42 +158,53 @@ footer {
       border-bottom: 2px solid $light-gray;
       margin-bottom: 100px;
       margin-right: 40px;
+
       &:last-of-type {
         margin-right: 0;
       }
     }
+
     h4 {
       margin-bottom: 30px;
     }
+
     a:hover {
       color: $accent;
     }
+
     #logo {
       margin-bottom: 36px;
+
       &:hover path {
         fill: $dark-accent;
       }
+
       path {
         transition: fill $fast $transition;
       }
     }
+
     .linkedin,
     .twitter {
       // width: 20px;
       margin-right: 10px;
       margin-top: 20px;
+
       &:hover path {
         fill: $accent;
       }
+
       path {
         transition: fill $fast $transition;
       }
     }
+
     .copyright {
       position: absolute;
       left: 0;
       bottom: 38px;
     }
+
     .privacy {
       position: absolute;
       right: 0;
@@ -181,20 +213,25 @@ footer {
     }
   }
 }
+
 @media only screen and (max-width: 800px) {
   .arr {
     display: none;
   }
+
   footer {
     margin-top: 100px;
+
     .container {
       padding-bottom: 50px;
+
       .column {
         width: calc((100% - 20px) / 2);
         padding-top: 40px;
         padding-bottom: 40px;
         margin-bottom: 40px;
         margin-right: 20px;
+
         &:nth-of-type(2n) {
           margin-right: 0;
         }

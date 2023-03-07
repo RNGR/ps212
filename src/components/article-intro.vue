@@ -22,13 +22,13 @@ export default {
     by: String,
     date: String,
     text: String,
-    color: String
-  }
+    color: String,
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/_variables.scss";
+@import "~@/assets/_variables.scss";
 .article {
   .container {
     padding-bottom: 100px;

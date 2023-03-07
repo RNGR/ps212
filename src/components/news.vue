@@ -27,7 +27,6 @@
     </section>
 
     <div id="scroll-top">
-
       <div class="relations">
         <h4>Media Inquiries</h4>
         <p v-html="about.news_cta"></p>
@@ -41,7 +40,7 @@
         :category="article.category"
         :title="article.title"
         :by="article.author"
-        :date="article.publish_on | formatDate"
+        :date="$filters.formatDate(article.publish_on)"
         :text="article.summary"
       />
     </div>
@@ -52,46 +51,59 @@
 
 <script>
 import moment from "moment";
+import { ref, onMounted } from "vue";
+const api = require("../api");
 
 export default {
   name: "v-news",
-  data() {
+  setup() {
+    const about = ref([]);
+    const articles = ref([]);
+    const baseURL = ref("");
+
+    onMounted(async () => {
+      try {
+        baseURL.value = api.getUri();
+        const aboutItem = await api.get("/items/about/1", {
+          params: {
+            "fields[]": "*",
+          },
+        });
+        about.value = aboutItem.data.data;
+        // console.log({ aboutItem: aboutItem });
+        // console.log({ about: about });
+      } catch (err) {
+        // eslint-disable-next-line
+        console.log('Error fetching "About"', err);
+      }
+      try {
+        const newsItem = await api.get("/items/news", {
+          params: {
+            "fields[]": "*",
+            sort: "-publish_on",
+            "filter[status][_eq]": "published",
+            "filter[publish_on][_lte]": moment().format("YYYY-MM-DD HH:mm:ss"),
+          },
+        });
+        articles.value = newsItem.data.data;
+        // console.log({ newsItem: newsItem });
+        // console.log({ articles: articles });
+      } catch (err) {
+        // eslint-disable-next-line
+        console.log('Error fetching "News"', err);
+      }
+    });
     return {
-      about: [],
-      articles: []
+      about,
+      articles,
+      baseURL,
     };
   },
-  created: function() {
-    this.$api
-      .getItem("about", 1, {
-        fields: "*"
-      })
-      .then(res => {
-        this.about = res.data;
-      })
-      // eslint-disable-next-line
-      .catch(err => console.log('Error fetching "About"', err));
-
-    this.$api
-      .getItems("news", {
-        sort: "-publish_on",
-        fields: "*",
-        "filter[status][eq]": "published",
-        "filter[publish_on][leq]": moment().format("YYYY-MM-DD HH:mm:ss")
-      })
-      .then(
-        function(res) {
-          this.articles = res.data;
-        }.bind(this)
-      )
-      // eslint-disable-next-line
-      .catch(err => console.log('Error fetching "News"', err));
-  }
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/_variables.scss";
+@import "~@/assets/_variables.scss";
 .background {
   width: 100%;
   height: 100%;
@@ -103,7 +115,7 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url("/images/news-hero.jpg");
+    background-image: url("./images/news-hero.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;

@@ -1,9 +1,12 @@
 module.exports = {
-  baseUrl: '/'
+  publicPath: '/',
+  css: {
+    loaderOptions: {
+      scss: {
+        additionalData: `
+          @import "~@/assets/global.scss";
+        `
+      },
+    }
+  },
 }
-
-// module.exports = {
-//   baseUrl: process.env.NODE_ENV === 'production'
-//     ? '/ps212/'
-//     : '/'
-// }

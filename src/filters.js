@@ -1,7 +1,7 @@
-import Vue from "vue";
+import * as Vue from "vue";
 import moment from "moment";
 
-Vue.filter("nl2br", function(value) {
+Vue.filter("nl2br", function (value) {
   if (!value) return "";
   // value = value.toString()
   return (value + "").replace(
@@ -10,12 +10,12 @@ Vue.filter("nl2br", function(value) {
   );
 });
 
-Vue.filter("toString", function(value) {
+Vue.filter("toString", function (value) {
   if (!value) return "";
   return value.toString();
 });
 
-Vue.filter("formatDate", function(value) {
+Vue.filter("formatDate", function (value) {
   if (value) {
     return moment(String(value)).format("MMMM Do, YYYY");
   }
