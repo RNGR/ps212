@@ -137,8 +137,8 @@
     <section class="cta">
       <div class="container">
         <h3 class="center">Ready to get started?</h3>
-        <a href="mailto:contact@ps212.com" target="_blank"
-          ><button>Say Hello</button></a
+        <a :href="about.contact_us_url" target="_blank"
+          ><button>{{ about.contact_us_text }}</button></a
         >
         <div class="logos">
           <div>

@@ -24,8 +24,8 @@
               <router-link to="/work">Work</router-link>
               <router-link to="/news">News</router-link>
               <router-link to="/about">About</router-link>
-              <a href="mailto:contact@ps212.com" target="_blank" class="button"
-                >Let&rsquo;s Talk</a
+              <a :href="header.contact_us_url" target="_blank" class="button"
+                >{{ header.contact_us_text }}</a
               >
             </div>
           </div>
@@ -77,8 +77,8 @@
       <router-link to="/about" v-on:click.native="showMobileMenu = false"
         >About</router-link
       ><br />
-      <a href="mailto:contact@ps212.com" target="_blank" class="button"
-        >Let&rsquo;s Talk</a
+      <a :href="header.contact_us_url" target="_blank" class="button"
+        >{{ header.contact_us_text }}</a
       >
 
       <div class="close" v-on:click="showMobileMenu = false">
@@ -103,7 +103,8 @@
 </template>
 
 <script>
-import { ref, watchEffect } from "vue";
+import { ref, watchEffect, onMounted } from "vue";
+const api = require("../api");
 
 export default {
   name: "v-header",
@@ -112,14 +113,36 @@ export default {
   },
   setup(props) {
     const showMobileMenu = ref(false);
+    const header = ref({});
+    const contactUsText = ref("");
+    const baseURL = ref("");
 
     showMobileMenu.value = false;
     watchEffect(() => {
       console.log(`name is: ` + props.msg);
     });
+    
+    onMounted(async () => {
+      try {
+        baseURL.value = api.getUri();
+        const headerItem = await api.get("/items/header/1", {
+          params: {
+            "fields[]": "*",
+          },
+        });
+        header.value = headerItem.data.data;
+        // console.log({ headerItem: headerItem });
+        // console.log({ header: header });
+      } catch (err) {
+        // eslint-disable-next-line
+        console.log('Error fetching "Header"', err);
+      }
+    });
 
     return {
       showMobileMenu,
+      header,
+      contactUsText,
     };
   },
 };
